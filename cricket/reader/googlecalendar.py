@@ -7,10 +7,6 @@ import os
 
 fixtures = []
 
-dp_filename = 'Digswell Park - Ground Schedule_ff46e58ee40763c0cb0978a1fd1b033ba2d6724f8e886c483efbdfca84021db8@group.calendar.google.com.ics'
-wpf_filename = 'Welwyn Playing Fields - Schedule_ec3965cb899d3184e14dfdfcbcccfdc541ef98cde881a0a0b68320e5af0be129@group.calendar.google.com.ics'
-away_filename = 'WGCCC - Away Fixtures Schedule_92f753425e2472fcade1cebb4a647ec9eb074056dea689722914e01b58f7f5c0@group.calendar.google.com.ics'
-
 def is_junior_fixture(summary):
     pitch_length_text = 'yards)'
     return pitch_length_text in summary
@@ -39,8 +35,14 @@ def read_ical(filename, ground):
 def parse_google_calendar_data():
 
     data_path = os.path.dirname(__file__) + '/../../data/'
+    for filename in os.listdir(data_path):
+        if filename.endswith('.ics'):
+            if filename.startswith(Ground.DP.value):
+                ground = Ground.DP
+            elif filename.startswith(Ground.WPF.value):
+                ground = Ground.WPF
+            else:
+                ground = Ground.AWAY
+            read_ical(data_path + filename, ground)
 
-    read_ical(data_path + dp_filename, Ground.DP)
-    read_ical(data_path + wpf_filename, Ground.WPF)
-    read_ical(data_path + away_filename, Ground.AWAY)
     return fixtures
