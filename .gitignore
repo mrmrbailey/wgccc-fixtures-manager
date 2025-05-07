@@ -1,3 +1,10 @@
+#idea
+.idea
+
+#my data files
+data/*.csv
+data/*.ics
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
