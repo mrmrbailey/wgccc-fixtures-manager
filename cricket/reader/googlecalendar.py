@@ -1,18 +1,39 @@
 # imports
 from fixture import Fixture
 from icalendar import Calendar
-from cricket_enums import Ground
+from cricket_enums import Ground, TeamName
+from reader.utils import add_fixture
 from datetime import datetime, timedelta, timezone
 import os
 
 fixtures = []
 
-def is_junior_fixture(summary):
-    pitch_length_text = 'yards)'
-    return pitch_length_text in summary
+def is_valid_fixture(summary):
+    return add_fixture(get_team(summary))
+
+def get_team(summary):
+    if TeamName.GIRLS.value in summary:
+        return TeamName.GIRLS
+    elif TeamName.U9s.value in summary:
+        return TeamName.U9s
+    elif TeamName.U10s.value in summary:
+        return TeamName.U10s
+    elif TeamName.U11s.value in summary:
+        return TeamName.U11s
+    elif TeamName.U12s.value in summary:
+        return TeamName.U12s
+    elif TeamName.U13s.value in summary:
+        return TeamName.U13s
+    elif TeamName.U14s.value in summary:
+        return TeamName.U14s
+    elif TeamName.U15s.value in summary:
+        return TeamName.U15s
+    elif TeamName.U17s.value in summary:
+        return TeamName.U17s
+    else:
+        return TeamName.UNKNOWN
 
 def read_ical(filename, ground):
-    print(filename)
 
     file = open(filename, 'rb')
     cal = Calendar.from_ical(file.read())
@@ -21,8 +42,7 @@ def read_ical(filename, ground):
 
     for event in cal.walk('vevent'):
         summary = str(event['SUMMARY']).replace(',','')
-        if is_junior_fixture(summary):
-
+        if is_valid_fixture(summary):
             fixture_date = event.get("DTSTART").dt
             if fixture_date > start_date:
                 fixture = Fixture(summary,
