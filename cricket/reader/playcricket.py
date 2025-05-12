@@ -1,7 +1,8 @@
 # imports
 from enum import Enum
 import csv
-from cricket_enums import Ground, PlayCricketType
+from cricket_enums import Ground, PlayCricketType, TeamName
+from reader.utils import add_fixture
 from fixture import Fixture
 
 class DivisionDetails(Enum):
@@ -14,18 +15,6 @@ class DivisionDetails(Enum):
     U14s = 'HJCL U14B Group 4'
     U15s = 'HJCL U15A Group 3'
     U17s = 'HJCL U17 Group 3'
-
-class TeamName(Enum):
-    GIRLS = 'WGCCC Girls U9'
-    U9s = 'WGCCC U9'
-    U10s = 'WGCCC U10B'
-    U11s = 'WGCCC U11A'
-    U12s = 'WGCCC U12'
-    U13s = 'WGCCC U13'
-    U14s = 'WGCCC U14B'
-    U15s = 'WGCCC U15'
-    U17s = 'WGCCC U17'
-    UNKNOWN = 'Unknown'
 
 class PitchLength(Enum):
     Y15 = '(15 yards)'
@@ -72,7 +61,6 @@ def parse_play_cricket(list_of_fixtures, play_cricket_type):
             case _:
                 wgc_team = TeamName.UNKNOWN
                 pitch_length = PitchLength.Y22
-                print('help!' + division)
 
         home_team = fixture[1].replace(',', '')
         away_team = fixture[2].replace(',', '')
@@ -93,7 +81,7 @@ def parse_play_cricket(list_of_fixtures, play_cricket_type):
         match_date = fixture[0]
         start_time = fixture[5]
 
-        if wgc_team != TeamName.U17s:
+        if add_fixture(wgc_team):
             fixture = Fixture(fixture_summary, match_date, start_time, ground)
             fixtures.append(fixture)
     return fixtures
