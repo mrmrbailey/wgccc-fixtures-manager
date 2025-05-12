@@ -2,36 +2,18 @@
 from fixture import Fixture
 from icalendar import Calendar
 from cricket_enums import Ground, TeamName
-from reader.utils import add_fixture, get_data_path
+from reader.utils import add_fixture, get_data_path, get_division, get_wgc_team_from_summary
 from datetime import datetime, timedelta, timezone
 from os import listdir
 
 fixtures = []
 
 def is_valid_fixture(summary):
-    return add_fixture(get_team(summary))
+    return add_fixture(get_wgc_team_from_summary(summary))
 
-def get_team(summary):
-    if TeamName.GIRLS.value in summary:
-        return TeamName.GIRLS
-    elif TeamName.U9s.value in summary:
-        return TeamName.U9s
-    elif TeamName.U10s.value in summary:
-        return TeamName.U10s
-    elif TeamName.U11s.value in summary:
-        return TeamName.U11s
-    elif TeamName.U12s.value in summary:
-        return TeamName.U12s
-    elif TeamName.U13s.value in summary:
-        return TeamName.U13s
-    elif TeamName.U14s.value in summary:
-        return TeamName.U14s
-    elif TeamName.U15s.value in summary:
-        return TeamName.U15s
-    elif TeamName.U17s.value in summary:
-        return TeamName.U17s
-    else:
-        return TeamName.UNKNOWN
+def get_teams(summary):
+    teams = summary.removeprefix('POSTPONED: ').split(' yards)')[0]
+    return teams[:-4].split(' vs ')
 
 def read_ical(filename, ground):
 
@@ -45,10 +27,14 @@ def read_ical(filename, ground):
         if is_valid_fixture(summary):
             fixture_date = event.get("DTSTART").dt
             if fixture_date > start_date:
-                fixture = Fixture(summary,
-                                      fixture_date.strftime('%d/%m/%Y'),
-                                      (fixture_date + timedelta(hours=1)).strftime('%H:%M'),
-                                      ground)
+                teams = get_teams(summary)
+                division = get_division(get_wgc_team_from_summary(summary))
+                fixture = Fixture(teams[0],
+                                  teams[1],
+                                  division,
+                                  fixture_date.strftime('%d/%m/%Y'),
+                                  (fixture_date + timedelta(hours=1)).strftime('%H:%M'),
+                                  ground)
                 fixtures.append(fixture)
     file.close()
 
