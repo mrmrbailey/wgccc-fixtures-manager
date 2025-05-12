@@ -18,7 +18,7 @@ To compare data from play-cricket download either the results or fixtures and pl
 To compare data from google-calendar download the ics and place in the input directions
 
 ```sh
-python cricket.py
+python compare.py
 ```
 
 ## Release History
