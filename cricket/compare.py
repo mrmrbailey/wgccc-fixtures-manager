@@ -1,9 +1,14 @@
 from fixture import InvalidFixture
 from cricket_enums import InvalidType, SourceData
+from reader.googlecalendar import parse_google_calendar_data
+from reader.playcricket import parse_play_cricket_data
 
 different_fixtures = []
 
 def compare_two_fixture_lists(source_data, source_list, target_list):
+
+    source_list.sort()
+    target_list.sort()
 
     for fixture in source_list:
         try:
@@ -12,7 +17,7 @@ def compare_two_fixture_lists(source_data, source_list, target_list):
         except ValueError:
             invalid_type = InvalidType.NOT_FOUND
             for target_fixture in target_list:
-                if fixture.summary == target_fixture.summary:
+                if fixture.home == target_fixture.home and fixture.away == target_fixture.away:
                     invalid_type = InvalidType.MIS_MATCH
             invalid_fixture = InvalidFixture(fixture, invalid_type, source_data)
             different_fixtures.append(invalid_fixture)
@@ -29,10 +34,15 @@ def print_differences():
 
     print(InvalidType.MIS_MATCH)
     for fixture in different_fixtures:
-        if fixture.type == InvalidType.MIS_MATCH:
+        if fixture.invalid_type == InvalidType.MIS_MATCH:
             print(fixture)
 
     print(InvalidType.NOT_FOUND)
     for fixture in different_fixtures:
-        if fixture.type == InvalidType.NOT_FOUND:
+        if fixture.invalid_type == InvalidType.NOT_FOUND:
             print(fixture)
+
+def main():
+    compare_fixtures(parse_google_calendar_data(), parse_play_cricket_data())
+
+main()

@@ -24,3 +24,21 @@ class TeamName(Enum):
     U15s = 'WGCCC U15'
     U17s = 'WGCCC U17'
     UNKNOWN = 'Unknown'
+
+class Division(Enum):
+    GIRLS = 'HJCL U9 Girls Group 2'
+    U9s = 'HJCL U9 Group 6'
+    U10s = 'HJCL U10B Group 5'
+    U11s = 'HJCL U11A Group 4'
+    U12s = 'HJCL U12A Group 5'
+    U13s = 'HJCL U13A Group 4'
+    U14s = 'HJCL U14B Group 4'
+    U15s = 'HJCL U15A Group 3'
+    U17s = 'HJCL U17 Group 3'
+    UNKNOWN = 'UNKNOWN'
+
+class PitchLength(Enum):
+    Y15 = '(15 yards)'
+    Y17 = '(17 yards)'
+    Y19 = '(19 yards)'
+    Y22 = '(22 yards)'
