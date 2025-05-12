@@ -1,9 +1,10 @@
 # imports
 from enum import Enum
 import csv
-from cricket_enums import Ground, PlayCricketType, TeamName
-from reader.utils import add_fixture
+from cricket_enums import Ground, TeamName
+from reader.utils import add_fixture, get_data_path
 from fixture import Fixture
+from os import listdir
 
 class DivisionDetails(Enum):
     GIRLS = 'HJCL U9 Girls Group 2'
@@ -22,10 +23,7 @@ class PitchLength(Enum):
     Y19 = '(19 yards)'
     Y22 = '(22 yards)'
 
-play_cricket_fixtures_file = '../data/download_fixtures.csv'
-play_cricket_results_file = '../data/download_results.csv'
-
-def parse_play_cricket(list_of_fixtures, play_cricket_type):
+def parse_play_cricket(list_of_fixtures):
     #iterate over the list of fixtures file
     fixtures = []
     for fixture in list_of_fixtures[1:]:
@@ -86,18 +84,13 @@ def parse_play_cricket(list_of_fixtures, play_cricket_type):
             fixtures.append(fixture)
     return fixtures
 
-def parse_play_cricket_data(play_cricket_type):
+def parse_play_cricket_data():
 
-    match play_cricket_type:
-        case PlayCricketType.RESULTS:
-            play_cricket_file = play_cricket_results_file
-        case PlayCricketType.FIXTURES:
-            play_cricket_file = play_cricket_fixtures_file
-        case _:
-            play_cricket_file = ""
+    for filename in listdir(get_data_path()):
+        if filename.endswith('.csv'):
+            with open(get_data_path() + filename, 'r') as read_obj:
+                csv_reader = csv.reader(read_obj)
+                list_of_fixtures = list(csv_reader)
+                return parse_play_cricket(list_of_fixtures)
 
-    with open(play_cricket_file, 'r') as read_obj:
-        csv_reader = csv.reader(read_obj)
-        list_of_fixtures = list(csv_reader)
-
-    return parse_play_cricket(list_of_fixtures, play_cricket_type)
+    return []

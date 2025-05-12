@@ -2,9 +2,9 @@
 from fixture import Fixture
 from icalendar import Calendar
 from cricket_enums import Ground, TeamName
-from reader.utils import add_fixture
+from reader.utils import add_fixture, get_data_path
 from datetime import datetime, timedelta, timezone
-import os
+from os import listdir
 
 fixtures = []
 
@@ -54,8 +54,7 @@ def read_ical(filename, ground):
 
 def parse_google_calendar_data():
 
-    data_path = os.path.dirname(__file__) + '/../../data/'
-    for filename in os.listdir(data_path):
+    for filename in listdir(get_data_path()):
         if filename.endswith('.ics'):
             if filename.startswith(Ground.DP.value):
                 ground = Ground.DP
@@ -63,6 +62,6 @@ def parse_google_calendar_data():
                 ground = Ground.WPF
             else:
                 ground = Ground.AWAY
-            read_ical(data_path + filename, ground)
+            read_ical(get_data_path() + filename, ground)
 
     return fixtures
