@@ -13,10 +13,6 @@ class SourceData(Enum):
     GOOGLE_CALENDAR = 1
     PLAY_CRICKET = 2
 
-class PlayCricketType(Enum):
-    FIXTURES = 1
-    RESULTS = 2
-
 class TeamName(Enum):
     GIRLS = 'WGCCC Girls U9'
     U9s = 'WGCCC U9'
