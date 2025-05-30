@@ -1,50 +1,58 @@
-# imports
-from cricket_enums import Ground, TeamName, Division
-from reader.utils import add_fixture, get_data_path, get_wgc_team
-from fixture import Fixture
-from fixtureprinter import get_division
+from cricket_enums import TeamName, Division
+from os import path
 
-from os import listdir
-from csv import reader
+def add_fixture(team):
+    match team:
+        case TeamName.UNKNOWN:
+            add = False
+        case _:
+            add = True
+    return add
 
-def parse_play_cricket(list_of_fixtures):
-    #iterate over the list of fixtures file
-    fixtures = []
-    for fixture in list_of_fixtures[1:]:
+def get_data_path():
+    return path.dirname(__file__) + '/../../data/'
 
-        division_string = fixture[4]
-        wgc_team = get_wgc_team(division_string)
-        division = get_division(wgc_team)
+def get_wgc_team(division):
+    match division:
+        case Division.GIRLS.value:
+            return TeamName.GIRLS
+        case Division.U9s.value:
+            return TeamName.U9s
+        case Division.U10s.value:
+            return TeamName.U10s
+        case Division.U11s.value:
+            return TeamName.U11s
+        case Division.U12s.value:
+            return TeamName.U12s
+        case Division.U13s.value:
+            return TeamName.U13s
+        case Division.U14s.value:
+            return TeamName.U14s
+        case Division.U15s.value:
+            return TeamName.U15s
+        case Division.U17s.value:
+            return TeamName.U17s
+        case _:
+            return TeamName.UNKNOWN
 
-        home_team = fixture[1].replace(',', '')
-        away_team = fixture[2].replace(',', '')
-
-        match_location = fixture[6]
-        match match_location:
-            case Ground.DP.value:
-                home_team = wgc_team.value
-                ground = Ground.DP
-            case Ground.WPF.value:
-                home_team = wgc_team.value
-                ground = Ground.WPF
-            case _:
-                away_team = wgc_team.value
-                ground = Ground.AWAY
-
-        match_date = fixture[0]
-        start_time = fixture[5]
-
-        if add_fixture(wgc_team):
-            fixture = Fixture(home_team, away_team, division, match_date, start_time, ground)
-            fixtures.append(fixture)
-
-    return fixtures
-
-def parse_play_cricket_data():
-    for filename in listdir(get_data_path()):
-        if filename.endswith('.csv'):
-            with open(get_data_path() + filename, 'r') as read_obj:
-                csv_reader = reader(read_obj)
-                list_of_fixtures = list(csv_reader)
-                return parse_play_cricket(list_of_fixtures)
-    return []
+def get_wgc_team_from_summary(summary):
+    if TeamName.GIRLS.value in summary:
+        return TeamName.GIRLS
+    elif TeamName.U9s.value in summary:
+        return TeamName.U9s
+    elif TeamName.U10s.value in summary:
+        return TeamName.U10s
+    elif TeamName.U11s.value in summary:
+        return TeamName.U11s
+    elif TeamName.U12s.value in summary:
+        return TeamName.U12s
+    elif TeamName.U13s.value in summary:
+        return TeamName.U13s
+    elif TeamName.U14s.value in summary:
+        return TeamName.U14s
+    elif TeamName.U15s.value in summary:
+        return TeamName.U15s
+    elif TeamName.U17s.value in summary:
+        return TeamName.U17s
+    else:
+        return TeamName.UNKNOWN
