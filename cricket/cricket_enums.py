@@ -36,9 +36,3 @@ class Division(Enum):
     U15s = 'HJCL U15A Group 3'
     U17s = 'HJCL U17 Group 3'
     UNKNOWN = 'UNKNOWN'
-
-class PitchLength(Enum):
-    Y15 = '(15 yards)'
-    Y17 = '(17 yards)'
-    Y19 = '(19 yards)'
-    Y22 = '(22 yards)'
