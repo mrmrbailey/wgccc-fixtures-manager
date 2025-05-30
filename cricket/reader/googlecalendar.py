@@ -1,8 +1,10 @@
 # imports
 from fixture import Fixture
-from icalendar import Calendar
+from fixtureprinter import get_division
 from cricket_enums import Ground, TeamName
-from reader.utils import add_fixture, get_data_path, get_division, get_wgc_team_from_summary
+from reader.utils import add_fixture, get_data_path, get_wgc_team, get_wgc_team_from_summary
+
+from icalendar import Calendar
 from datetime import datetime, timedelta, timezone
 from os import listdir
 
