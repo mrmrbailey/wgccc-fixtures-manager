@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date, timedelta
 
 class Fixture:
     def __init__(self, home, away, division, fixture_date, fixture_time, ground):
@@ -18,22 +18,22 @@ class Fixture:
                 and self.ground == other.ground)
 
     def __str__(self):
-        return f"{get_summary(self)} {self.fixture_date} {self.fixture_time} {self.ground}"
+        return f"{self.home} vs {self.away} {self.fixture_date} {self.fixture_time} {self.ground}"
+
+    def __repr__(self):
+        return f"home: {self.home}, away: {self.away}, division: {self.division}, date: {self.fixture_date}, time: {self.fixture_time}, ground: {self.ground}"
 
     def __lt__(self, other):
-        self_date_split_string = self.fixture_date.split("/")
-        self_fixture_date_time = datetime(int(self_date_split_string[2]),
-                                 int(self_date_split_string[1]),
-                                 int(self_date_split_string[0]),
+        return self.get_fixture_date() < other.get_fixture_date()
+
+    def get_fixture_date(self):
+        date_split_string = self.fixture_date.split("/")
+        fixture_date_time = datetime(int(date_split_string[2]),
+                                 int(date_split_string[1]),
+                                 int(date_split_string[0]),
                                  tzinfo=timezone.utc)
+        return fixture_date_time
 
-        other_date_split_string = other.fixture_date.split("/")
-        other_fixture_date_time = datetime(int(other_date_split_string[2]),
-                                            int(other_date_split_string[1]),
-                                            int(other_date_split_string[0]),
-                                            tzinfo=timezone.utc)
-
-        return self_fixture_date_time < other_fixture_date_time
 
 class InvalidFixture:
     def __init__(self, fixture, invalid_type, source):
@@ -46,12 +46,3 @@ class InvalidFixture:
 
     def __str__(self):
         return f"{self.fixture} {self.source}"
-
-def get_summary(fixture):
-    summary = fixture.home + ' vs ' + fixture.away
-    return summary
-
-def print_fixtures_list(list_of_fixtures):
-    list_of_fixtures.sort()
-    for fixture in list_of_fixtures:
-        print(fixture)

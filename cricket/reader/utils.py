@@ -3,7 +3,8 @@ from os import path
 
 def add_fixture(team):
     match team:
-        case TeamName.UNKNOWN | TeamName.U17s:
+ #       case TeamName.UNKNOWN | TeamName.U17s:
+        case TeamName.UNKNOWN:
             add = False
         case _:
             add = True
@@ -11,29 +12,6 @@ def add_fixture(team):
 
 def get_data_path():
     return path.dirname(__file__) + '/../../data/'
-
-def get_division(team):
-    match team:
-        case TeamName.GIRLS:
-            return Division.GIRLS
-        case TeamName.U9s:
-            return Division.U9s
-        case TeamName.U10s:
-            return Division.U10s
-        case TeamName.U11s:
-            return Division.U11s
-        case TeamName.U12s:
-            return Division.U12s
-        case TeamName.U13s:
-            return Division.U13s
-        case TeamName.U14s:
-            return Division.U14s
-        case TeamName.U15s:
-            return Division.U15s
-        case TeamName.U17s:
-            return Division.U17s
-        case _:
-            return Division.UNKNOWN
 
 def get_wgc_team(division):
     match division:
