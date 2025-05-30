@@ -1,7 +1,8 @@
 # imports
 from cricket_enums import Ground, TeamName, Division
-from reader.utils import add_fixture, get_data_path, get_wgc_team, get_division
+from reader.utils import add_fixture, get_data_path, get_wgc_team
 from fixture import Fixture
+from fixtureprinter import get_division
 
 from os import listdir
 from csv import reader
