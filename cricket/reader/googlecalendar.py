@@ -13,8 +13,11 @@ fixtures = []
 def is_valid_fixture(summary):
     return add_fixture(get_wgc_team_from_summary(summary))
 
+def remove_prefix(summary):
+    return summary.removeprefix('POSTPONED: ').removeprefix('RAINEDOFF: ')
+
 def get_teams(summary):
-    teams = summary.removeprefix('POSTPONED: ').split(' yards)')[0]
+    teams = remove_prefix(summary).split(' yards)')[0]
     return teams[:-4].split(' vs ')
 
 def read_ical(filename, ground):
