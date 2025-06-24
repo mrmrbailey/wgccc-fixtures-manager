@@ -1,0 +1,37 @@
+toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Wgccc Fixture Manager"
+version = "0.1.0"
+description = "Compares play cricket and google calendar to ensure no difference, it also prints fixtures to stout"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["fixtures", "fixtures"]
+authors = [
+  {name = "Mark Bailey", email = "mr.m.r.bailey@gmail.com"},
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+    "pytest",
+    "requests",
+]
+
+[project.urls]
+Homepage = "https://github.com/mrmrbailey/wgccc-fixtures-manager"
+repository = "https://github.com/mrmrbailey/wgccc-fixtures-manager"
+"Bug Tracker" = "https://github.com/mrmrbailey/wgccc-fixtures-manager/issues"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-v -s"
+testpaths = [
+    "tests",
+]
