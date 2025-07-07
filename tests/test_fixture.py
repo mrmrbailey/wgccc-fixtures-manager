@@ -1,31 +1,57 @@
 import unittest
 from datetime import datetime
 from src.fixture import Fixture
-from src.cricket_enums import MatchType, Venue, Result, Competition
+from src.cricket_enums import Division, Ground
 
 class TestFixture(unittest.TestCase):
 
-    def test_fixture_creation(self):
-        # Create a Fixture instance
-        test_date = datetime(2023, 10, 27)
-        fixture = Fixture(
-            date=test_date,
-            opposition="Test Team",
-            match_type=MatchType.LEAGUE,
-            venue=Venue.HOME,
-            result=Result.WIN,
-            competition=Competition.PREMIER,
-            scorecard="test_scorecard.html"
+    @staticmethod
+    def get_home_team():
+        return "Home Team"
+
+    @staticmethod
+    def get_away_team():
+        return "Away Team"
+
+    @staticmethod
+    def get_fixture_date():
+        return datetime(2023, 10, 27,hour=18)
+
+    @staticmethod
+    def get_divsion():
+        return Division.U17s
+
+    @staticmethod
+    def get_ground():
+        return Ground.DP
+
+    def get_fixture(self):
+        return Fixture(
+            home = self.get_home_team(),
+            away = self.get_away_team(),
+            division = self.get_divsion(),
+            fixture_date = self.get_fixture_date(),
+            fixture_time = self.get_fixture_date(),
+            ground = self.get_ground()
         )
 
+    def test_fixture_creation(self):
+        # Create a Fixture instance
+        fixture = self.get_fixture()
+
         # Assert that the attributes are set correctly
-        self.assertEqual(fixture.date, test_date)
-        self.assertEqual(fixture.opposition, "Test Team")
-        self.assertEqual(fixture.match_type, MatchType.LEAGUE)
-        self.assertEqual(fixture.venue, Venue.HOME)
-        self.assertEqual(fixture.result, Result.WIN)
-        self.assertEqual(fixture.competition, Competition.PREMIER)
-        self.assertEqual(fixture.scorecard, "test_scorecard.html")
+        self.assertEqual(fixture.home, self.get_home_team())
+        self.assertEqual(fixture.away, self.get_away_team())
+        self.assertEqual(fixture.division, self.get_divsion())
+        self.assertEqual(fixture.fixture_date, self.get_fixture_date())
+        self.assertEqual(fixture.fixture_time, self.get_fixture_date())
+        self.assertEqual(fixture.ground, self.get_ground())
+
+    def test_fixture_eq_same(self):
+        fixture = self.get_fixture()
+        same_fixture = self.get_fixture()
+
+        self.assertEqual(fixture, same_fixture)
 
 if __name__ == '__main__':
     unittest.main()
