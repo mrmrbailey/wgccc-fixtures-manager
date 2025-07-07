@@ -28,11 +28,11 @@ def get_pitch_length(division):
     match division:
         case Division.GIRLS | Division.U9s:
             return PitchLength.Y15
-        case Division.U10s | Division.U11s:
+        case Division.U10s | Division.U11s | Division.U11summer:
             return PitchLength.Y17
-        case Division.U12s | Division.U13s:
+        case Division.U12s | Division.U13s | Division.U13summer:
             return PitchLength.Y19
-        case Division.U14s | Division.U15s | Division.U17s:
+        case Division.U14s | Division.U15s | Division.U17s | Division.U15summer:
             return PitchLength.Y22
         case _:
             return PitchLength.UNKNOWN
@@ -57,6 +57,12 @@ def get_division(team):
             return Division.U15s
         case TeamName.U17s:
             return Division.U17s
+        case TeamName.U11ssummer:
+            return Division.U11summer
+        case TeamName.U13summer:
+            return Division.U13summer
+        case TeamName.U15summer:
+            return Division.U15summer
         case _:
             return Division.UNKNOWN
 

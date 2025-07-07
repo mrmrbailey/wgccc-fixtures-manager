@@ -33,6 +33,12 @@ def get_wgc_team(division):
             return TeamName.U15s
         case Division.U17s.value:
             return TeamName.U17s
+        case Division.U11summer:
+            return TeamName.U11ssummer
+        case Division.U13summer:
+            return TeamName.U13summer
+        case Division.U15summer:
+            return TeamName.U15summer
         case _:
             return TeamName.UNKNOWN
 
@@ -55,5 +61,11 @@ def get_wgc_team_from_summary(summary):
         return TeamName.U15s
     elif TeamName.U17s.value in summary:
         return TeamName.U17s
+    elif TeamName.U11ssummer.value in summary:
+        return TeamName.U11ssummer
+    elif TeamName.U13summer.value in summary:
+        return TeamName.U13summer
+    elif TeamName.U15summer.value in summary:
+        return TeamName.U15summer
     else:
         return TeamName.UNKNOWN

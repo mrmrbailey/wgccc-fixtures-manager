@@ -23,6 +23,9 @@ class TeamName(Enum):
     U14s = 'WGCCC U14B'
     U15s = 'WGCCC U15'
     U17s = 'WGCCC U17'
+    U11ssummer  = 'WGCCC U11 Summer'
+    U13summer = 'WGCCC U13 Summer'
+    U15summer = 'WGCCC U15 Summer'
     UNKNOWN = 'Unknown'
 
 class Division(Enum):
@@ -35,4 +38,7 @@ class Division(Enum):
     U14s = 'HJCL U14B Group 4'
     U15s = 'HJCL U15A Group 3'
     U17s = 'HJCL U17 Group 3'
+    U11summer = 'U11 Summer League - East Group'
+    U13summer = 'U13 Summer League - North Group'
+    U15summer = 'U15 Summer League - North Group'
     UNKNOWN = 'UNKNOWN'
