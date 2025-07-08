@@ -23,7 +23,7 @@ class TeamName(Enum):
     U14s = 'WGCCC U14B'
     U15s = 'WGCCC U15'
     U17s = 'WGCCC U17'
-    U11ssummer  = 'WGCCC U11 Summer'
+    U11summer  = 'WGCCC U11 Summer'
     U13summer = 'WGCCC U13 Summer'
     U15summer = 'WGCCC U15 Summer'
     UNKNOWN = 'Unknown'

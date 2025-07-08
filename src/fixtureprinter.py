@@ -57,7 +57,7 @@ def get_division(team):
             return Division.U15s
         case TeamName.U17s:
             return Division.U17s
-        case TeamName.U11ssummer:
+        case TeamName.U11summer:
             return Division.U11summer
         case TeamName.U13summer:
             return Division.U13summer
