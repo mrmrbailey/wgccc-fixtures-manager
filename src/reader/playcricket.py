@@ -1,23 +1,31 @@
 # imports
-from cricket_enums import Ground, TeamName, Division
-from reader.utils import add_fixture, get_data_path, get_wgc_team
+from cricket_enums import Ground, TeamName, Division, FixtureType
+from reader.utils import add_fixture, get_data_path, get_wgc_team, get_fixture_type, get_team_name_from_full_name
 from fixture import Fixture
 from fixtureprinter import get_division
 
 from os import listdir
 from csv import reader
 
+from tenacity import stop_after_delay
+
+
 def parse_play_cricket(list_of_fixtures):
     #iterate over the list of fixtures file
     fixtures = []
     for fixture in list_of_fixtures[1:]:
 
-        division_string = fixture[4]
-        wgc_team = get_wgc_team(division_string)
-        division = get_division(wgc_team)
-
         home_team = fixture[1].replace(',', '')
         away_team = fixture[2].replace(',', '')
+        fixture_type = get_fixture_type(fixture[3])
+
+        if fixture_type != FixtureType.LEAGUE:
+            wgc_team = get_team_name_from_full_name(home_team + away_team)
+            division = Division.UNKNOWN
+        else:
+            division_string = fixture[4]
+            wgc_team = get_wgc_team(division_string)
+            division = get_division(wgc_team)
 
         match_location = fixture[6]
         match match_location:
@@ -35,7 +43,7 @@ def parse_play_cricket(list_of_fixtures):
         start_time = fixture[5]
 
         if add_fixture(wgc_team):
-            fixture = Fixture(home_team, away_team, division, match_date, start_time, ground)
+            fixture = Fixture(home_team, away_team, division, fixture_type, match_date, start_time, ground)
             fixtures.append(fixture)
 
     return fixtures

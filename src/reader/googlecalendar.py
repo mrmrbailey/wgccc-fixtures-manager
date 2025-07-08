@@ -1,7 +1,7 @@
 # imports
 from fixture import Fixture
 from fixtureprinter import get_division
-from cricket_enums import Ground, TeamName
+from cricket_enums import Ground, TeamName, FixtureType
 from reader.utils import add_fixture, get_data_path, get_wgc_team, get_wgc_team_from_summary
 
 from icalendar import Calendar
@@ -37,6 +37,7 @@ def read_ical(filename, ground):
                 fixture = Fixture(teams[0],
                                   teams[1],
                                   division,
+                                  FixtureType.UNKNOWN,
                                   fixture_date.strftime('%d/%m/%Y'),
                                   (fixture_date + timedelta(hours=1)).strftime('%H:%M'),
                                   ground)

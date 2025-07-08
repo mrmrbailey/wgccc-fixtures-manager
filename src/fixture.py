@@ -1,10 +1,12 @@
 from datetime import datetime, timezone, date, timedelta
+from cricket_enums import FixtureType
 
 class Fixture:
-    def __init__(self, home, away, division, fixture_date, fixture_time, ground):
+    def __init__(self, home, away, division, fixture_type, fixture_date, fixture_time, ground):
         self.home = home
         self.away = away
         self.division = division
+        self.fixture_type = fixture_type
         self.fixture_date = fixture_date
         self.fixture_time = fixture_time
         self.ground = ground
@@ -12,16 +14,16 @@ class Fixture:
     def __eq__(self, other):
         return (self.home == other.home
                 and self.away == other.away
-                and self.division == other.division
+                and (self.division == other.division or self.fixture_type != FixtureType.LEAGUE)
                 and self.fixture_date == other.fixture_date
                 and self.fixture_time == other.fixture_time
                 and self.ground == other.ground)
 
     def __str__(self):
-        return f"{self.home} vs {self.away} {self.fixture_date} {self.fixture_time} {self.ground}"
+        return f"{self.home} vs {self.away} {self.fixture_date} {self.fixture_time} {self.ground} {self.fixture_type}"
 
     def __repr__(self):
-        return f"home: {self.home}, away: {self.away}, division: {self.division}, date: {self.fixture_date}, time: {self.fixture_time}, ground: {self.ground}"
+        return f"home: {self.home}, away: {self.away}, division: {self.division}, type {self.fixture_type} date: {self.fixture_date}, time: {self.fixture_time}, ground: {self.ground}"
 
     def __lt__(self, other):
         return self.get_fixture_date() < other.get_fixture_date()
