@@ -1,10 +1,11 @@
 from datetime import datetime, timezone, date, timedelta
 
 class Fixture:
-    def __init__(self, home, away, division, fixture_date, fixture_time, ground):
+    def __init__(self, home, away, division, fixture_type, fixture_date, fixture_time, ground):
         self.home = home
         self.away = away
         self.division = division
+        self.fixture_type = fixture_type
         self.fixture_date = fixture_date
         self.fixture_time = fixture_time
         self.ground = ground
@@ -18,19 +19,22 @@ class Fixture:
                 and self.ground == other.ground)
 
     def __str__(self):
-        return f"{self.home} vs {self.away} {self.fixture_date} {self.fixture_time} {self.ground}"
+        return f"{self.home} vs {self.away} {self.fixture_date} {self.fixture_time} {self.ground} {self.fixture_type}"
 
     def __repr__(self):
-        return f"home: {self.home}, away: {self.away}, division: {self.division}, date: {self.fixture_date}, time: {self.fixture_time}, ground: {self.ground}"
+        return f"home: {self.home}, away: {self.away}, division: {self.division}, type {self.fixture_type} date: {self.fixture_date}, time: {self.fixture_time}, ground: {self.ground}"
 
     def __lt__(self, other):
         return self.get_fixture_date() < other.get_fixture_date()
 
     def get_fixture_date(self):
         date_split_string = self.fixture_date.split("/")
+        time_split_string = self.fixture_time.split(":")
         fixture_date_time = datetime(int(date_split_string[2]),
                                  int(date_split_string[1]),
                                  int(date_split_string[0]),
+                                 int(time_split_string[0]),
+                                 int(time_split_string[1]),
                                  tzinfo=timezone.utc)
         return fixture_date_time
 
