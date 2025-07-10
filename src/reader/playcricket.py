@@ -19,13 +19,20 @@ def parse_play_cricket(list_of_fixtures):
         away_team = fixture[2].replace(',', '')
         fixture_type = get_fixture_type(fixture[3])
 
-        if fixture_type != FixtureType.LEAGUE:
-            wgc_team = get_team_name_from_full_name(home_team + away_team)
-            division = Division.UNKNOWN
-        else:
-            division_string = fixture[4]
-            wgc_team = get_wgc_team(division_string)
-            division = get_division(wgc_team)
+        match fixture_type:
+            case FixtureType.LEAGUE:
+                division_string = fixture[4]
+                wgc_team = get_wgc_team(division_string)
+                division = get_division(wgc_team)
+            case FixtureType.CUP:
+                wgc_team = get_team_name_from_full_name(home_team + away_team)
+                division = Division.CUP
+            case FixtureType.FRIENDLY:
+                wgc_team = get_team_name_from_full_name(home_team + away_team)
+                division = Division.FRIENDLY
+            case _:
+                wgc_team = TeamName.UNKNOWN
+                division = Division.UNKNOWN
 
         match_location = fixture[6]
         match match_location:

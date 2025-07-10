@@ -1,5 +1,4 @@
 from datetime import datetime, timezone, date, timedelta
-from cricket_enums import FixtureType
 
 class Fixture:
     def __init__(self, home, away, division, fixture_type, fixture_date, fixture_time, ground):
@@ -14,7 +13,7 @@ class Fixture:
     def __eq__(self, other):
         return (self.home == other.home
                 and self.away == other.away
-                and (self.division == other.division or self.fixture_type != FixtureType.LEAGUE)
+                and self.division == other.division
                 and self.fixture_date == other.fixture_date
                 and self.fixture_time == other.fixture_time
                 and self.ground == other.ground)
@@ -30,9 +29,12 @@ class Fixture:
 
     def get_fixture_date(self):
         date_split_string = self.fixture_date.split("/")
+        time_split_string = self.fixture_time.split(":")
         fixture_date_time = datetime(int(date_split_string[2]),
                                  int(date_split_string[1]),
                                  int(date_split_string[0]),
+                                 int(time_split_string[0]),
+                                 int(time_split_string[1]),
                                  tzinfo=timezone.utc)
         return fixture_date_time
 

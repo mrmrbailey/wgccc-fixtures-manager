@@ -13,15 +13,14 @@ def get_data_path():
     return path.dirname(__file__) + '/../../data/'
 
 def get_fixture_type(fixture_type):
-    match fixture_type:
-        case FixtureType.LEAGUE.value:
-            return FixtureType.LEAGUE
-        case FixtureType.CUP.value:
-            return FixtureType.CUP
-        case FixtureType.FRIENDLY.value:
-            return FixtureType.FRIENDLY
-        case _:
-            return FixtureType.UNKNOWN
+    if fixture_type == FixtureType.LEAGUE.value:
+        return FixtureType.LEAGUE
+    elif fixture_type == FixtureType.CUP.value:
+        return FixtureType.CUP
+    elif fixture_type == FixtureType.FRIENDLY.value:
+        return FixtureType.FRIENDLY
+    else:
+        return FixtureType.UNKNOWN
 
 def get_wgc_team(division):
     match division:

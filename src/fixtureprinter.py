@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, date, timedelta
 from enum import Enum
-from cricket_enums import Division, TeamName, Ground
+from cricket_enums import Division, TeamName, Ground, FixtureType
 
 class PitchLength(Enum):
     Y15 = ' (15 yards)'
@@ -103,6 +103,13 @@ def get_fixtures_for_ground(list_of_fixtures, ground):
             ground_fixtures.append(fixture)
     return ground_fixtures
 
+def get_fixtures_for_type(list_of_fixtures, fixture_type):
+    type_fixtures = []
+    for fixture in list_of_fixtures:
+        if fixture_type == fixture.fixture_type:
+            type_fixtures.append(fixture)
+    return type_fixtures
+
 def get_fixtures_for_team(list_of_fixtures, team):
     division = get_division(team)
     team_fixtures = []
@@ -127,6 +134,10 @@ def print_fixtures_for_ground(list_of_fixtures, ground):
     print_title('Fixtures for Ground')
     print_fixtures(get_fixtures_for_ground(list_of_fixtures, ground))
 
+def print_fixtures_for_type(list_of_fixtures, fixture_type):
+    print_title('Fixtures for Type')
+    print_fixtures(get_fixtures_for_type(list_of_fixtures, fixture_type))
+
 def print_next_weeks_home_fixtures(list_of_fixtures):
     print_title('Next Weeks Home Fixtures')
     next_weeks_fixtures = get_next_weeks_fixtures(list_of_fixtures)
@@ -139,3 +150,23 @@ def print_next_weeks_home_fixtures(list_of_fixtures):
 def print_fixtures_for_team(list_of_fixtures, team):
     print_title('Fixtures for Team')
     print_fixtures(get_fixtures_for_team(list_of_fixtures, team))
+
+def get_fixtures_for_google_calendar(list_of_fixtures, ground):
+    get_fixtures_for_ground(list_of_fixtures, ground)
+
+def print_google_calendar_csv(list_of_fixtures,ground):
+    print_title('Google Calendar Import')
+    print_csv_calendar(get_fixtures_for_ground(list_of_fixtures, ground))
+
+def print_csv_calendar(list_of_fixtures):
+    print('Subject, Start Date, Start Time, End Time, Description')
+    list_of_fixtures.sort()
+    for fixture in list_of_fixtures:
+        subject = get_google_calendar_summary(fixture)
+        fixture_date = fixture.get_fixture_date()
+        start_date = fixture_date.strftime('%d/%m/%Y')
+        start_time = fixture_date.strftime('%H:%M')
+        end_time = (fixture_date + timedelta(hours=3)).strftime('%H:%M')
+        description = fixture.division.value
+        fixture_type = fixture.fixture_type.value
+        print(f"{subject},{start_date},{start_time},{end_time},{fixture_type}:{description}")
