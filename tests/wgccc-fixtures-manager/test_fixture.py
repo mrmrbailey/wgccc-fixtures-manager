@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
-from wgccc_fixtures_manager.fixture import Fixture
-from wgccc_fixtures_manager.cricket_enums import Division, Ground
+from fixture import Fixture
+from cricket_enums import Division, Ground
 
 class TestFixture(unittest.TestCase):
 
