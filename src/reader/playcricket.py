@@ -1,14 +1,19 @@
 # imports
-from cricket_enums import Ground, TeamName, Division, FixtureType
-from reader.utils import add_fixture, get_data_path, get_wgc_team, get_fixture_type, get_team_name_from_full_name
+from cricket_team import CricketTeam
+from cricket_enums import Ground, FixtureType, Location
+from reader.utils import add_fixture, get_data_path
 from fixture import Fixture
-from fixtureprinter import get_division
 
 from os import listdir
 from csv import reader
 
-from tenacity import stop_after_delay
-
+def get_wgc_team_from_division(division):
+    wgc_team = CricketTeam.UNKNOWN
+    for team in CricketTeam:
+        if team.division  == division:
+            wgc_team = team
+            break
+    return wgc_team
 
 def parse_play_cricket(list_of_fixtures):
     #iterate over the list of fixtures file
@@ -17,42 +22,41 @@ def parse_play_cricket(list_of_fixtures):
 
         home_team = fixture[1].replace(',', '')
         away_team = fixture[2].replace(',', '')
-        fixture_type = get_fixture_type(fixture[3])
-
-        match fixture_type:
-            case FixtureType.LEAGUE:
-                division_string = fixture[4]
-                wgc_team = get_wgc_team(division_string)
-                division = get_division(wgc_team)
-            case FixtureType.CUP:
-                wgc_team = get_team_name_from_full_name(home_team + away_team)
-                division = Division.CUP
-            case FixtureType.FRIENDLY:
-                wgc_team = get_team_name_from_full_name(home_team + away_team)
-                division = Division.FRIENDLY
-            case _:
-                wgc_team = TeamName.UNKNOWN
-                division = Division.UNKNOWN
 
         match_location = fixture[6]
         match match_location:
             case Ground.DP.value:
-                home_team = wgc_team.value
+                oppo = away_team
+                location = Location.HOME
                 ground = Ground.DP
             case Ground.WPF.value:
-                home_team = wgc_team.value
+                oppo = away_team
+                location = Location.HOME
                 ground = Ground.WPF
             case _:
-                away_team = wgc_team.value
+                oppo = home_team
+                location = Location.AWAY
                 ground = Ground.AWAY
+
+        fixture_type = FixtureType.get_value(fixture[3])
+        match fixture_type:
+            case FixtureType.LEAGUE:
+                division_string = fixture[4]
+                wgc_team = get_wgc_team_from_division(division_string)
+            case FixtureType.CUP | FixtureType.FRIENDLY:
+                if ground == Ground.AWAY:
+                    wgc_team_full_name = away_team
+                else:
+                    wgc_team_full_name = home_team
+                wgc_team = CricketTeam.get_from_fullname(wgc_team_full_name)
+            case _:
+                wgc_team = CricketTeam.UNKNOWN
 
         match_date = fixture[0]
         start_time = fixture[5]
 
         if add_fixture(wgc_team):
-            fixture = Fixture(home_team, away_team, division, fixture_type, match_date, start_time, ground)
-            fixtures.append(fixture)
-
+            fixtures.append(Fixture(wgc_team, oppo, location, fixture_type, match_date, start_time, ground))
     return fixtures
 
 def parse_play_cricket_data():
