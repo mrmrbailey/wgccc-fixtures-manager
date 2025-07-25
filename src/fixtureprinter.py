@@ -1,13 +1,9 @@
-from datetime import datetime, timezone, date, timedelta
+from datetime import date, timedelta
 from enum import Enum
-from cricket_enums import Division, TeamName, Ground, FixtureType
+from cricket_team import CricketTeam
+from cricket_enums import Ground, Location
+from src.cricket_enums import FixtureType
 
-class PitchLength(Enum):
-    Y15 = ' (15 yards)'
-    Y17 = ' (17 yards)'
-    Y19 = ' (19 yards)'
-    Y22 = ' (22 yards)'
-    UNKNOWN = ' (? yards)'
 
 def print_fixtures(list_of_fixtures):
     list_of_fixtures.sort()
@@ -19,55 +15,6 @@ def print_fixture(fixture):
 
 def print_title(title):
     print('======== ' + title + ' =========')
-
-def get_summary(fixture):
-    summary = fixture.home + ' vs ' + fixture.away
-    return summary
-
-def get_pitch_length(division):
-    match division:
-        case Division.GIRLS | Division.U9s:
-            return PitchLength.Y15
-        case Division.U10s | Division.U11s | Division.U11summer:
-            return PitchLength.Y17
-        case Division.U12s | Division.U13s | Division.U13summer:
-            return PitchLength.Y19
-        case Division.U14s | Division.U15s | Division.U17s | Division.U15summer:
-            return PitchLength.Y22
-        case _:
-            return PitchLength.UNKNOWN
-
-def get_division(team):
-    match team:
-        case TeamName.GIRLS:
-            return Division.GIRLS
-        case TeamName.U9s:
-            return Division.U9s
-        case TeamName.U10s:
-            return Division.U10s
-        case TeamName.U11s:
-            return Division.U11s
-        case TeamName.U12s:
-            return Division.U12s
-        case TeamName.U13s:
-            return Division.U13s
-        case TeamName.U14s:
-            return Division.U14s
-        case TeamName.U15s:
-            return Division.U15s
-        case TeamName.U17s:
-            return Division.U17s
-        case TeamName.U11summer:
-            return Division.U11summer
-        case TeamName.U13summer:
-            return Division.U13summer
-        case TeamName.U15summer:
-            return Division.U15summer
-        case _:
-            return Division.UNKNOWN
-
-def get_google_calendar_summary(fixture):
-    return get_summary(fixture) + get_pitch_length(fixture.division).value
 
 def get_current_week():
     return date.today().strftime("%V")
@@ -111,10 +58,9 @@ def get_fixtures_for_type(list_of_fixtures, fixture_type):
     return type_fixtures
 
 def get_fixtures_for_team(list_of_fixtures, team):
-    division = get_division(team)
     team_fixtures = []
     for fixture in list_of_fixtures:
-        if fixture.division == division:
+        if fixture.wgc_team == team:
             team_fixtures.append(fixture)
     return team_fixtures
 
@@ -158,8 +104,61 @@ def print_google_calendar_csv(list_of_fixtures,ground):
     print_title('Google Calendar Import')
     print_csv_calendar(get_fixtures_for_ground(list_of_fixtures, ground))
 
+class GoogleCalendarField(Enum):
+    SUMMARY = 0
+    DESCRIPTION = 1
+
+class PitchLength(Enum):
+    Y15 = ' (15 yards)'
+    Y17 = ' (17 yards)'
+    Y19 = ' (19 yards)'
+    Y22 = ' (22 yards)'
+    UNKNOWN = ' (? yards)'
+
+def get_matchup(fixture, field):
+    match field:
+        case GoogleCalendarField.SUMMARY:
+            wgc_team_name = fixture.wgc_team.value
+        case GoogleCalendarField.DESCRIPTION:
+            wgc_team_name = fixture.wgc_team.team_fullname
+        case _:
+            wgc_team_name = 'A WGC Team'
+
+    if fixture.location == Location.HOME:
+        matchup = wgc_team_name + ' vs ' + fixture.oppo
+    else:
+        matchup = fixture.oppo + ' vs ' + wgc_team_name
+    return matchup
+
+def get_pitch_length_string(cricket_team):
+    match cricket_team:
+        case CricketTeam.GIRLS | CricketTeam.U9s:
+            return PitchLength.Y15.value
+        case CricketTeam.U10s | CricketTeam.U11s | CricketTeam.U11summer:
+            return PitchLength.Y17.value
+        case CricketTeam.U12s | CricketTeam.U13s | CricketTeam.U13summer:
+            return PitchLength.Y19.value
+        case CricketTeam.U14s | CricketTeam.U15s | CricketTeam.U17s | CricketTeam.U15summer:
+            return PitchLength.Y22.value
+        case _:
+            return PitchLength.UNKNOWN.value
+
+def get_google_calendar_summary(fixture):
+    return get_matchup(fixture, GoogleCalendarField.SUMMARY) + get_pitch_length_string(fixture.wgc_team)
+
+def get_description(fixture):
+    description = get_matchup(fixture, GoogleCalendarField.DESCRIPTION)
+    description += ' on '
+    description += fixture.get_fixture_date().strftime('%a %d %b %Y at %H:%M')
+    description += ":"
+    description += fixture.fixture_type.value
+    if fixture.fixture_type.value == FixtureType.LEAGUE.value:
+        description += ":"
+        description += fixture.wgc_team.division
+    return description
+
 def print_csv_calendar(list_of_fixtures):
-    print('Subject, Start Date, Start Time, End Time, Description')
+    print('Subject, Start Date, Start Time, End Time, Location, Description')
     list_of_fixtures.sort()
     for fixture in list_of_fixtures:
         subject = get_google_calendar_summary(fixture)
@@ -167,6 +166,6 @@ def print_csv_calendar(list_of_fixtures):
         start_date = fixture_date.strftime('%d/%m/%Y')
         start_time = fixture_date.strftime('%H:%M')
         end_time = (fixture_date + timedelta(hours=3)).strftime('%H:%M')
-        description = fixture.division.value
-        fixture_type = fixture.fixture_type.value
-        print(f"{subject},{start_date},{start_time},{end_time},{fixture_type}:{description}")
+        location = fixture.ground.value
+        description = get_description(fixture)
+        print(f"{subject},{start_date},{start_time},{end_time},{location},{description}")
