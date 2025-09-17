@@ -122,12 +122,14 @@ def get_matchup(fixture, field):
         case GoogleCalendarField.DESCRIPTION:
             wgc_team_name = fixture.wgc_team.team_fullname
         case _:
-            wgc_team_name = 'A WGC Team'
+            wgc_team_name = CricketTeam.WGCCC.value
 
-    if fixture.location == Location.HOME:
-        matchup = wgc_team_name + ' vs ' + fixture.oppo
+    if wgc_team_name == CricketTeam.NotWGCCC.value:
+        matchup = fixture.oppo
+    elif fixture.location == Location.HOME:
+        matchup = wgc_team_name + ' v ' + fixture.oppo
     else:
-        matchup = fixture.oppo + ' vs ' + wgc_team_name
+        matchup = fixture.oppo + ' v ' + wgc_team_name
     return matchup
 
 def get_pitch_length_string(cricket_team):
@@ -144,16 +146,19 @@ def get_pitch_length_string(cricket_team):
             return PitchLength.UNKNOWN.value
 
 def get_google_calendar_summary(fixture):
-    return get_matchup(fixture, GoogleCalendarField.SUMMARY) + get_pitch_length_string(fixture.wgc_team)
+    matchup = get_matchup(fixture, GoogleCalendarField.SUMMARY)
+    if fixture.fixture_type.value != FixtureType.SENIOR.value:
+        matchup = matchup + get_pitch_length_string(fixture.wgc_team)
+    return matchup
 
 def get_description(fixture):
     description = get_matchup(fixture, GoogleCalendarField.DESCRIPTION)
     description += ' on '
     description += fixture.get_fixture_date().strftime('%a %d %b %Y at %H:%M')
-    description += ":"
+    description += "~"
     description += fixture.fixture_type.value
     if fixture.fixture_type.value == FixtureType.LEAGUE.value:
-        description += ":"
+        description += "~"
         description += fixture.wgc_team.division
     return description
 
