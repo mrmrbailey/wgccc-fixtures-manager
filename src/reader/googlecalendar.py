@@ -2,6 +2,7 @@
 from fixture import Fixture
 from cricket_enums import Ground, FixtureType, Location
 from reader.utils import add_fixture, get_data_path
+from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
 from src.cricket_team import CricketTeam
 
 from icalendar import Calendar
@@ -10,65 +11,38 @@ from os import listdir
 
 fixtures = []
 
-def is_valid_fixture(summary):
-    if len(get_teams(summary)) == 2:
-        return ' yards)' in summary
-    return False
-
-def remove_prefix(summary):
-    if len(summary.split(': ')) > 1:
-        return summary.split(': ')[1]
-    else:
-        return summary
-
-def get_teams(summary):
-    teams = remove_prefix(summary).split(' yards)')[0]
-    return teams[:-4].split(' vs ')
-
-def remove_preformatted_tag(html_snippet):
-    return html_snippet.removeprefix('<br>').removeprefix('<pre>').removesuffix('</pre>')
-
-def get_fixture_type_from_description(description):
-    if description is None:
-        return FixtureType.LEAGUE
-    league_and_division = remove_preformatted_tag(description).split(":")
-    if len(league_and_division) != 2:
-        return FixtureType.LEAGUE
-    else:
-        return FixtureType[league_and_division[0].upper()]
-
 def read_ical(filename, ground):
 
     file = open(filename, 'rb')
     cal = Calendar.from_ical(file.read())
 
-    start_date = datetime(2025,4,1, tzinfo=timezone.utc)
-
     for event in cal.walk('vevent'):
-        summary = str(event['SUMMARY']).replace(',','')
-        if is_valid_fixture(summary):
-            fixture_date = event.get("DTSTART").dt
-            if fixture_date > start_date:
-                teams = get_teams(summary)
-                fixture_type = get_fixture_type_from_description(event.get("Description"))
+        summary = event['SUMMARY']
+        fixture_start_date = clean_fixture_date(event.get("DTSTART").dt)
 
-                if ground == Ground.AWAY:
-                    wgc_team = CricketTeam.get_value(teams[1])
-                    oppo = teams[0]
-                    location = Location.AWAY
-                else:
-                    wgc_team = CricketTeam.get_value(teams[0])
-                    oppo = teams[1]
-                    location = Location.HOME
+        if is_fixture_this_year(fixture_start_date):
+            teams = get_teams(clean_summary(summary))
+            fixture_type = FixtureType[get_fixture_type_from_description(event.get("Description")).upper()]
+            if fixture_type == FixtureType.UNKNOWN:
+                fixture_type = FixtureType[get_fixture_type_from_summary(summary).upper()]
 
-                fixture = Fixture(wgc_team,
-                                  oppo,
-                                  location,
-                                  fixture_type,
-                                  fixture_date.strftime('%d/%m/%Y'),
-                                  (fixture_date + timedelta(hours=1)).strftime('%H:%M'),
-                                  ground)
-                fixtures.append(fixture)
+            if ground == Ground.AWAY:
+                wgc_team = CricketTeam.get_value(teams[1])
+                oppo = teams[0]
+                location = Location.AWAY
+            else:
+                wgc_team = CricketTeam.get_value(teams[0])
+                oppo = teams[1]
+                location = Location.HOME
+
+            fixture = Fixture(wgc_team,
+                              oppo,
+                              location,
+                              fixture_type,
+                              fixture_start_date.strftime('%d/%m/%Y'),
+                              (fixture_start_date + timedelta(hours=1)).strftime('%H:%M'),
+                              ground)
+            fixtures.append(fixture)
     file.close()
 
 def parse_google_calendar_data():

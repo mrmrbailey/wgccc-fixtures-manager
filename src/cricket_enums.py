@@ -21,6 +21,7 @@ class FixtureType(Enum):
     LEAGUE = 'League'
     FRIENDLY = 'Friendly'
     CUP = 'Cup'
+    SENIOR = 'Senior'
     UNKNOWN = 'Unknown'
 
     @classmethod
