@@ -1,57 +1,80 @@
-import unittest
-from datetime import datetime
+from datetime import datetime, timezone
+
+import pytest
+
 from src.fixture import Fixture
-from src.cricket_enums import Division, Ground
+from src.cricket_enums import Location, FixtureType, Ground
+from src.cricket_team import CricketTeam
 
-class TestFixture(unittest.TestCase):
+equalstestdata = [(Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             True),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U15s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'xyz', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.CUP, '25/04/2025', '18:00', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '26/04/2025', '18:00', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '17:30', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.AWAY),
+             False)]
 
-    @staticmethod
-    def get_home_team():
-        return "Home Team"
+def idfn(val):
+    if isinstance(val, Fixture):
+        return val.__str__()
 
-    @staticmethod
-    def get_away_team():
-        return "Away Team"
+@pytest.mark.parametrize('fixture,other,expected', equalstestdata, ids=idfn)
+def test_fixture_equals(fixture, other, expected):
+    assert fixture.__eq__(other) is expected
 
-    @staticmethod
-    def get_fixture_date():
-        return datetime(2023, 10, 27,hour=18)
+sorttestdata = [(Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '05/04/2025', '18:00', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '01/05/2025', '18:00', Ground.DP),
+             True),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '17:59', Ground.DP),
+             False),
+            (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+             Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:01', Ground.DP),
+             True)]
 
-    @staticmethod
-    def get_divsion():
-        return Division.U17s
+@pytest.mark.parametrize('fixture,other,expected', sorttestdata, ids=idfn)
+def test_fixture_less_than(fixture, other, expected):
+    assert fixture.__lt__(other) is expected
 
-    @staticmethod
-    def get_ground():
-        return Ground.DP
+datetestdata = [(Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+                datetime(2025, 4, 25, 18, tzinfo=timezone.utc),
+                 True),
+                (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '17:30', Ground.DP),
+                 datetime(2025, 4, 25, 17, 30, tzinfo=timezone.utc),
+                 True),
+                ]
 
-    def get_fixture(self):
-        return Fixture(
-            home = self.get_home_team(),
-            away = self.get_away_team(),
-            division = self.get_divsion(),
-            fixture_date = self.get_fixture_date(),
-            fixture_time = self.get_fixture_date(),
-            ground = self.get_ground()
-        )
+@pytest.mark.parametrize('fixture,expected_date,expected', datetestdata, ids=idfn)
+def test_fixture_get_fixture_date(fixture, expected_date, expected):
+    fixture_date = fixture.get_fixture_date()
+    diff = fixture_date == expected_date
+    assert diff is expected
 
-    def test_fixture_creation(self):
-        # Create a Fixture instance
-        fixture = self.get_fixture()
+outputtestdata = [(Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
+                   'CricketTeam.U17s and oppo Location.HOME 25/04/2025 18:00 Ground.DP FixtureType.LEAGUE',
+                   'wgc_team: CricketTeam.U17s, oppo: oppo, location: Location.HOME, type FixtureType.LEAGUE date: 25/04/2025, time: 18:00, ground: Ground.DP')]
 
-        # Assert that the attributes are set correctly
-        self.assertEqual(fixture.home, self.get_home_team())
-        self.assertEqual(fixture.away, self.get_away_team())
-        self.assertEqual(fixture.division, self.get_divsion())
-        self.assertEqual(fixture.fixture_date, self.get_fixture_date())
-        self.assertEqual(fixture.fixture_time, self.get_fixture_date())
-        self.assertEqual(fixture.ground, self.get_ground())
-
-    def test_fixture_eq_same(self):
-        fixture = self.get_fixture()
-        same_fixture = self.get_fixture()
-
-        self.assertEqual(fixture, same_fixture)
-
-if __name__ == '__main__':
-    unittest.main()
+@pytest.mark.parametrize('fixture,str,repr', outputtestdata)
+def test_fixture_strings(fixture, str, repr):
+    assert fixture.__str__() == str
+    assert fixture.__repr__() == repr

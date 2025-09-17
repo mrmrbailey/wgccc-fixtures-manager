@@ -14,12 +14,14 @@ class Fixture:
         a = self.wgc_team == other.wgc_team
         b = self.oppo == other.oppo
         c = self.location == other.location
-        d = self.fixture_date == other.fixture_date
-        e = self.fixture_time == other.fixture_time
-        f = self.ground == other.ground
+        d = self.fixture_type == other.fixture_type
+        e = self.fixture_date == other.fixture_date
+        f = self.fixture_time == other.fixture_time
+        g = self.ground == other.ground
         return (self.wgc_team == other.wgc_team
                 and self.oppo == other.oppo
                 and self.location == other.location
+                and self.fixture_type == other.fixture_type
                 and self.fixture_date == other.fixture_date
                 and self.fixture_time == other.fixture_time
                 and self.ground == other.ground)
