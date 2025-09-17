@@ -2,7 +2,6 @@ from fixture import InvalidFixture
 from cricket_enums import InvalidType, SourceData, FixtureType
 from reader.googlecalendar import parse_google_calendar_data
 from reader.playcricket import parse_play_cricket_data
-from src.cricket_team import CricketTeam
 
 different_fixtures = []
 
@@ -18,8 +17,6 @@ def compare_two_fixture_lists(source_data, source_list, target_list):
         except ValueError:
             invalid_type = InvalidType.NOT_FOUND
             for target_fixture in target_list:
-#                if fixture.wgc_team == CricketTeam.U10s and target_fixture.wgc_team == CricketTeam.U10s:
-#                    print(target_fixture)
                 if (fixture.wgc_team == target_fixture.wgc_team
                         and fixture.oppo == target_fixture.oppo
                         and fixture.location == target_fixture.location
@@ -29,6 +26,14 @@ def compare_two_fixture_lists(source_data, source_list, target_list):
             different_fixtures.append(invalid_fixture)
 
 def compare_fixtures(google_calendar_fixtures, play_cricket_fixtures):
+
+    junior_fixtures = []
+    for fixture in google_calendar_fixtures:
+        if fixture.fixture_type != FixtureType.SENIOR:
+            junior_fixtures.append(fixture)
+
+    compare_two_fixture_lists(SourceData.GOOGLE_CALENDAR, junior_fixtures, play_cricket_fixtures)
+    compare_two_fixture_lists(SourceData.PLAY_CRICKET, play_cricket_fixtures, junior_fixtures)
 
     compare_two_fixture_lists(SourceData.GOOGLE_CALENDAR, google_calendar_fixtures, play_cricket_fixtures)
     compare_two_fixture_lists(SourceData.PLAY_CRICKET, play_cricket_fixtures, google_calendar_fixtures)
