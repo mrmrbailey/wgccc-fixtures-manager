@@ -35,9 +35,6 @@ def compare_fixtures(google_calendar_fixtures, play_cricket_fixtures):
     compare_two_fixture_lists(SourceData.GOOGLE_CALENDAR, junior_fixtures, play_cricket_fixtures)
     compare_two_fixture_lists(SourceData.PLAY_CRICKET, play_cricket_fixtures, junior_fixtures)
 
-    compare_two_fixture_lists(SourceData.GOOGLE_CALENDAR, google_calendar_fixtures, play_cricket_fixtures)
-    compare_two_fixture_lists(SourceData.PLAY_CRICKET, play_cricket_fixtures, google_calendar_fixtures)
-
     print_differences()
 
 def print_differences():

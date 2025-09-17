@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timezone, date
 
 def clean_summary(summary):
@@ -18,15 +19,24 @@ def remove_summary_suffix(summary):
     return summary
 
 def get_teams(summary):
+    summary = rename_teams(summary)
     summary = summary.replace(' vs ', '~')
     summary = summary.replace(' v ', '~')
+    if summary.count('~') != 1:
+        summary = 'Not a WGCCC Team' + '~' + summary
+    return summary.split('~')
+
+def rename_teams(summary):
     summary = summary.replace('WGCCC 1st XI', 'Saturday 1st XI')
     summary = summary.replace('WGCCC 2nd XI', 'Saturday 2nd XI')
     summary = summary.replace('WGCCC 3rd XI', 'Saturday 3rd XI')
     summary = summary.replace('WGCCC U11A', 'WGCCC U11')
-    if summary.count('~') != 1:
-        summary = 'Not a WGCCC Team' + '~' + summary
-    return summary.split('~')
+    summary = summary.replace('U13-U15 match', 'WGCCC Juniors')
+    summary = summary.replace('WGCCC Juniors intersquad', 'WGCCC Juniors')
+    summary = summary.replace('WGCCC U11 Summer vs Cokenach CC - Under 11', 'Cokenach CC - Under 11 vs WGCCC U11 Summer')
+    summary = summary.replace('WGCCC U15 Summer vs Knebworth Park CC - Under 15', 'Knebworth Park CC - Under 15 vs WGCCC U15 Summer')
+    summary = summary.replace('2nd XI vs London Colney 2nd XI', 'Saturday 2nd XI vs London Colney 2nd XI')
+    return summary
 
 def get_fixture_type_from_description(description):
     if description is None:
