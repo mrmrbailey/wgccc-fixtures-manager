@@ -1,4 +1,4 @@
-from cricket_team import CricketTeam
+from src.cricket_team import CricketTeam
 from os import path
 
 def add_fixture(team):

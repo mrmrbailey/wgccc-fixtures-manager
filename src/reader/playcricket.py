@@ -1,4 +1,5 @@
 # imports
+from src.reader.playcricket_utils import get_wgc_team_from_division
 from cricket_team import CricketTeam
 from cricket_enums import Ground, FixtureType, Location
 from reader.utils import add_fixture, get_data_path
@@ -6,14 +7,6 @@ from fixture import Fixture
 
 from os import listdir
 from csv import reader
-
-def get_wgc_team_from_division(division):
-    wgc_team = CricketTeam.UNKNOWN
-    for team in CricketTeam:
-        if team.division  == division:
-            wgc_team = team
-            break
-    return wgc_team
 
 def parse_play_cricket(list_of_fixtures):
     #iterate over the list of fixtures file

@@ -1,3 +1,4 @@
+from src.cricket_enums import FixtureType
 from datetime import datetime, timezone, date
 
 import pytest
@@ -45,22 +46,22 @@ def test_get_teams(summary, expected):
 
 description_test_data = [
     ('Welwyn Garden City Cricket Club Saturday 1st XI v Hertford CC 1st XI on Sat 12 Jul 2025 at 11:00',
-     'Senior'),
+     FixtureType.SENIOR.value),
     ('Welwyn Garden City CC - Under 15 Summer v Knebworth Park CC - Under 15 on Wed 20 Aug 2025 at 18:00~League~U15 Summer League - North Group',
-     'League'),
+     FixtureType.LEAGUE.value),
     ('Welwyn Garden City CC - Under 12 v Letchworth Garden City CC - Under 12 A on Wed 30 Jul 2025 at 18:00~Friendly',
-     'Friendly'),
+     FixtureType.FRIENDLY.value),
     ('West Herts CC - U11 Green v Welwyn Garden City CC - Under 11 on Thu 10 Jul 2025 at 18:00~Cup',
-     'Cup'),
+     FixtureType.CUP.value),
     #Google Meet Tests
     ('-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-JOIN WITH GOOGLE MEET: HTTPS://MEET.GOOGLE.COM/PYA-DKJT-QQQLEARN MORE ABOUT MEET AT: HTTPS://SUPPORT.GOOGLE.COM/A/USERS/ANSWER/9282720PLEASE DO NOT EDIT THIS SECTION.-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-',
-    'Senior'),
+     FixtureType.SENIOR.value),
     #2025 tests
     ('Hertford CC - Under 9 v Welwyn Garden City CC - Under 9 on Sun 31 Aug 2025 at 18:00:League:HJCL U9 Girls Group 2',
-     'League'),
-    ('Friendly:Friendly', 'Friendly'),
-    ('Cup:Cup', 'Cup'),
-    (None, 'Unknown')
+     FixtureType.LEAGUE.value),
+    ('Friendly:Friendly', FixtureType.FRIENDLY.value),
+    ('Cup:Cup', FixtureType.CUP.value),
+    (None, FixtureType.UNKNOWN.value),
 ]
 
 @pytest.mark.parametrize('description,expected', description_test_data)
@@ -68,10 +69,8 @@ def test_get_fixture_type_from_description(description, expected):
     assert get_fixture_type_from_description(description) == expected
 
 summary_test_data_for_fixture_type = [
-    ('Saturday 2nd XI v Hemel Hempstead Town CC 2nd XI',
-     'Senior'),
-    ('WGCCC, U15 vs Knebworth Park CC - Under 15 (22 yards)',
-     'League')
+    ('Saturday 2nd XI v Hemel Hempstead Town CC 2nd XI', FixtureType.SENIOR.value),
+    ('WGCCC, U15 vs Knebworth Park CC - Under 15 (22 yards)', FixtureType.LEAGUE.value),
 ]
 
 @pytest.mark.parametrize('summary,expected', summary_test_data_for_fixture_type)

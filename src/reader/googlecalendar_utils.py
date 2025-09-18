@@ -1,4 +1,4 @@
-import re
+from src.cricket_enums import FixtureType
 from datetime import datetime, timezone, date
 
 def clean_summary(summary):
@@ -40,16 +40,16 @@ def rename_teams(summary):
 
 def get_fixture_type_from_description(description):
     if description is None:
-        return 'Unknown'
+        return FixtureType.UNKNOWN.value
     description = remove_preformatted_tag(description)
     description = change2025description(description)
     match description.count('~'):
         case 0:
-            return 'Senior'
+            return FixtureType.SENIOR.value
         case 1|2:
             return description.split('~')[1]
         case _:
-            return 'Senior'
+            return FixtureType.SENIOR.value
 
 def remove_preformatted_tag(html_snippet):
     return html_snippet.removeprefix('<br>').removeprefix('<pre>').removesuffix('</pre>')
@@ -62,9 +62,9 @@ def change2025description(description):
 
 def get_fixture_type_from_summary(summary):
     if ' yards)' in summary:
-        return 'League'
+        return FixtureType.LEAGUE.value
     else:
-        return 'Senior'
+        return FixtureType.SENIOR.value
 
 def clean_fixture_date(calendar_date):
     if type(calendar_date) is date:
