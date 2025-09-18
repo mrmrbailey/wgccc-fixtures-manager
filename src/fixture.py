@@ -1,7 +1,7 @@
 import pytz
 
 from src.cricket_team import CricketTeam
-from src.cricket_enums import Ground, Location, FixtureType
+from src.cricket_enums import Location, FixtureType
 
 
 class Fixture:
@@ -15,13 +15,6 @@ class Fixture:
         self.ground = ground
 
     def __eq__(self, other):
-        a = self.wgc_team == other.wgc_team
-        b = self.oppo == other.oppo
-        c = self.location == other.location
-        d = self.fixture_type == other.fixture_type
-        e = self.fixture_start_datetime == other.fixture_start_datetime
-        f = self.fixture_end_datetime == other.fixture_end_datetime
-        g = self.ground == other.ground
         return (self.wgc_team == other.wgc_team
                 and self.oppo == other.oppo
                 and self.location == other.location
@@ -31,7 +24,7 @@ class Fixture:
                 and self.ground == other.ground)
 
     def __str__(self):
-        return f"{self.get_matchup()} {self.location} {self.get_localized_fixture_start_datetime_string()} {self.fixture_end_datetime} {self.ground} {self.fixture_type}"
+        return f"{self.get_matchup()} {self.location} {self.get_localized_fixture_start_datetime_string()} {self.get_localized_fixture_end_time_string()} {self.ground} {self.fixture_type}"
 
     def __repr__(self):
         return f"wgc_team: {self.wgc_team}, oppo: {self.oppo}, location: {self.location}, type {self.fixture_type} start_datetime: {self.fixture_start_datetime}, time: {self.fixture_end_datetime}, ground: {self.ground}"
@@ -53,8 +46,6 @@ class Fixture:
             description += self.wgc_team.division
         return description
 
-        return description
-
     def get_matchup_string(self, wgc_team):
         if self.wgc_team is CricketTeam.NotWGCCC:
             matchup = self.oppo
@@ -72,6 +63,9 @@ class Fixture:
 
     def get_localized_fixture_start_time_string(self):
         return self.fixture_start_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%H:%M')
+
+    def get_localized_fixture_end_time_string(self):
+        return self.fixture_end_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%H:%M')
 
 class InvalidFixture:
     def __init__(self, fixture, invalid_type, source):

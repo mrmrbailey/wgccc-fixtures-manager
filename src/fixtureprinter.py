@@ -146,7 +146,7 @@ def print_csv_calendar(list_of_fixtures):
         subject = get_google_calendar_summary(fixture)
         start_date = fixture.get_localized_fixture_start_date_string()
         start_time = fixture.get_localized_fixture_start_time_string()
-        end_time = 'x'
+        end_time = fixture.get_localized_fixture_end_time_string()
         location = fixture.ground.value
         description = fixture.get_description()
         print(f"{subject},{start_date},{start_time},{end_time},{location},{description}")
