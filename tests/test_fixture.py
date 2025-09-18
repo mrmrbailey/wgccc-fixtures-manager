@@ -57,24 +57,21 @@ def test_fixture_less_than(fixture, other, expected):
     assert fixture.__lt__(other) is expected
 
 datetestdata = [(Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
-                datetime(2025, 4, 25, 18, tzinfo=timezone.utc),
-                 True),
+                datetime(2025, 4, 25, 18, tzinfo=timezone.utc)),
                 (Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '17:30', Ground.DP),
-                 datetime(2025, 4, 25, 17, 30, tzinfo=timezone.utc),
-                 True),
+                 datetime(2025, 4, 25, 17, 30, tzinfo=timezone.utc))
                 ]
 
-@pytest.mark.parametrize('fixture,expected_date,expected', datetestdata, ids=idfn)
-def test_fixture_get_fixture_date(fixture, expected_date, expected):
+@pytest.mark.parametrize('fixture,expected_date', datetestdata, ids=idfn)
+def test_fixture_get_fixture_date(fixture, expected_date):
     fixture_date = fixture.get_fixture_date()
-    diff = fixture_date == expected_date
-    assert diff is expected
+    assert fixture_date == expected_date
 
 outputtestdata = [(Fixture(CricketTeam.U17s, 'oppo', Location.HOME, FixtureType.LEAGUE, '25/04/2025', '18:00', Ground.DP),
                    'CricketTeam.U17s and oppo Location.HOME 25/04/2025 18:00 Ground.DP FixtureType.LEAGUE',
                    'wgc_team: CricketTeam.U17s, oppo: oppo, location: Location.HOME, type FixtureType.LEAGUE date: 25/04/2025, time: 18:00, ground: Ground.DP')]
 
-@pytest.mark.parametrize('fixture,str,repr', outputtestdata)
-def test_fixture_strings(fixture, str, repr):
-    assert fixture.__str__() == str
-    assert fixture.__repr__() == repr
+@pytest.mark.parametrize('fixture,fixture_str,fixture_repr', outputtestdata)
+def test_fixture_strings(fixture, fixture_str, fixture_repr):
+    assert fixture.__str__() == fixture_str
+    assert fixture.__repr__() == fixture_repr
