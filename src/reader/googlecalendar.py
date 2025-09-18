@@ -22,10 +22,9 @@ def read_ical(filename, ground):
 
         if is_fixture_this_year(fixture_start_date):
             teams = get_teams(clean_summary(summary))
-            fixture_type = FixtureType[get_fixture_type_from_description(event.get("Description")).upper()]
-            if fixture_type == FixtureType.UNKNOWN:
-                fixture_type = FixtureType[get_fixture_type_from_summary(summary).upper()]
-
+            fixture_type = get_fixture_type_from_description(event.get("Description"))
+            if fixture_type is None:
+                fixture_type = get_fixture_type_from_summary(summary)
             if ground == Ground.AWAY:
                 wgc_team = CricketTeam.get_value(teams[1])
                 oppo = teams[0]

@@ -145,7 +145,7 @@ def get_pitch_length_string(cricket_team):
 
 def get_google_calendar_summary(fixture):
     matchup = get_matchup(fixture, GoogleCalendarField.SUMMARY)
-    if fixture.fixture_type.value != FixtureType.SENIOR.value:
+    if fixture.fixture_type.value is not FixtureType.SENIOR.value:
         matchup = matchup + get_pitch_length_string(fixture.wgc_team)
     return matchup
 
@@ -155,7 +155,7 @@ def get_description(fixture):
     description += fixture.get_fixture_date().strftime('%a %d %b %Y at %H:%M')
     description += "~"
     description += fixture.fixture_type.value
-    if fixture.fixture_type.value == FixtureType.LEAGUE.value:
+    if fixture.fixture_type.value is FixtureType.LEAGUE.value:
         description += "~"
         description += fixture.wgc_team.division
     return description

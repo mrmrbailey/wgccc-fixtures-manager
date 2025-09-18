@@ -40,16 +40,17 @@ def rename_teams(summary):
 
 def get_fixture_type_from_description(description):
     if description is None:
-        return FixtureType.UNKNOWN.value
+        return None
     description = remove_preformatted_tag(description)
     description = change2025description(description)
     match description.count('~'):
         case 0:
-            return FixtureType.SENIOR.value
+            return FixtureType.SENIOR
         case 1|2:
-            return description.split('~')[1]
+            return FixtureType[description.split('~')[1].upper()]
+
         case _:
-            return FixtureType.SENIOR.value
+            return FixtureType.SENIOR
 
 def remove_preformatted_tag(html_snippet):
     return html_snippet.removeprefix('<br>').removeprefix('<pre>').removesuffix('</pre>')
@@ -62,9 +63,9 @@ def change2025description(description):
 
 def get_fixture_type_from_summary(summary):
     if ' yards)' in summary:
-        return FixtureType.LEAGUE.value
+        return FixtureType.LEAGUE
     else:
-        return FixtureType.SENIOR.value
+        return FixtureType.SENIOR
 
 def clean_fixture_date(calendar_date):
     if type(calendar_date) is date:

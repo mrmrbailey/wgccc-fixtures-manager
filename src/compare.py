@@ -29,7 +29,7 @@ def compare_fixtures(google_calendar_fixtures, play_cricket_fixtures):
 
     junior_fixtures = []
     for fixture in google_calendar_fixtures:
-        if fixture.fixture_type != FixtureType.SENIOR:
+        if fixture.fixture_type is not FixtureType.SENIOR:
             junior_fixtures.append(fixture)
 
     compare_two_fixture_lists(SourceData.GOOGLE_CALENDAR, junior_fixtures, play_cricket_fixtures)
@@ -49,7 +49,7 @@ def print_differences():
     friendlies = []
     for fixture in different_fixtures:
         if fixture.invalid_type == InvalidType.NOT_FOUND:
-            if fixture.fixture.fixture_type == FixtureType.FRIENDLY:
+            if fixture.fixture.fixture_type is FixtureType.FRIENDLY:
                 friendlies.append(fixture)
             else:
                 print(fixture)
