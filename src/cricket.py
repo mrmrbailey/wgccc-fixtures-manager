@@ -1,4 +1,4 @@
-import src.fixtureprinter as fp
+import src.printer.fixtureprinter as fp
 import src.cricket_enums as ce
 from src.cricket_team import CricketTeam as ct
 from src.reader.playcricket import parse_play_cricket_data
