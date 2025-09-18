@@ -1,9 +1,7 @@
 from datetime import date, timedelta
 from enum import Enum
-from cricket_team import CricketTeam
-from cricket_enums import Ground, Location
-from src.cricket_enums import FixtureType
-
+from src.cricket_team import CricketTeam
+from src.cricket_enums import Ground, Location, FixtureType
 
 def print_fixtures(list_of_fixtures):
     list_of_fixtures.sort()

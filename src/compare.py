@@ -1,7 +1,7 @@
-from fixture import InvalidFixture
-from cricket_enums import InvalidType, SourceData, FixtureType
-from reader.googlecalendar import parse_google_calendar_data
-from reader.playcricket import parse_play_cricket_data
+from src.fixture import InvalidFixture
+from src.cricket_enums import InvalidType, SourceData, FixtureType
+from src.reader.googlecalendar import parse_google_calendar_data
+from src.reader.playcricket import parse_play_cricket_data
 
 different_fixtures = []
 
