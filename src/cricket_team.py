@@ -19,6 +19,7 @@ class CricketTeam(Enum):
     FourthXI = ('Saturday 4th XI', 'Welwyn Garden City Cricket Club Saturday 4th XI', 'HPCL Division 11 East')
     FifthXI = ('Saturday 5th XI', 'Welwyn Garden City Cricket Club Saturday 5th XI', 'HPCL Division 14 East')
     SundayXI = ('WGCCC Sunday XI', 'Welwyn Garden City Cricket Club Sunday XI', 'ECB Friendly')
+    WGCCCJuniors = ('WGCCC Juniors', 'A WGCCC Junior Team', '')
     WGCCC = ('WGCCC', 'A WGCCC Team', '')
     HertsO50s = ('Herts O50s', 'Herts Over 50s', 'Over 50 League')
     HertsO60s = ('Herts Over 60s', 'Herts Over 60s', 'Over 60 League')

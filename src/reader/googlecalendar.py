@@ -1,12 +1,11 @@
 # imports
-from fixture import Fixture
-from cricket_enums import Ground, FixtureType, Location
-from reader.utils import add_fixture, get_data_path
-from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
+from src.fixture import Fixture
+from src.cricket_enums import Ground, Location
+from src.reader.utils import get_data_path
+from src.reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
 from src.cricket_team import CricketTeam
 
 from icalendar import Calendar
-from datetime import datetime, timedelta, timezone
 from os import listdir
 
 fixtures = []
@@ -21,11 +20,11 @@ def read_ical(filename, ground):
         fixture_start_date = clean_fixture_date(event.get("DTSTART").dt)
 
         if is_fixture_this_year(fixture_start_date):
+            fixture_end_date = clean_fixture_date(event.get("DTEND").dt)
             teams = get_teams(clean_summary(summary))
-            fixture_type = FixtureType[get_fixture_type_from_description(event.get("Description")).upper()]
-            if fixture_type == FixtureType.UNKNOWN:
-                fixture_type = FixtureType[get_fixture_type_from_summary(summary).upper()]
-
+            fixture_type = get_fixture_type_from_description(event.get("Description"))
+            if fixture_type is None:
+                fixture_type = get_fixture_type_from_summary(summary)
             if ground == Ground.AWAY:
                 wgc_team = CricketTeam.get_value(teams[1])
                 oppo = teams[0]
@@ -39,8 +38,8 @@ def read_ical(filename, ground):
                               oppo,
                               location,
                               fixture_type,
-                              fixture_start_date.strftime('%d/%m/%Y'),
-                              (fixture_start_date + timedelta(hours=1)).strftime('%H:%M'),
+                              fixture_start_date,
+                              fixture_end_date,
                               ground)
             fixtures.append(fixture)
     file.close()
