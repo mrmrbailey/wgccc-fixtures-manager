@@ -1,5 +1,5 @@
 # imports
-from src.reader.playcricket_utils import get_wgc_team_from_division
+from src.reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime
 from src.cricket_team import CricketTeam
 from src.cricket_enums import Ground, FixtureType, Location
 from src.reader.utils import add_fixture, get_data_path
@@ -47,9 +47,10 @@ def parse_play_cricket(list_of_fixtures):
 
         match_date = fixture[0]
         start_time = fixture[5]
+        fixture_start_datetime = get_fixture_start_datetime(match_date, start_time)
 
         if add_fixture(wgc_team):
-            fixtures.append(Fixture(wgc_team, oppo, location, fixture_type, match_date, start_time, ground))
+            fixtures.append(Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, start_time, ground))
     return fixtures
 
 def parse_play_cricket_data():

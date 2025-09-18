@@ -1,7 +1,7 @@
 # imports
 from src.fixture import Fixture
 from src.cricket_enums import Ground, FixtureType, Location
-from src.reader.utils import add_fixture, get_data_path
+from src.reader.utils import get_data_path
 from src.reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
 from src.cricket_team import CricketTeam
 
@@ -38,7 +38,7 @@ def read_ical(filename, ground):
                               oppo,
                               location,
                               fixture_type,
-                              fixture_start_date.strftime('%d/%m/%Y'),
+                              fixture_start_date,
                               (fixture_start_date + timedelta(hours=1)).strftime('%H:%M'),
                               ground)
             fixtures.append(fixture)
