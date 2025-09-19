@@ -22,7 +22,7 @@ def print_fixtures_for_google_calendar_csv_import(list_of_fixtures):
         print(f"{subject},{start_date},{start_time},{end_time},{location},{description}")
 
 def get_google_calendar_summary(fixture):
-    matchup = fixture.get_matchup()
+    matchup = fixture.get_matchup_for_calendar()
     if fixture.fixture_type.value is not FixtureType.SENIOR.value:
         matchup = matchup + get_pitch_length_string(fixture.wgc_team)
     return matchup
