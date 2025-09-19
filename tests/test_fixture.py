@@ -52,7 +52,7 @@ sort_fixture_date_test_data = [
 def test_fixture_less_than(other, expected):
     assert base_fixture.__lt__(other) is expected
 
-test_data_for_to_string = ['WGCCC U17 v oppo Location.HOME 25/04/2025 18:00 21:00 Ground.DP FixtureType.LEAGUE']
+test_data_for_to_string = ['Welwyn Garden City CC - Under 17 v oppo Location.HOME 25/04/2025 18:00 21:00 Ground.DP FixtureType.LEAGUE']
 @pytest.mark.parametrize('fixture_str', test_data_for_to_string)
 def test_fixture_to_string(fixture_str):
     assert base_fixture.__str__() == fixture_str
@@ -77,16 +77,30 @@ test_data_for_get_localized_fixture_start_time = ['18:00']
 def test_get_localized_fixture_start_time(time_string):
     assert base_fixture.get_localized_fixture_start_time_string() == time_string
 
+
 match_up_test_data = [
+    (base_fixture, 'Welwyn Garden City CC - Under 17 v oppo'),
+    (Fixture(base_cricket_team, base_oppo, Ground.AWAY, base_league, base_start_date_time, base_end_date_time,
+             base_ground),
+     'oppo v Welwyn Garden City CC - Under 17'),
+    (Fixture(CricketTeam.NotWGCCC, base_oppo, base_location, base_league, base_start_date_time, base_end_date_time,
+             base_ground),
+     'oppo')
+]
+@pytest.mark.parametrize('fixture,expected', match_up_test_data)
+def test_fixture_match_up(fixture, expected):
+    assert fixture.get_matchup() == expected
+
+match_up_for_calendar_test_data = [
     (base_fixture,'WGCCC U17 v oppo'),
     (Fixture(base_cricket_team, base_oppo, Ground.AWAY, base_league, base_start_date_time, base_end_date_time, base_ground),
      'oppo v WGCCC U17'),
     (Fixture(CricketTeam.NotWGCCC, base_oppo, base_location, base_league, base_start_date_time, base_end_date_time, base_ground),
      'oppo')
 ]
-@pytest.mark.parametrize('fixture,expected', match_up_test_data)
-def test_fixture_match_up(fixture, expected):
-    assert fixture.get_matchup() == expected
+@pytest.mark.parametrize('fixture,expected', match_up_for_calendar_test_data)
+def test_fixture_match_up_for_calendar(fixture, expected):
+    assert fixture.get_matchup_for_calendar() == expected
 
 description_test_data = [
     (base_fixture,

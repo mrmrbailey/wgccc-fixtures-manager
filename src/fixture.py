@@ -33,10 +33,13 @@ class Fixture:
         return self.fixture_start_datetime < other.fixture_start_datetime
 
     def get_matchup(self):
+        return self.get_matchup_string(self.wgc_team.team_fullname)
+
+    def get_matchup_for_calendar(self):
         return self.get_matchup_string(self.wgc_team.value)
 
     def get_description(self):
-        description =  self.get_matchup_string(self.wgc_team.team_fullname)
+        description =  self.get_matchup()
         description += ' on '
         description += self.fixture_start_datetime.strftime('%a %d %b %Y at %H:%M')
         description += "~"
