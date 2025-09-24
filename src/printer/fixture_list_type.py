@@ -1,6 +1,7 @@
 from enum import Enum
 
 class FixtureListType(Enum):
+    ALL = 'All'
     CURRENT_WEEK = 'Current Week'
     NEXT_WEEK = 'Next Week'
     FUTURE = 'Future'
@@ -9,4 +10,5 @@ class FixtureListType(Enum):
     HOME_NEXT_WEEK = 'Home Next Week'
     TEAM = 'Team'
     JUNIOR = 'Junior'
+    COMPARE = 'Compare'
     GOOGLE_CALENDAR_IMPORT_CSV = 'Google Calendar Import CSV'

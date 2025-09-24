@@ -3,7 +3,6 @@ import pytz
 from src.cricket_team import CricketTeam
 from src.cricket_enums import Location, FixtureType
 
-
 class Fixture:
     def __init__(self, wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_datetime, ground):
         self.wgc_team = wgc_team
@@ -69,15 +68,3 @@ class Fixture:
 
     def get_localized_fixture_end_time_string(self):
         return self.fixture_end_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%H:%M')
-
-class InvalidFixture:
-    def __init__(self, fixture, invalid_type, source):
-        self.fixture = fixture
-        self.invalid_type = invalid_type
-        self.source = source
-
-    def __lt__(self, other):
-        return self.fixture.fixture_start_datetime < other.fixture.fixture_start_datetime
-
-    def __str__(self):
-        return f"{self.fixture} {self.source}"

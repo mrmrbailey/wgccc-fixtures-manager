@@ -14,11 +14,11 @@ pip install -r requirements.txt
 
 ## Usage example
 
-To compare data from play-cricket download either the results or fixtures and place in the input directory
-To compare data from google-calendar download the ics and place in the input directions
+Place in the data directory either the fixtures or results csv from play-cricket or any google-calendar ics that contains the fixtures
+
 
 ```sh
-python compare.py
+python cricket.py <MODE> *args
 ```
 
 ## Release History
@@ -29,7 +29,7 @@ python compare.py
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Your Name – Mr.M.R.Bailey@gmail.com
 
 Distributed under the Apache 2.0 license. See ``LICENSE`` for more information.
 

@@ -9,13 +9,9 @@ class Ground(Enum):
     WPF = 'Welwyn Playing Fields'
     AWAY = 'Away'
 
-class InvalidType(Enum):
-    MIS_MATCH = 1
-    NOT_FOUND = 2
-
 class SourceData(Enum):
-    GOOGLE_CALENDAR = 1
-    PLAY_CRICKET = 2
+    GOOGLE_CALENDAR = 0
+    PLAY_CRICKET = 1
 
 class FixtureType(Enum):
     LEAGUE = 'League'
