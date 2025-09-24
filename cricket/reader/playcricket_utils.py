@@ -1,5 +1,5 @@
 # imports
-from src.cricket_team import CricketTeam
+from cricket_team import CricketTeam
 from datetime import datetime, timezone, timedelta
 
 def get_wgc_team_from_division(division):

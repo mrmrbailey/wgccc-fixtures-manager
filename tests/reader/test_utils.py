@@ -1,7 +1,7 @@
 import pytest
 
-from src.cricket_team import CricketTeam
-from src.reader.utils import add_fixture
+from cricket_team import CricketTeam
+from reader.utils import add_fixture
 
 add_fixture_test_data = [
     (CricketTeam.U17s, True),

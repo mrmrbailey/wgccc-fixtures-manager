@@ -1,5 +1,5 @@
-from src.printer.fixture_list_type import FixtureListType
-from src.printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, \
+from printer.fixture_list_type import FixtureListType
+from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, \
     get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home_next_week, get_fixtures_for_team, \
     get_junior_fixtures, get_fixtures_for_google_calendar_csv_import
 

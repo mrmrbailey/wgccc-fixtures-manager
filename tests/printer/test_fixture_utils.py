@@ -1,9 +1,9 @@
 import pytest
 
-from src.printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_google_calendar_csv_import
-from src.fixture import Fixture
-from src.cricket_enums import Location, FixtureType, Ground
-from src.cricket_team import CricketTeam
+from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_google_calendar_csv_import
+from fixture import Fixture
+from cricket_enums import Location, FixtureType, Ground
+from cricket_team import CricketTeam
 from datetime import date, datetime, timezone, timedelta
 
 today = date.today()

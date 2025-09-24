@@ -1,7 +1,7 @@
 import pytz
 
-from src.cricket_team import CricketTeam
-from src.cricket_enums import Location, FixtureType
+from cricket_team import CricketTeam
+from cricket_enums import Location, FixtureType
 
 class Fixture:
     def __init__(self, wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_datetime, ground):

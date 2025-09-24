@@ -1,9 +1,9 @@
 import pytest
 
-from src.comparator.compare_fixture_lists import get_different_fixtures
-from src.fixture import Fixture
-from src.cricket_enums import Location, FixtureType, Ground
-from src.cricket_team import CricketTeam
+from comparator.compare_fixture_lists import get_different_fixtures
+from fixture import Fixture
+from cricket_enums import Location, FixtureType, Ground
+from cricket_team import CricketTeam
 from datetime import date, datetime, timezone, timedelta
 
 today = date.today()

@@ -1,7 +1,7 @@
 from datetime import date, timedelta, datetime, timezone
-from src.cricket_team import CricketTeam
-from src.cricket_enums import Ground, FixtureType
-from src.printer.googlecalendar_utils import print_fixtures_for_google_calendar_csv_import
+from cricket_team import CricketTeam
+from cricket_enums import Ground, FixtureType
+from printer.googlecalendar_utils import print_fixtures_for_google_calendar_csv_import
 
 def _get_fixtures_for_week(list_of_fixtures, week_number):
     fixtures_for_week = []
