@@ -3,7 +3,7 @@ from datetime import datetime, timezone, date
 
 import pytest
 
-from src.reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, \
+from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, \
     clean_fixture_date, is_fixture_this_year, get_fixture_type_from_summary
 
 summary_test_data = [

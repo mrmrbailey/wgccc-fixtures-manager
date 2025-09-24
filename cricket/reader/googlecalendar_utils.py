@@ -1,4 +1,4 @@
-from cricket_enuns import FixtureType
+from cricket_enums import FixtureType
 from datetime import datetime, timezone, date
 
 def clean_summary(summary):
