@@ -1,4 +1,4 @@
-from src.cricket_enums import FixtureType
+from cricket_enums import FixtureType
 
 def get_different_fixtures(source_list, target_list):
     different_fixtures = get_differences(source_list, target_list)

@@ -1,5 +1,5 @@
 import pytest
-from src.cricket_team import CricketTeam
+from cricket_team import CricketTeam
 
 cricket_team_get_value_test_data = [
     ('WGCCC U9', CricketTeam.U9s),

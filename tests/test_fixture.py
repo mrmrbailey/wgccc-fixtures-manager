@@ -2,9 +2,9 @@ from datetime import datetime, timezone, timedelta
 
 import pytest
 
-from src.fixture import Fixture
-from src.cricket_enums import Location, FixtureType, Ground
-from src.cricket_team import CricketTeam
+from fixture import Fixture
+from cricket_enums import Location, FixtureType, Ground
+from cricket_team import CricketTeam
 
 base_cricket_team = CricketTeam.U17s
 base_oppo = 'oppo'

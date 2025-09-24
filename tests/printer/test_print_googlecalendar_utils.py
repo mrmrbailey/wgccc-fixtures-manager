@@ -1,9 +1,9 @@
 import pytest
 
-from src.cricket_enums import Location, FixtureType, Ground
-from src.cricket_team import CricketTeam
-from src.fixture import Fixture
-from src.printer.googlecalendar_utils import get_google_calendar_summary
+from cricket_enums import Location, FixtureType, Ground
+from cricket_team import CricketTeam
+from fixture import Fixture
+from printer.googlecalendar_utils import get_google_calendar_summary
 
 from datetime import date, datetime, timezone, timedelta
 

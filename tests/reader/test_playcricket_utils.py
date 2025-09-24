@@ -1,7 +1,7 @@
 import pytest
 
-from src.reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
-from src.cricket_team import CricketTeam
+from reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
+from cricket_team import CricketTeam
 
 from datetime import datetime, timezone
 

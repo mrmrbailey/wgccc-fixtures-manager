@@ -1,9 +1,9 @@
 # imports
-from src.fixture import Fixture
-from src.cricket_enums import Ground, Location
-from src.reader.utils import get_data_path
-from src.reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
-from src.cricket_team import CricketTeam
+from fixture import Fixture
+from cricket_enums import Ground, Location
+from reader.utils import get_data_path
+from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
+from cricket_team import CricketTeam
 
 from icalendar import Calendar
 from os import listdir

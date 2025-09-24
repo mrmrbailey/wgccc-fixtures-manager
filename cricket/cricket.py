@@ -1,11 +1,11 @@
-import src.cricket_enums as ce
-from src.comparator.compare_fixture_lists import get_different_fixtures
-from src.cricket_team import CricketTeam
+import cricket_enums as ce
+from comparator.compare_fixture_lists import get_different_fixtures
+from cricket_team import CricketTeam
 
-from src.printer.fixtures import print_fixtures_for_type
-from src.printer.fixture_list_type import FixtureListType
-from src.reader.playcricket import parse_play_cricket_data
-from src.reader.googlecalendar import parse_google_calendar_data
+from printer.fixtures import print_fixtures_for_type
+from printer.fixture_list_type import FixtureListType
+from reader.playcricket import parse_play_cricket_data
+from reader.googlecalendar import parse_google_calendar_data
 
 def main(source_data: ce.SourceData, fixture_list_type: FixtureListType, *args):
 

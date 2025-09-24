@@ -1,9 +1,9 @@
 # imports
-from src.reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
-from src.cricket_team import CricketTeam
-from src.cricket_enums import Ground, FixtureType, Location
-from src.reader.utils import add_fixture, get_data_path
-from src.fixture import Fixture
+from reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
+from cricket_team import CricketTeam
+from cricket_enums import Ground, FixtureType, Location
+from reader.utils import add_fixture, get_data_path
+from fixture import Fixture
 
 from os import listdir
 from csv import reader

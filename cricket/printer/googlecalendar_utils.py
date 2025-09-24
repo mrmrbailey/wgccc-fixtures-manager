@@ -1,6 +1,6 @@
 from enum import Enum
-from src.cricket_team import CricketTeam
-from src.cricket_enums import FixtureType
+from cricket_team import CricketTeam
+from cricket_enums import FixtureType
 
 class PitchLength(Enum):
     Y15 = ' (15 yards)'

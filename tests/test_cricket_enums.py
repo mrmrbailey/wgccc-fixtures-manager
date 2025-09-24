@@ -1,5 +1,5 @@
 import pytest
-from src.cricket_enums import FixtureType
+from cricket_enums import FixtureType
 
 fixture_type_get_value_test_data = [
     ('Cup', FixtureType.CUP),
