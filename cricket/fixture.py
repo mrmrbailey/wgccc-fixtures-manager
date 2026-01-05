@@ -1,4 +1,4 @@
-import pytz
+from zoneinfo import ZoneInfo
 
 from cricket_team import CricketTeam
 from cricket_enums import Location, FixtureType
@@ -58,13 +58,13 @@ class Fixture:
         return matchup
 
     def get_localized_fixture_start_datetime_string(self):
-        return self.fixture_start_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%d/%m/%Y %H:%M')
+        return self.fixture_start_datetime.astimezone(ZoneInfo('Europe/London')).strftime('%d/%m/%Y %H:%M')
 
     def get_localized_fixture_start_date_string(self):
-        return self.fixture_start_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%d/%m/%Y')
+        return self.fixture_start_datetime.astimezone(ZoneInfo('Europe/London')).strftime('%d/%m/%Y')
 
     def get_localized_fixture_start_time_string(self):
-        return self.fixture_start_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%H:%M')
+        return self.fixture_start_datetime.astimezone(ZoneInfo('Europe/London')).strftime('%H:%M')
 
     def get_localized_fixture_end_time_string(self):
-        return self.fixture_end_datetime.astimezone(pytz.timezone('Europe/London')).strftime('%H:%M')
+        return self.fixture_end_datetime.astimezone(ZoneInfo('Europe/London')).strftime('%H:%M')
