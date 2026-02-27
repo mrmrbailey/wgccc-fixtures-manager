@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head xmlns="http://www.w3.org/1999/html">
+    <meta charset="UTF-8">
+    <title>Temperature Converter App</title>
+</head>
+<html lang="en">
+  <body>
+    <main>
+      <h1>WGCCC Cricket Fixtures</h1>
+
+      <form method="post" action="{{url_for('cricket_fixtures')}}">
+          <label for="source_data">Source Data: </label>
+          <input type="text" id="source_data" name="source_data">
+
+          <label for="fixture_list_type">Fixture List Type: </label>
+          <input type="text" id="fixture_list_type" name="fixture_list_type">
+
+          <label for="args_list">Extra Info: </label>
+          <input type="text" id="args_list" name="args_list">
+
+          <input type="submit" value="CricketFixture">
+      </form>
+    </main>
+  </body>
+</html>
