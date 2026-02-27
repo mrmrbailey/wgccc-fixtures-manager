@@ -1,14 +1,14 @@
 from enum import Enum
 
 class CricketTeam(Enum):
-    GIRLS = ('WGCCC Girls U9', 'Welwyn Garden City CC - Under 9', 'HJCL U9 Girls Group 2')
-    U9s = ('WGCCC U9', 'Welwyn Garden City CC - Under 9','HJCL U9 Group 6')
-    U10s = ('WGCCC U10B', 'Welwyn Garden City CC - Under 10 B', 'HJCL U10B Group 5')
-    U11s = ('WGCCC U11', 'Welwyn Garden City CC - Under 11', 'HJCL U11A Group 4')
-    U12s = ('WGCCC U12', 'Welwyn Garden City CC - Under 12', 'HJCL U12A Group 5')
-    U13s = ('WGCCC U13', 'Welwyn Garden City CC - Under 13', 'HJCL U13A Group 4')
-    U14s = ('WGCCC U14B', 'Welwyn Garden City CC - Under 14 B', 'HJCL U14B Group 4')
-    U15s = ('WGCCC U15', 'Welwyn Garden City CC - Under 15', 'HJCL U15A Group 3')
+    GIRLS = ('WGCCC Girls U9', 'Welwyn Garden City CC - Under 9', 'U9 Girls Group 2')
+    U9s = ('WGCCC U9', 'Welwyn Garden City CC - Under 9','U9 Group 6')
+    U10s = ('WGCCC U10B', 'Welwyn Garden City CC - Under 10', 'U10B Group 2')
+    U11s = ('WGCCC U11', 'Welwyn Garden City CC - Under 11', 'U11A Group 4')
+    U12s = ('WGCCC U12', 'Welwyn Garden City CC - Under 12', 'U12A Group 5')
+    U13s = ('WGCCC U13', 'Welwyn Garden City CC - Under 13', 'U13A Group 3')
+    U14s = ('WGCCC U14', 'Welwyn Garden City CC - Under 14', 'U14A Group 1')
+    U15s = ('WGCCC U15', 'Welwyn Garden City CC - Under 15', 'U15A Group 3')
     U17s = ('WGCCC U17', 'Welwyn Garden City CC - Under 17', 'HJCL U17 Group 3')
     U11summer  = ('WGCCC U11 Summer', 'Welwyn Garden City CC - Under 11 Summer', 'U11 Summer League - East Group')
     U13summer = ('WGCCC U13 Summer', 'Welwyn Garden City CC - Under 13 Summer', 'U13 Summer League - North Group')

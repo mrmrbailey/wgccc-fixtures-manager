@@ -4,6 +4,7 @@
 #my data files
 data/*.csv
 data/*.ics
+data/past*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
