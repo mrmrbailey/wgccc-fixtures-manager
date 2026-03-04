@@ -7,8 +7,10 @@ from printer.fixture_list_type import FixtureListType
 from reader.playcricket import parse_play_cricket_data
 from reader.googlecalendar import parse_google_calendar_data
 
-def main(source_data: ce.SourceData, fixture_list_type: FixtureListType, *args):
+def cricket_str(source_data_str: int, fixture_list_type_str: str, *args):
+    cricket(ce.SourceData(source_data_str), FixtureListType(fixture_list_type_str), *args)
 
+def cricket(source_data: ce.SourceData, fixture_list_type: FixtureListType, *args):
     list_of_fixtures = []
     match source_data:
         case ce.SourceData.PLAY_CRICKET:
@@ -22,4 +24,4 @@ def main(source_data: ce.SourceData, fixture_list_type: FixtureListType, *args):
 
     print_fixtures_for_type(list_of_fixtures, fixture_list_type, *args)
 
-main(ce.SourceData.PLAY_CRICKET, FixtureListType.TEAM, CricketTeam.U9s)
+cricket(ce.SourceData.GOOGLE_CALENDAR, FixtureListType.ALL)

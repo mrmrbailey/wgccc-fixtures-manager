@@ -74,5 +74,5 @@ def clean_fixture_date(calendar_date):
 
 
 def is_fixture_this_year(fixture_date):
-    start_date = datetime(2025, 4, 1, tzinfo=timezone.utc)
+    start_date = datetime(2026, 4, 1, tzinfo=timezone.utc)
     return fixture_date > start_date
