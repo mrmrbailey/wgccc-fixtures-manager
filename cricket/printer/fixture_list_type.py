@@ -8,6 +8,7 @@ class FixtureListType(Enum):
     FIXTURE_TYPE = 'Fixture Type'
     GROUND ='Ground'
     HOME_NEXT_WEEK = 'Home Next Week'
+    HOME_BOOKINGS = 'Home Bookings'
     TEAM = 'Team'
     JUNIOR = 'Junior'
     COMPARE = 'Compare'

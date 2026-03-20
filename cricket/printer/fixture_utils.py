@@ -42,9 +42,12 @@ def get_fixtures_for_ground(list_of_fixtures, *args):
             fixtures_for_ground.append(fixture)
     return fixtures_for_ground
 
+def get_fixtures_for_home(list_of_fixtures):
+    return get_fixtures_for_ground(list_of_fixtures, Ground.DP) + get_fixtures_for_ground(list_of_fixtures, Ground.WPF)
+
 def get_fixtures_for_home_next_week(list_of_fixtures):
     next_weeks_fixtures = get_next_weeks_fixtures(list_of_fixtures)
-    return get_fixtures_for_ground(next_weeks_fixtures, Ground.DP) + get_fixtures_for_ground(next_weeks_fixtures, Ground.WPF)
+    return get_fixtures_for_home(next_weeks_fixtures)
 
 def get_fixtures_for_team(list_of_fixtures, *args):
     cricket_team = CricketTeam(*args)

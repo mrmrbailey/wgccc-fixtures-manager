@@ -1,6 +1,6 @@
 from printer.fixture_list_type import FixtureListType
 from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, \
-    get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home_next_week, get_fixtures_for_team, \
+    get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home,get_fixtures_for_home_next_week, get_fixtures_for_team, \
     get_junior_fixtures, get_fixtures_for_google_calendar_csv_import
 
 def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType, *args):
@@ -20,6 +20,8 @@ def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType
             fixtures_to_be_printed = get_fixtures_for_ground(list_of_fixtures, *args)
         case FixtureListType.HOME_NEXT_WEEK:
             fixtures_to_be_printed = get_fixtures_for_home_next_week(list_of_fixtures)
+        case FixtureListType.HOME_BOOKINGS:
+            fixtures_to_be_printed = get_fixtures_for_home(list_of_fixtures)
         case FixtureListType.TEAM:
             fixtures_to_be_printed = get_fixtures_for_team(list_of_fixtures, *args)
         case FixtureListType.JUNIOR:
