@@ -12,4 +12,5 @@ class FixtureListType(Enum):
     TEAM = 'Team'
     JUNIOR = 'Junior'
     COMPARE = 'Compare'
+    SAME_DAY = 'Same Day'
     GOOGLE_CALENDAR_IMPORT_CSV = 'Google Calendar Import CSV'
