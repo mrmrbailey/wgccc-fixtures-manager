@@ -38,7 +38,7 @@ get_google_calendar_summary_test_data = [
      'WGCCC U13 v oppo (19 yards)'),
     (Fixture(CricketTeam.U14s, base_oppo, Location.HOME, base_fixture_type, base_start_date_time, base_end_date_time,
              base_ground),
-     'WGCCC U14B v oppo (22 yards)'),
+     'WGCCC U14 v oppo (22 yards)'),
     (Fixture(CricketTeam.U15s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
              base_ground),
      'WGCCC U15 v oppo (22 yards)'),

@@ -56,11 +56,6 @@ description_test_data = [
     #Google Meet Tests
     ('-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-JOIN WITH GOOGLE MEET: HTTPS://MEET.GOOGLE.COM/PYA-DKJT-QQQLEARN MORE ABOUT MEET AT: HTTPS://SUPPORT.GOOGLE.COM/A/USERS/ANSWER/9282720PLEASE DO NOT EDIT THIS SECTION.-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-',
      FixtureType.SENIOR),
-    #2025 tests
-    ('Hertford CC - Under 9 v Welwyn Garden City CC - Under 9 on Sun 31 Aug 2025 at 18:00:League:HJCL U9 Girls Group 2',
-     FixtureType.LEAGUE),
-    ('Friendly:Friendly', FixtureType.FRIENDLY),
-    ('Cup:Cup', FixtureType.CUP),
     (None, None),
 ]
 
@@ -79,13 +74,13 @@ def test_get_fixture_type_from_summary(summary, expected):
 
 
 date_test_data = [
-    (datetime(2025, 4, 2, tzinfo=timezone.utc),
+    (datetime(2026, 4, 2, tzinfo=timezone.utc),
      True),
-    (datetime(2025, 3, 1, tzinfo=timezone.utc),
+    (datetime(2026, 3, 1, tzinfo=timezone.utc),
      False),
-    (date(2025, 4, 2),
+    (date(2026, 4, 2),
      True),
-    (date(2025, 3, 1),
+    (date(2026, 3, 1),
      False)
 ]
 

@@ -19,30 +19,16 @@ def remove_summary_suffix(summary):
     return summary
 
 def get_teams(summary):
-    summary = rename_teams(summary)
     summary = summary.replace(' vs ', '~')
     summary = summary.replace(' v ', '~')
     if summary.count('~') != 1:
         summary = 'Not a WGCCC Team' + '~' + summary
     return summary.split('~')
 
-def rename_teams(summary):
-    summary = summary.replace('WGCCC 1st XI', 'Saturday 1st XI')
-    summary = summary.replace('WGCCC 2nd XI', 'Saturday 2nd XI')
-    summary = summary.replace('WGCCC 3rd XI', 'Saturday 3rd XI')
-    summary = summary.replace('WGCCC U11A', 'WGCCC U11')
-    summary = summary.replace('U13-U15 match', 'WGCCC Juniors')
-    summary = summary.replace('WGCCC Juniors intersquad', 'WGCCC Juniors')
-    summary = summary.replace('WGCCC U11 Summer vs Cokenach CC - Under 11', 'Cokenach CC - Under 11 vs WGCCC U11 Summer')
-    summary = summary.replace('WGCCC U15 Summer vs Knebworth Park CC - Under 15', 'Knebworth Park CC - Under 15 vs WGCCC U15 Summer')
-    summary = summary.replace('2nd XI vs London Colney 2nd XI', 'Saturday 2nd XI vs London Colney 2nd XI')
-    return summary
-
 def get_fixture_type_from_description(description):
     if description is None:
         return None
     description = remove_preformatted_tag(description)
-    description = change2025description(description)
     match description.count('~'):
         case 0:
             return FixtureType.SENIOR
@@ -54,12 +40,6 @@ def get_fixture_type_from_description(description):
 
 def remove_preformatted_tag(html_snippet):
     return html_snippet.removeprefix('<br>').removeprefix('<pre>').removesuffix('</pre>')
-
-def change2025description(description):
-    description = description.replace('League:', 'xxx~League~')
-    description = description.replace('Cup:', 'xxx~Cup~')
-    description = description.replace('Friendly:', 'xxx~Friendly~')
-    return description
 
 def get_fixture_type_from_summary(summary):
     if ' yards)' in summary:
