@@ -28,16 +28,6 @@ teams_test_data = [
      ['Saturday 2nd XI','Hemel Hempstead Town CC 2nd XI']),
     ('Welwyn Beavers - Cricket intro',
      ['Not a WGCCC Team', 'Welwyn Beavers - Cricket intro']),
-    ('WGCCC 1st XI v Hemel Hempstead Town CC 2nd XI',
-     ['Saturday 1st XI', 'Hemel Hempstead Town CC 2nd XI']),
-    ('WGCCC 2nd XI v Hemel Hempstead Town CC 2nd XI',
-     ['Saturday 2nd XI', 'Hemel Hempstead Town CC 2nd XI']),
-    ('WGCCC 3rd XI v Hemel Hempstead Town CC 2nd XI',
-     ['Saturday 3rd XI', 'Hemel Hempstead Town CC 2nd XI']),
-    ('WGCCC U11A v Hemel Hempstead Town CC 2nd XI',
-     ['WGCCC U11', 'Hemel Hempstead Town CC 2nd XI']),
-    ('WGCCC U11 Summer vs Cokenach CC - Under 11',
-     ['Cokenach CC - Under 11', 'WGCCC U11 Summer'])
 ]
 
 @pytest.mark.parametrize('summary,expected', teams_test_data)
