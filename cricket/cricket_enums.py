@@ -1,10 +1,11 @@
-from enum import Enum
+from enum import Enum, StrEnum
 
-class Location(Enum):
-    HOME = 'home'
-    AWAY = 'away'
 
-class Ground(Enum):
+class Location(StrEnum):
+    HOME = 'Home'
+    AWAY = 'Away'
+
+class Ground(StrEnum):
     DP = 'Digswell Park'
     WPF = 'Welwyn Playing Fields'
     AWAY = 'Away'
@@ -13,7 +14,7 @@ class SourceData(Enum):
     GOOGLE_CALENDAR = 0
     PLAY_CRICKET = 1
 
-class FixtureType(Enum):
+class FixtureType(StrEnum):
     LEAGUE = 'League'
     FRIENDLY = 'Friendly'
     CUP = 'Cup'

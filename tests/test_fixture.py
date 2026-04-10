@@ -54,12 +54,12 @@ sort_fixture_date_test_data = [
 def test_fixture_less_than(other, expected):
     assert base_fixture.__lt__(other) is expected
 
-test_data_for_to_string = ['Welwyn Garden City CC - Under 17 v oppo Location.HOME 25/04/2025 18:00 21:00 Ground.DP FixtureType.LEAGUE']
+test_data_for_to_string = ['Welwyn Garden City CC - Under 17 v oppo Home 25/04/2025 18:00 21:00 Digswell Park League']
 @pytest.mark.parametrize('fixture_str', test_data_for_to_string)
 def test_fixture_to_string(fixture_str):
     assert base_fixture.__str__() == fixture_str
 
-test_data_for_report_string = ['wgc_team: CricketTeam.U17s, oppo: oppo, location: Location.HOME, type FixtureType.LEAGUE start_datetime: 2025-04-25 17:00:00+00:00, time: 2025-04-25 20:00:00+00:00, ground: Ground.DP']
+test_data_for_report_string = ['wgc_team: CricketTeam.U17s, oppo: oppo, location: Home, type League start_datetime: 2025-04-25 17:00:00+00:00, time: 2025-04-25 20:00:00+00:00, ground: Digswell Park']
 @pytest.mark.parametrize('fixture_repr', test_data_for_report_string)
 def test_fixture_strings(fixture_repr):
     assert base_fixture.__repr__() == fixture_repr

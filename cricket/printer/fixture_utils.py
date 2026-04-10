@@ -67,16 +67,28 @@ def get_fixtures_for_same_day(list_of_fixtures):
     fixture_for_same_day = []
     future_fixtures = get_future_fixtures(list_of_fixtures)
     future_fixtures.sort(key=lambda x: x.fixture_start_datetime)
-    last_fixture = None
-    for fixture in future_fixtures:
-        if last_fixture is None:
-            last_fixture = fixture
-        elif fixture.fixture_start_datetime < last_fixture.fixture_end_datetime:
-                if last_fixture not in fixture_for_same_day:
-                    fixture_for_same_day.append(last_fixture)
-                fixture_for_same_day.append(fixture)
-        last_fixture = fixture
+    for idx in range(1, len(future_fixtures)):
+        fixture = future_fixtures[idx]
+        previous_fixture = future_fixtures[idx-1]
+        if fixture.fixture_start_datetime < previous_fixture.fixture_end_datetime:
+            if previous_fixture not in fixture_for_same_day:
+                fixture_for_same_day.append(previous_fixture)
+            fixture_for_same_day.append(fixture)
     return fixture_for_same_day
+
+def get_fixtures_for_clash(list_of_fixtures):
+    fixtures_for_clash = []
+    home_fixtures = get_fixtures_for_home(list_of_fixtures)
+    same_day_fixtures = get_fixtures_for_same_day(home_fixtures)
+    same_day_fixtures.sort(key=lambda x: (x.fixture_start_datetime, x.ground))
+    for idx in range(1, len(same_day_fixtures)):
+        fixture = same_day_fixtures[idx]
+        previous_fixture = same_day_fixtures[idx-1]
+        if fixture.fixture_start_datetime < previous_fixture.fixture_end_datetime and fixture.ground == previous_fixture.ground:
+            if previous_fixture not in fixtures_for_clash:
+                fixtures_for_clash.append(previous_fixture)
+            fixtures_for_clash.append(fixture)
+    return fixtures_for_clash
 
 def get_fixtures_for_google_calendar_csv_import(list_of_fixtures, *args):
     junior_fixtures = get_junior_fixtures(list_of_fixtures)

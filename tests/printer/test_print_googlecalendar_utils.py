@@ -5,7 +5,7 @@ from cricket_team import CricketTeam
 from fixture import Fixture
 from printer.googlecalendar_utils import get_google_calendar_summary
 
-from datetime import date, datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta
 
 base_oppo = 'oppo'
 base_location = Location.HOME

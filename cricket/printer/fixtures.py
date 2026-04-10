@@ -1,7 +1,7 @@
 from printer.fixture_list_type import FixtureListType
 from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, \
     get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home,get_fixtures_for_home_next_week, get_fixtures_for_team, \
-    get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_google_calendar_csv_import
+    get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
 from printer.googlecalendar_utils import print_fixtures_for_google_calendar_csv_import
 
 
@@ -30,6 +30,8 @@ def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType
             fixtures_to_be_printed = get_junior_fixtures(list_of_fixtures)
         case FixtureListType.SAME_DAY:
             fixtures_to_be_printed = get_fixtures_for_same_day(list_of_fixtures)
+        case FixtureListType.CLASH:
+            fixtures_to_be_printed = get_fixtures_for_clash(list_of_fixtures)
         case FixtureListType.GOOGLE_CALENDAR_IMPORT_CSV:
             fixtures_to_be_printed = get_fixtures_for_google_calendar_csv_import(list_of_fixtures, *args)
 
@@ -55,9 +57,14 @@ def print_fixture(fixture):
     print(fixture)
 
 def print_fixtures_on_same_day(list_of_fixtures):
-    current_fixture = None
-    for fixture in list_of_fixtures:
-        if current_fixture is None or current_fixture.fixture_start_datetime != fixture.fixture_start_datetime:
+
+    for idx in range(1, len(list_of_fixtures)):
+        fixture = list_of_fixtures[idx]
+        last_fixture = list_of_fixtures[idx-1]
+        if idx == 1:
+            print(f"{last_fixture.fixture_start_datetime.strftime('%Y-%m-%d')}")
+            print(f"{last_fixture.wgc_team} {last_fixture.ground}- {last_fixture}")
+
+        if fixture.fixture_start_datetime != last_fixture.fixture_start_datetime:
             print(f"{fixture.fixture_start_datetime.strftime('%Y-%m-%d')}")
-        print(f"{fixture.wgc_team} - {fixture}")
-        current_fixture = fixture
+        print(f"{fixture.wgc_team} {fixture.ground}- {fixture}")
