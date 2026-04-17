@@ -1,8 +1,9 @@
 # imports
-from reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
+from reader.playcricket_utils import add_fixture
+from reader.csv_utils import get_fixture_start_datetime, get_fixture_end_datetime
 from cricket_team import CricketTeam
 from cricket_enums import Ground, FixtureType, Location
-from reader.utils import add_fixture, get_data_path
+from reader.utils import get_play_cricket_path
 from fixture import Fixture
 
 from os import listdir
@@ -35,7 +36,7 @@ def parse_play_cricket(list_of_fixtures):
         match fixture_type:
             case FixtureType.LEAGUE:
                 division_string = fixture[4]
-                wgc_team = get_wgc_team_from_division(division_string)
+                wgc_team = CricketTeam.get_from_division(division_string)
             case FixtureType.CUP | FixtureType.FRIENDLY:
                 if ground == Ground.AWAY:
                     wgc_team_full_name = away_team
@@ -55,9 +56,9 @@ def parse_play_cricket(list_of_fixtures):
     return fixtures
 
 def parse_play_cricket_data():
-    for filename in listdir(get_data_path()):
+    for filename in listdir(get_play_cricket_path()):
         if filename.endswith('.csv'):
-            with open(get_data_path() + filename, 'r') as read_obj:
+            with open(get_play_cricket_path() + filename, 'r') as read_obj:
                 csv_reader = reader(read_obj)
                 list_of_fixtures = list(csv_reader)
                 return parse_play_cricket(list_of_fixtures)

@@ -1,6 +1,5 @@
 from enum import Enum, StrEnum
 
-
 class Location(StrEnum):
     HOME = 'Home'
     AWAY = 'Away'
@@ -9,6 +8,14 @@ class Ground(StrEnum):
     DP = 'Digswell Park'
     WPF = 'Welwyn Playing Fields'
     AWAY = 'Away'
+
+    @classmethod
+    def get_value(cls, value):
+        for k, v in cls.__members__.items():
+            if v.value == value:
+                return v
+        else:
+            return Ground.AWAY
 
 class SourceData(Enum):
     GOOGLE_CALENDAR = 0

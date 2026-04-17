@@ -4,11 +4,10 @@ from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtur
     get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
 from printer.googlecalendar_utils import print_fixtures_for_google_calendar_csv_import
 
-
 def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType, *args):
     fixtures_to_be_printed = []
     match fixture_list_type:
-        case FixtureListType.ALL | FixtureListType.COMPARE:
+        case FixtureListType.ALL | FixtureListType.COMPARE | FixtureListType.COMPARE_SPOND:
             fixtures_to_be_printed = list_of_fixtures
         case FixtureListType.CURRENT_WEEK:
             fixtures_to_be_printed = get_this_weeks_fixtures(list_of_fixtures)
@@ -43,7 +42,6 @@ def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType
             print_fixtures_for_google_calendar_csv_import(fixtures_to_be_printed)
         case _:
             print_fixtures(fixtures_to_be_printed)
-
 
 def print_fixture_list_type_header(fixture_list_type: FixtureListType):
     print('======== ' + fixture_list_type.value + ' Fixtures =========')

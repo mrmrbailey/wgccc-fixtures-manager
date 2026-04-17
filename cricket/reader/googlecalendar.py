@@ -1,7 +1,7 @@
 # imports
 from fixture import Fixture
 from cricket_enums import Ground, Location
-from reader.utils import get_data_path
+from reader.utils import get_google_calendar_path
 from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
 from cricket_team import CricketTeam
 
@@ -46,7 +46,7 @@ def read_ical(filename, ground):
 
 def parse_google_calendar_data():
 
-    for filename in listdir(get_data_path()):
+    for filename in listdir(get_google_calendar_path()):
         if filename.endswith('.ics'):
             if filename.startswith(Ground.DP.value):
                 ground = Ground.DP
@@ -54,6 +54,6 @@ def parse_google_calendar_data():
                 ground = Ground.WPF
             else:
                 ground = Ground.AWAY
-            read_ical(get_data_path() + filename, ground)
+            read_ical(get_google_calendar_path() + filename, ground)
 
     return fixtures

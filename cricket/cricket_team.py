@@ -1,39 +1,40 @@
 from enum import Enum
 
 class CricketTeam(Enum):
-    GIRLS = ('WGCCC Girls U9', 'Welwyn Garden City CC - Under 9', 'U9 Girls Group 2')
-    U9s = ('WGCCC U9', 'Welwyn Garden City CC - Under 9','U9 Group 6')
-    U10s = ('WGCCC U10B', 'Welwyn Garden City CC - Under 10', 'U10B Group 2')
-    U11s = ('WGCCC U11', 'Welwyn Garden City CC - Under 11', 'U11A Group 4')
-    U12s = ('WGCCC U12', 'Welwyn Garden City CC - Under 12', 'U12A Group 5')
-    U13s = ('WGCCC U13', 'Welwyn Garden City CC - Under 13', 'U13A Group 3')
-    U14s = ('WGCCC U14', 'Welwyn Garden City CC - Under 14', 'U14A Group 1')
-    U15s = ('WGCCC U15', 'Welwyn Garden City CC - Under 15', 'U15A Group 3')
-    U17s = ('WGCCC U17', 'Welwyn Garden City CC - Under 17', 'HJCL U17 Group 3')
-    U11summer  = ('WGCCC U11 Summer', 'Welwyn Garden City CC - Under 11 Summer', 'U11 Summer League - East Group')
-    U13summer = ('WGCCC U13 Summer', 'Welwyn Garden City CC - Under 13 Summer', 'U13 Summer League - North Group')
-    U15summer = ('WGCCC U15 Summer', 'Welwyn Garden City CC - Under 15 Summer', 'U15 Summer League - North Group')
-    FirstXI = ('Saturday 1st XI', 'Welwyn Garden City Cricket Club Saturday 1st XI', 'HPCL Premiership Division')
-    SecondXI = ('Saturday 2nd XI', 'Welwyn Garden City Cricket Club Saturday 2nd XI', 'HPCL Division 3 A')
-    ThirdXI = ('Saturday 3rd XI', 'Welwyn Garden City Cricket Club Saturday 3rd XI', 'HPCL Division 6 A')
-    FourthXI = ('Saturday 4th XI', 'Welwyn Garden City Cricket Club Saturday 4th XI', 'HPCL Division 11 East')
-    FifthXI = ('Saturday 5th XI', 'Welwyn Garden City Cricket Club Saturday 5th XI', 'HPCL Division 14 East')
-    SundayXI = ('Sunday XI', 'Welwyn Garden City Cricket Club Sunday XI', 'ECB Friendly')
-    WGCCCJuniors = ('WGCCC Juniors', 'A WGCCC Junior Team', '')
-    CricketWeek = ('Cricket Week XI', 'Welwyn Garden City Cricket Week Team', 'Cricket Week')
-    CricketWeekInter = ('Beynon XI', 'Welwyn Garden City Cricket Week Team', 'Cricket Week')
-    WGCCC = ('WGCCC', 'A WGCCC Team', '')
-    Hertfordshire = ('Hertfordshire', 'Hertfordshire', 'NCAA')
-    HertsO50s = ('Hertfordshire Over-50s', 'Herts Over 50s', 'Over 50 League')
-    HertsO60s = ('Hertfordshire Over-60s', 'Herts Over 60s', 'Over 60 League')
-    NotWGCCC = ('Not a WGCCC Team', 'Not a WGCCC Team', '')
-    UNKNOWN = ('Unknown','Unknown','Unknown')
+    GIRLS = ('WGCCC Girls U9', 'Welwyn Garden City CC - Under 9', 'U9 Girls Group 2', 'Ian Watkins')
+    U9s = ('WGCCC U9', 'Welwyn Garden City CC - Under 9','U9 Group 6', 'Bharat Ranavaya')
+    U10s = ('WGCCC U10B', 'Welwyn Garden City CC - Under 10', 'U10B Group 2', 'Jack Bailey')
+    U11s = ('WGCCC U11', 'Welwyn Garden City CC - Under 11', 'U11A Group 4', 'Jay Bhatt')
+    U12s = ('WGCCC U12', 'Welwyn Garden City CC - Under 12', 'U12A Group 5', 'Manish Patel')
+    U13s = ('WGCCC U13', 'Welwyn Garden City CC - Under 13', 'U13A Group 3' , 'Cheryl Worman')
+    U14s = ('WGCCC U14', 'Welwyn Garden City CC - Under 14', 'U14A Group 1', 'Gareth Munday')
+    U15s = ('WGCCC U15', 'Welwyn Garden City CC - Under 15', 'U15A Group 3', 'Robert Nicholls')
+    U17s = ('WGCCC U17', 'Welwyn Garden City CC - Under 17', 'HJCL U17 Group 3', 'Mark Bailey')
+    U11summer  = ('WGCCC U11 Summer', 'Welwyn Garden City CC - Under 11 Summer', 'U11 Summer League - East Group', 'U11 Summer Host')
+    U13summer = ('WGCCC U13 Summer', 'Welwyn Garden City CC - Under 13 Summer', 'U13 Summer League - North Group', 'U13 Summer Host')
+    U15summer = ('WGCCC U15 Summer', 'Welwyn Garden City CC - Under 15 Summer', 'U15 Summer League - North Group', 'U15 Summer Host')
+    FirstXI = ('Saturday 1st XI', 'Welwyn Garden City Cricket Club Saturday 1st XI', 'HPCL Premiership Division', 'First Team Capt')
+    SecondXI = ('Saturday 2nd XI', 'Welwyn Garden City Cricket Club Saturday 2nd XI', 'HPCL Division 3 A', 'Second Team Capt')
+    ThirdXI = ('Saturday 3rd XI', 'Welwyn Garden City Cricket Club Saturday 3rd XI', 'HPCL Division 6 A', 'Third Team Capt')
+    FourthXI = ('Saturday 4th XI', 'Welwyn Garden City Cricket Club Saturday 4th XI', 'HPCL Division 11 East', 'Fourth Team Capt')
+    FifthXI = ('Saturday 5th XI', 'Welwyn Garden City Cricket Club Saturday 5th XI', 'HPCL Division 14 East', 'Fifth Team Capt')
+    SundayXI = ('Sunday XI', 'Welwyn Garden City Cricket Club Sunday XI', 'ECB Friendly', 'Sunday Team Capt')
+    WGCCCJuniors = ('WGCCC Juniors', 'A WGCCC Junior Team', '','')
+    CricketWeek = ('Cricket Week XI', 'Welwyn Garden City Cricket Week Team', 'Cricket Week', 'Cricket Week Host')
+    CricketWeekInter = ('Beynon XI', 'Welwyn Garden City Cricket Week Team', 'Cricket Week', 'Cricket Week Host')
+    WGCCC = ('WGCCC', 'A WGCCC Team', '', '')
+    Hertfordshire = ('Hertfordshire', 'Hertfordshire', 'NCAA', 'Herts')
+    HertsO50s = ('Hertfordshire Over-50s', 'Herts Over 50s', 'Over 50 League', 'Herts')
+    HertsO60s = ('Hertfordshire Over-60s', 'Herts Over 60s', 'Over 60 League', 'Herts')
+    NotWGCCC = ('Not a WGCCC Team', 'Not a WGCCC Team', '', '')
+    UNKNOWN = ('Unknown','Unknown','Unknown', 'Unknown')
 
-    def __new__(cls, team_name, team_fullname, division):
+    def __new__(cls, team_name, team_fullname, division, host):
         obj = object.__new__(cls)
         obj._value_ = team_name
         obj.team_fullname = team_fullname
         obj.division = division
+        obj.host = host
         return obj
 
     def __eq__(self, other):
@@ -52,6 +53,22 @@ class CricketTeam(Enum):
     def get_from_fullname(cls, fullname):
         for k, v in cls.__members__.items():
             if v.team_fullname == fullname:
+                return v
+        else:
+            return CricketTeam.UNKNOWN
+
+    @classmethod
+    def get_from_division(cls, division):
+        for k, v in cls.__members__.items():
+            if v.division == division:
+                return v
+        else:
+            return CricketTeam.UNKNOWN
+
+    @classmethod
+    def get_from_host(cls, host):
+        for k, v in cls.__members__.items():
+            if v.host == host:
                 return v
         else:
             return CricketTeam.UNKNOWN
