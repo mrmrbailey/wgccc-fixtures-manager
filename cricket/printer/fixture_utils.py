@@ -2,7 +2,7 @@ from datetime import date, timedelta, datetime, timezone
 from cricket_team import CricketTeam
 from cricket_enums import Ground, FixtureType
 
-def _get_fixtures_for_week(list_of_fixtures, week_number):
+def get_fixtures_for_week(list_of_fixtures, week_number):
     fixtures_for_week = []
     for fixture in list_of_fixtures:
         if week_number == fixture.fixture_start_datetime.strftime("%V"):
@@ -11,11 +11,11 @@ def _get_fixtures_for_week(list_of_fixtures, week_number):
 
 def get_this_weeks_fixtures(list_of_fixtures):
     current_week_number = date.today().strftime("%V")
-    return _get_fixtures_for_week(list_of_fixtures, current_week_number)
+    return get_fixtures_for_week(list_of_fixtures, current_week_number)
 
 def get_next_weeks_fixtures(list_of_fixtures):
     next_week_number = (date.today() + timedelta(weeks=1)).strftime("%V")
-    return get_this_weeks_fixtures(list_of_fixtures) + _get_fixtures_for_week(list_of_fixtures, next_week_number)
+    return get_this_weeks_fixtures(list_of_fixtures) + get_fixtures_for_week(list_of_fixtures, next_week_number)
 
 def get_future_fixtures(list_of_fixtures):
     future_fixtures = []

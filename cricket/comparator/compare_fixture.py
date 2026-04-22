@@ -17,7 +17,7 @@ class CompareFixture:
                 and self.ground == other.ground)
 
     def __str__(self):
-        return f"{self.wgc_team} {self.oppo} {self.get_localized_fixture_start_date_string()} {self.ground} "
+        return f"{self.wgc_team.value} {self.oppo} {self.get_localized_fixture_start_date_string()} {self.ground} "
 
     def __repr__(self):
         return f"wgc_team: {self.wgc_team}, start_date: {self.fixture_start_date}, ground: {self.ground}"

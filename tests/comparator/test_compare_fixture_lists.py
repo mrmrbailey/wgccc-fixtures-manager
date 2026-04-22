@@ -1,6 +1,6 @@
 import pytest
 
-from comparator.compare_fixture_lists import get_different_fixtures
+from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures
 from fixture import Fixture
 from cricket_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
@@ -36,5 +36,9 @@ get_different_fixtures_test_data = [
     ([],[], [])
 ]
 @pytest.mark.parametrize('source_list, target_list, differences', get_different_fixtures_test_data)
-def test_get_this_weeks_fixtures(source_list, target_list, differences):
+def test_get_different_fixtures(source_list, target_list, differences):
     assert get_different_fixtures(source_list, target_list) == differences
+
+@pytest.mark.parametrize('source_list, target_list, differences', get_different_fixtures_test_data)
+def test_get_spond_different_fixtures(source_list, target_list, differences):
+    assert get_spond_different_fixtures(source_list, target_list) == differences

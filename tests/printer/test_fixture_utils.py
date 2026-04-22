@@ -1,6 +1,6 @@
 import pytest
 
-from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_google_calendar_csv_import
+from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
 from fixture import Fixture
 from cricket_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
@@ -160,6 +160,18 @@ get_fixtures_for_same_day_test_data = [
 @pytest.mark.parametrize('all_fixtures, same_day_fixtures', get_fixtures_for_same_day_test_data)
 def test_get_fixtures_for_same_day(all_fixtures, same_day_fixtures):
     assert get_fixtures_for_same_day(all_fixtures) == same_day_fixtures
+
+get_fixtures_for_clash_test_data = [
+    ([base_fixture, next_weeks_fixture, last_weeks_fixture],
+    []),
+    ([base_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture],
+     [base_fixture, base_fixture]),
+    ([last_weeks_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture], []),
+    ([],[])
+]
+@pytest.mark.parametrize('all_fixtures, clashing_fixtures', get_fixtures_for_clash_test_data)
+def test_get_fixtures_for_clash(all_fixtures, clashing_fixtures):
+    assert get_fixtures_for_clash(all_fixtures) == clashing_fixtures
 
 get_fixtures_for_google_calendar_csv_import_test_data = [
     ([base_fixture,away_fixture,

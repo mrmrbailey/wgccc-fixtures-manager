@@ -10,8 +10,6 @@ from os import listdir
 from csv import reader
 
 default_start_time = '18:00'
-welwyn_home_string = 'Welwyn Garden City CC (H)'
-welwyn_away_string = 'Welwyn Garden City CC (A)'
 
 def parse_spond(list_of_fixtures):
     #iterate over the list of fixtures file
@@ -21,13 +19,15 @@ def parse_spond(list_of_fixtures):
         matchup = fixture[0]
         wgc_team = CricketTeam.get_from_host(fixture[3])
         teams = get_teams(matchup)
-        if welwyn_home_string in matchup:
-            oppo = teams[1]
-        else:
-            oppo = teams[0]
 
         ground = Ground.get_value(fixture[5])
-        location = Location.AWAY if ground == Ground.AWAY else Location.HOME
+        if ground == Ground.AWAY:
+            location = Location.AWAY
+            oppo = teams[0]
+        else:
+            location = Location.HOME
+            oppo = teams[1]
+
         fixture_type = FixtureType.LEAGUE
 
         match_date = fixture[1]
