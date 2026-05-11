@@ -12,16 +12,17 @@ def get_spond_different_fixtures(source_list, spond_list):
 def get_spond_comparator(list_of_fixtures):
     comparator_fixtures = []
     for fixture in list_of_fixtures:
-        comparator_fixtures.append(CompareFixture(fixture))
+        comparator_fixture = CompareFixture(fixture)
+        if comparator_fixture.is_valid():
+            comparator_fixtures.append(comparator_fixture)
     return comparator_fixtures
 
 def get_differences(source_list, target_list):
     differences = []
     for fixture in source_list:
         try:
-            if fixture.fixture_type not in (FixtureType.FRIENDLY, FixtureType.SENIOR):
-                if fixture == target_list[target_list.index(fixture)]:
-                    pass
+            if fixture == target_list[target_list.index(fixture)]:
+                pass
         except ValueError:
             differences.append(fixture)
     return differences

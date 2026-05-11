@@ -1,7 +1,7 @@
 from zoneinfo import ZoneInfo
+from datetime import datetime, timezone, timedelta
 
-from cricket_team import CricketTeam
-from cricket_enums import Location, FixtureType
+from cricket_enums import FixtureType
 
 class CompareFixture:
     def __init__(self, fixture):
@@ -27,3 +27,8 @@ class CompareFixture:
 
     def get_localized_fixture_start_date_string(self):
         return self.fixture_start_date.astimezone(ZoneInfo('Europe/London')).strftime('%d/%m/%Y')
+
+    def is_valid(self):
+        is_fixture_in_spond = self.fixture_type != FixtureType.SENIOR
+        is_future_fixture = self.fixture_start_date > datetime.now(timezone.utc).astimezone()
+        return is_fixture_in_spond and is_future_fixture

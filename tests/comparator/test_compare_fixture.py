@@ -6,6 +6,7 @@ from fixture import Fixture
 from comparator.compare_fixture import CompareFixture
 from cricket_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
+from reader import csv_utils
 
 base_cricket_team = CricketTeam.U17s
 base_oppo = 'oppo'
@@ -76,3 +77,20 @@ test_data_for_get_localized_fixture_start_date = ['25/04/2025']
 @pytest.mark.parametrize('date_string', test_data_for_get_localized_fixture_start_date)
 def test_get_localized_fixture_start_date(date_string):
     assert base_fixture.get_localized_fixture_start_date_string() == date_string
+
+today_start_date_time = csv_utils.get_fixture_start_datetime(datetime.now().strftime("%d/%m/%Y"), '18:00')
+today_end_date_time = csv_utils.get_fixture_end_datetime(today_start_date_time)
+
+test_data_for_is_valid = [
+    (CompareFixture(Fixture(base_cricket_team, base_oppo, base_location, base_league, today_start_date_time, today_end_date_time, base_ground)),
+     True),
+    (CompareFixture(Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, today_start_date_time, today_end_date_time, base_ground)),
+     False),
+    (CompareFixture(Fixture(base_cricket_team, base_oppo, base_location, base_league, today_start_date_time + timedelta(days=1), today_end_date_time + timedelta(days=1), base_ground)),
+     True),
+    (CompareFixture(Fixture(base_cricket_team, base_oppo, base_location, base_league, today_start_date_time + timedelta(days=-1), today_end_date_time + timedelta(days=-1), base_ground)),
+     False)
+]
+@pytest.mark.parametrize('fixture, expected', test_data_for_is_valid)
+def test_fixture_is_valid(fixture, expected):
+    assert fixture.is_valid() == expected
