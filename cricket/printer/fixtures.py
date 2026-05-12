@@ -7,8 +7,6 @@ from printer.googlecalendar_utils import print_fixtures_for_google_calendar_csv_
 def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType, *args):
     fixtures_to_be_printed = []
     match fixture_list_type:
-        case FixtureListType.ALL | FixtureListType.COMPARE | FixtureListType.COMPARE_SPOND:
-            fixtures_to_be_printed = list_of_fixtures
         case FixtureListType.CURRENT_WEEK:
             fixtures_to_be_printed = get_this_weeks_fixtures(list_of_fixtures)
         case FixtureListType.NEXT_WEEK:
@@ -33,6 +31,8 @@ def print_fixtures_for_type(list_of_fixtures, fixture_list_type: FixtureListType
             fixtures_to_be_printed = get_fixtures_for_clash(list_of_fixtures)
         case FixtureListType.GOOGLE_CALENDAR_IMPORT_CSV:
             fixtures_to_be_printed = get_fixtures_for_google_calendar_csv_import(list_of_fixtures, *args)
+        case _: # FixtureListType.ALL | FixtureListType.COMPARE | FixtureListType.COMPARE_SPOND | FixtureListType.MISSING_RESULT:
+            fixtures_to_be_printed = list_of_fixtures
 
     print_fixture_list_type_header(fixture_list_type)
     match fixture_list_type:

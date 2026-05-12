@@ -16,3 +16,4 @@ class FixtureListType(Enum):
     SAME_DAY = 'Same Day'
     CLASH = 'Clash'
     GOOGLE_CALENDAR_IMPORT_CSV = 'Google Calendar Import CSV'
+    MISSING_RESULT = 'Missing Result'
