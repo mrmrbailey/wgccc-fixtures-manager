@@ -1,8 +1,9 @@
 # imports
 from fixture import Fixture
-from cricket_enums import Ground, Location
+from cricket_enums import Ground, Location, FixtureType
 from reader.utils import get_google_calendar_path
-from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year
+from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, \
+    get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year, is_postponed
 from cricket_team import CricketTeam
 
 from icalendar import Calendar
@@ -22,7 +23,8 @@ def read_ical(filename, ground):
         if is_fixture_this_year(fixture_start_date):
             fixture_end_date = clean_fixture_date(event.get("DTEND").dt)
             teams = get_teams(clean_summary(summary))
-            fixture_type = get_fixture_type_from_description(event.get("Description"))
+
+            fixture_type = FixtureType.POSTPONED if is_postponed(summary) else get_fixture_type_from_description(event.get("Description"))
             if fixture_type is None:
                 fixture_type = get_fixture_type_from_summary(summary)
             if ground == Ground.AWAY:

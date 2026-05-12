@@ -1,9 +1,9 @@
-from cricket_enums import FixtureType
+from cricket_enums import FixtureType, Notes
 from datetime import datetime, timezone, date
 
 import pytest
 
-from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, \
+from reader.googlecalendar_utils import clean_summary, get_teams, is_postponed, get_notes, get_fixture_type_from_description, \
     clean_fixture_date, is_fixture_this_year, get_fixture_type_from_summary
 
 summary_test_data = [
@@ -33,6 +33,29 @@ teams_test_data = [
 @pytest.mark.parametrize('summary,expected', teams_test_data)
 def test_get_teams(summary, expected):
     assert get_teams(summary) == expected
+
+is_postponed_test_data = [
+    ('Astro: WGCCC U10B v Letchworth Garden City CC - Under 10 B (17 yards)', False),
+    ('Postponed: WGCCC U11 v Broxbourne CC - Under 11 (17 yards)', True),
+    ('Cancelled: WGCCC U11 v Broxbourne CC - Under 11 (17 yards)', False),
+    ('WGCCC U11 v Broxbourne CC - Under 11 (17 yards)', False),
+    ('Time TBC: WGCCC vs Royal Salangor Club', False),
+]
+@pytest.mark.parametrize('summary,expected', is_postponed_test_data)
+def test_is_postponed(summary, expected):
+    assert is_postponed(summary) == expected
+
+notes_test_data = [
+    ('Astro: WGCCC U10B v Letchworth Garden City CC - Under 10 B (17 yards)', Notes.ASTRO),
+    ('Astro?: WGCCC U11 v Cokenach CC - Under 11 (17 yards)', Notes.ASTRO_MAYBE),
+    ('Postponed: WGCCC U11 v Broxbourne CC - Under 11 (17 yards)', Notes.POSTPONED),
+    ('Cancelled: WGCCC U11 v Broxbourne CC - Under 11 (17 yards)', Notes.CANCELLED),
+    ('WGCCC U11 v Broxbourne CC - Under 11 (17 yards)', None),
+    ('Time TBC: WGCCC vs Royal Salangor Club', Notes.UNKNOWN),
+]
+@pytest.mark.parametrize('summary,expected', notes_test_data)
+def test_get_notes(summary, expected):
+    assert get_notes(summary) == expected
 
 description_test_data = [
     ('Welwyn Garden City Cricket Club Saturday 1st XI v Hertford CC 1st XI on Sat 12 Jul 2025 at 11:00',

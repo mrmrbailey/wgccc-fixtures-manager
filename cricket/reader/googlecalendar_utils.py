@@ -1,4 +1,4 @@
-from cricket_enums import FixtureType
+from cricket_enums import FixtureType, Notes
 from datetime import datetime, timezone, date
 
 def clean_summary(summary):
@@ -25,6 +25,15 @@ def get_teams(summary):
         summary = 'Not a WGCCC Team' + '~' + summary
     return summary.split('~')
 
+def is_postponed(summary):
+    return get_notes(summary) == Notes.POSTPONED
+
+def get_notes(summary):
+    if len(summary.split(': ')) > 1:
+        return Notes.get_value(summary.split(': ')[0])
+    else:
+        return None
+
 def get_fixture_type_from_description(description):
     if description is None:
         return None
@@ -34,7 +43,6 @@ def get_fixture_type_from_description(description):
             return FixtureType.SENIOR
         case 1|2:
             return FixtureType[description.split('~')[1].upper()]
-
         case _:
             return FixtureType.SENIOR
 
@@ -51,7 +59,6 @@ def clean_fixture_date(calendar_date):
     if type(calendar_date) is date:
         return datetime(calendar_date.year,calendar_date.month,calendar_date.day, tzinfo=timezone.utc)
     return calendar_date
-
 
 def is_fixture_this_year(fixture_date):
     start_date = datetime(2026, 4, 1, tzinfo=timezone.utc)
