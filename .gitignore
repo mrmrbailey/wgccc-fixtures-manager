@@ -6,6 +6,7 @@ data/google-calendar/*.ics
 data/play-cricket/*.csv
 data/spond/*.csv
 data/past/**
+data/wpf/*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
