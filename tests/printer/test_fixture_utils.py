@@ -1,8 +1,8 @@
 import pytest
 
-from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_google_calendar_csv_import
+from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
 from fixture import Fixture
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 from datetime import date, datetime, timezone, timedelta
 
@@ -15,27 +15,20 @@ base_fixture_type = FixtureType.LEAGUE
 base_start_date_time = datetime(today.year, today.month, today.day, 18, 00, tzinfo=timezone.utc)
 base_end_date_time = base_start_date_time + timedelta(hours=3)
 base_ground = Ground.DP
+
 base_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground)
 wpf_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.WPF)
+away_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.AWAY)
+last_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1), base_end_date_time, base_ground)
 next_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1), base_end_date_time, base_ground)
 next_months_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=4), base_end_date_time, base_ground)
 
 get_this_weeks_fixtures_test_data = [
-    ([base_fixture,
-    Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-            base_end_date_time, base_ground),
-    Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1),
-            base_end_date_time, base_ground)],
+    ([base_fixture, next_weeks_fixture, last_weeks_fixture],
     [base_fixture]),
-    ([base_fixture,
-      Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-              base_end_date_time, base_ground),
-      base_fixture,
-      Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1),
-              base_end_date_time, base_ground)],
+    ([base_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture],
      [base_fixture, base_fixture]),
-    ([Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-              base_end_date_time, base_ground)], []),
+    ([last_weeks_fixture], []),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, this_weeks_fixtures', get_this_weeks_fixtures_test_data)
@@ -43,21 +36,16 @@ def test_get_this_weeks_fixtures(all_fixtures, this_weeks_fixtures):
     assert get_this_weeks_fixtures(all_fixtures) == this_weeks_fixtures
 
 get_next_weeks_fixtures_test_data = [
-    ([base_fixture, next_weeks_fixture,
-    Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-            base_end_date_time, base_ground),
+    ([base_fixture, next_weeks_fixture, last_weeks_fixture,
     Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=2),
             base_end_date_time, base_ground)],
     [base_fixture, next_weeks_fixture]),
-    ([base_fixture, next_weeks_fixture,
-      Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-              base_end_date_time, base_ground),
+    ([base_fixture, next_weeks_fixture, last_weeks_fixture,
       base_fixture,
       Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=2),
               base_end_date_time, base_ground)],
      [base_fixture, base_fixture, next_weeks_fixture]),
-    ([Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-              base_end_date_time, base_ground)],[]),
+    ([last_weeks_fixture],[]),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, next_weeks_fixtures', get_next_weeks_fixtures_test_data)
@@ -65,17 +53,12 @@ def test_get_next_weeks_fixtures(all_fixtures, next_weeks_fixtures):
     assert get_next_weeks_fixtures(all_fixtures) == next_weeks_fixtures
 
 get_future_fixtures_test_data = [
-    ([base_fixture, next_weeks_fixture, next_months_fixture,
-    Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-            base_end_date_time, base_ground)],
+    ([base_fixture, next_weeks_fixture, next_months_fixture, last_weeks_fixture],
     [base_fixture, next_weeks_fixture, next_months_fixture]),
-    ([base_fixture, next_weeks_fixture, next_months_fixture,
-      Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-              base_end_date_time, base_ground),
+    ([base_fixture, next_weeks_fixture, next_months_fixture, last_weeks_fixture,
       base_fixture],
      [base_fixture, next_weeks_fixture, next_months_fixture, base_fixture]),
-    ([Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1),
-              base_end_date_time, base_ground)],[]),
+    ([last_weeks_fixture],[]),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, future_fixtures', get_future_fixtures_test_data)
@@ -102,26 +85,31 @@ def test_get_fixtures_for_type(all_fixtures, fixtures_for_type):
     assert get_fixtures_for_type(all_fixtures, base_fixture_type) == fixtures_for_type
 
 get_fixtures_for_ground_test_data = [
-    ([base_fixture,
-     Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             Ground.AWAY)],
+    ([base_fixture, away_fixture],
      [base_fixture]),
-    ([base_fixture, base_fixture,
-      Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-              Ground.WPF),
-     Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             Ground.AWAY)],
+    ([base_fixture, base_fixture, wpf_fixture, away_fixture],
      [base_fixture, base_fixture]),
-    ([Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-              Ground.WPF)],[]),
+    ([wpf_fixture],[]),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, fixtures_for_ground', get_fixtures_for_ground_test_data)
 def test_get_fixtures_for_ground(all_fixtures, fixtures_for_ground):
     assert get_fixtures_for_ground(all_fixtures, base_ground) == fixtures_for_ground
 
+get_fixtures_for_home_test_data = [
+    ([base_fixture, wpf_fixture, away_fixture, last_weeks_fixture, next_weeks_fixture, next_months_fixture],
+     [base_fixture, last_weeks_fixture, next_weeks_fixture, next_months_fixture, wpf_fixture]),
+    ([base_fixture, wpf_fixture, away_fixture, base_fixture, last_weeks_fixture, next_weeks_fixture, next_months_fixture],
+     [base_fixture, base_fixture, last_weeks_fixture, next_weeks_fixture, next_months_fixture, wpf_fixture]),
+    ([away_fixture], []),
+    ([],[])
+]
+@pytest.mark.parametrize('all_fixtures, fixtures_for_home', get_fixtures_for_home_test_data)
+def test_get_fixtures_for_home(all_fixtures, fixtures_for_home):
+    assert get_fixtures_for_home(all_fixtures) == fixtures_for_home
+
 get_fixtures_for_home_next_week_test_data = [
-    ([base_fixture, wpf_fixture, next_weeks_fixture, next_months_fixture],
+    ([base_fixture, wpf_fixture, away_fixture, last_weeks_fixture, next_weeks_fixture, next_months_fixture],
      [base_fixture, next_weeks_fixture, wpf_fixture]),
     ([base_fixture, wpf_fixture, next_weeks_fixture, base_fixture, next_months_fixture],
      [base_fixture, base_fixture, next_weeks_fixture, wpf_fixture]),
@@ -161,21 +149,40 @@ get_junior_fixtures_test_data = [
 def test_get_junior_fixtures(all_fixtures, junior_fixtures):
     assert get_junior_fixtures(all_fixtures) == junior_fixtures
 
+get_fixtures_for_same_day_test_data = [
+    ([base_fixture, next_weeks_fixture, last_weeks_fixture],
+    []),
+    ([base_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture],
+     [base_fixture, base_fixture]),
+    ([last_weeks_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture], []),
+    ([],[])
+]
+@pytest.mark.parametrize('all_fixtures, same_day_fixtures', get_fixtures_for_same_day_test_data)
+def test_get_fixtures_for_same_day(all_fixtures, same_day_fixtures):
+    assert get_fixtures_for_same_day(all_fixtures) == same_day_fixtures
+
+get_fixtures_for_clash_test_data = [
+    ([base_fixture, next_weeks_fixture, last_weeks_fixture],
+    []),
+    ([base_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture],
+     [base_fixture, base_fixture]),
+    ([last_weeks_fixture, last_weeks_fixture, base_fixture, next_weeks_fixture], []),
+    ([],[])
+]
+@pytest.mark.parametrize('all_fixtures, clashing_fixtures', get_fixtures_for_clash_test_data)
+def test_get_fixtures_for_clash(all_fixtures, clashing_fixtures):
+    assert get_fixtures_for_clash(all_fixtures) == clashing_fixtures
+
 get_fixtures_for_google_calendar_csv_import_test_data = [
-    ([base_fixture,
-     Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             Ground.AWAY),
+    ([base_fixture,away_fixture,
      Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
              Ground.AWAY)],
      [base_fixture]),
-    ([base_fixture, base_fixture,
-      Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-              Ground.AWAY),
+    ([base_fixture, base_fixture, away_fixture,
       Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
               Ground.AWAY)],
      [base_fixture, base_fixture]),
-    ([Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-              Ground.WPF)],[]),
+    ([wpf_fixture],[]),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, fixtures_for_google_calendar_csv_import', get_fixtures_for_google_calendar_csv_import_test_data)

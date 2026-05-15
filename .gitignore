@@ -2,8 +2,11 @@
 .idea
 
 #my data files
-data/*.csv
-data/*.ics
+data/google-calendar/*.ics
+data/play-cricket/*.csv
+data/spond/*.csv
+data/past/**
+data/wpf/*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

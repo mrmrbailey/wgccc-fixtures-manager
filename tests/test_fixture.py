@@ -3,7 +3,7 @@ from datetime import datetime, timezone, timedelta
 import pytest
 
 from fixture import Fixture
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 
 base_cricket_team = CricketTeam.U17s
@@ -12,6 +12,8 @@ base_location = Location.HOME
 base_league = FixtureType.LEAGUE
 base_start_date_time = datetime(2025, 4, 25, 17, 00, tzinfo=timezone.utc)
 base_end_date_time = datetime(2025, 4, 25, 20, 00, tzinfo=timezone.utc)
+gmt_start_time = datetime(2026, 12, 25, 17, 00, tzinfo=timezone.utc)
+bst_start_time = datetime(2026, 6, 25, 17, 00, tzinfo=timezone.utc)
 base_ground = Ground.DP
 
 base_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_league, base_start_date_time, base_end_date_time, base_ground)
@@ -52,31 +54,50 @@ sort_fixture_date_test_data = [
 def test_fixture_less_than(other, expected):
     assert base_fixture.__lt__(other) is expected
 
-test_data_for_to_string = ['Welwyn Garden City CC - Under 17 v oppo Location.HOME 25/04/2025 18:00 21:00 Ground.DP FixtureType.LEAGUE']
+test_data_for_to_string = ['Welwyn Garden City CC - Under 17 v oppo Home 25/04/2025 18:00 21:00 Digswell Park League']
 @pytest.mark.parametrize('fixture_str', test_data_for_to_string)
 def test_fixture_to_string(fixture_str):
     assert base_fixture.__str__() == fixture_str
 
-test_data_for_report_string = ['wgc_team: CricketTeam.U17s, oppo: oppo, location: Location.HOME, type FixtureType.LEAGUE start_datetime: 2025-04-25 17:00:00+00:00, time: 2025-04-25 20:00:00+00:00, ground: Ground.DP']
+test_data_for_report_string = ['wgc_team: CricketTeam.U17s, oppo: oppo, location: Home, type League start_datetime: 2025-04-25 17:00:00+00:00, time: 2025-04-25 20:00:00+00:00, ground: Digswell Park']
 @pytest.mark.parametrize('fixture_repr', test_data_for_report_string)
 def test_fixture_strings(fixture_repr):
     assert base_fixture.__repr__() == fixture_repr
 
-test_data_for_get_localized_fixture_start_datetime = ['25/04/2025 18:00']
-@pytest.mark.parametrize('date_time_string', test_data_for_get_localized_fixture_start_datetime)
-def test_get_localized_fixture_start_datetime(date_time_string):
-    assert base_fixture.get_localized_fixture_start_datetime_string() == date_time_string
+test_data_for_get_localized_fixture_start_datetime = [
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, gmt_start_time, gmt_start_time + timedelta(hours=3), base_ground)
+         , '25/12/2026 17:00'),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, bst_start_time, bst_start_time + timedelta(hours=3), base_ground)
+         , '25/06/2026 18:00')
+]
+@pytest.mark.parametrize('fixture,expected', test_data_for_get_localized_fixture_start_datetime)
+def test_get_localized_fixture_start_datetime(fixture, expected):
+    assert fixture.get_localized_fixture_start_datetime_string() == expected
 
 test_data_for_get_localized_fixture_start_date = ['25/04/2025']
 @pytest.mark.parametrize('date_string', test_data_for_get_localized_fixture_start_date)
 def test_get_localized_fixture_start_date(date_string):
     assert base_fixture.get_localized_fixture_start_date_string() == date_string
 
-test_data_for_get_localized_fixture_start_time = ['18:00']
-@pytest.mark.parametrize('time_string', test_data_for_get_localized_fixture_start_time)
-def test_get_localized_fixture_start_time(time_string):
-    assert base_fixture.get_localized_fixture_start_time_string() == time_string
+test_data_for_get_localized_fixture_start_time = [
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, gmt_start_time, gmt_start_time + timedelta(hours=3), base_ground)
+         , '17:00'),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, bst_start_time, bst_start_time + timedelta(hours=3), base_ground)
+         , '18:00')
+]
+@pytest.mark.parametrize('fixture,expected', test_data_for_get_localized_fixture_start_time)
+def test_get_localized_fixture_start_time(fixture, expected):
+    assert fixture.get_localized_fixture_start_time_string() == expected
 
+test_data_for_get_localized_fixture_end_time_string = [
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, gmt_start_time, gmt_start_time + timedelta(hours=3), base_ground)
+         , '20:00'),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, bst_start_time, bst_start_time + timedelta(hours=3), base_ground)
+         , '21:00')
+]
+@pytest.mark.parametrize('fixture,expected', test_data_for_get_localized_fixture_end_time_string)
+def test_get_localized_fixture_end_time_string(fixture, expected):
+    assert fixture.get_localized_fixture_end_time_string() == expected
 
 match_up_test_data = [
     (base_fixture, 'Welwyn Garden City CC - Under 17 v oppo'),
@@ -104,13 +125,17 @@ def test_fixture_match_up_for_calendar(fixture, expected):
 
 description_test_data = [
     (base_fixture,
-     'Welwyn Garden City CC - Under 17 v oppo on Fri 25 Apr 2025 at 17:00~League~HJCL U17 Group 3'),
+     'Welwyn Garden City CC - Under 17 v oppo on Fri 25 Apr 2025 at 18:00~League~HJCL U17 Group 3'),
     (Fixture(base_cricket_team, base_oppo, Ground.AWAY, base_league, base_start_date_time, base_end_date_time, base_ground),
-     'oppo v Welwyn Garden City CC - Under 17 on Fri 25 Apr 2025 at 17:00~League~HJCL U17 Group 3'),
+     'oppo v Welwyn Garden City CC - Under 17 on Fri 25 Apr 2025 at 18:00~League~HJCL U17 Group 3'),
     (Fixture(base_cricket_team, base_oppo, base_location, FixtureType.CUP, base_start_date_time, base_end_date_time, base_ground),
-     'Welwyn Garden City CC - Under 17 v oppo on Fri 25 Apr 2025 at 17:00~Cup'),
+     'Welwyn Garden City CC - Under 17 v oppo on Fri 25 Apr 2025 at 18:00~Cup'),
     (Fixture(CricketTeam.NotWGCCC, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time, base_ground),
-     'oppo on Fri 25 Apr 2025 at 17:00~Senior')
+     'oppo on Fri 25 Apr 2025 at 18:00~Senior'),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, gmt_start_time, gmt_start_time + timedelta(hours=3), base_ground),
+     'Welwyn Garden City CC - Under 17 v oppo on Fri 25 Dec 2026 at 17:00~League~HJCL U17 Group 3'),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_league, bst_start_time, bst_start_time + timedelta(hours=3), base_ground),
+     'Welwyn Garden City CC - Under 17 v oppo on Thu 25 Jun 2026 at 18:00~League~HJCL U17 Group 3')
 ]
 @pytest.mark.parametrize('fixture,expected', description_test_data)
 def test_description_match_up(fixture, expected):

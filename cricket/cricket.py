@@ -1,25 +1,47 @@
-import cricket_enums as ce
-from comparator.compare_fixture_lists import get_different_fixtures
-from cricket_team import CricketTeam
+from cricket_enums import SourceData, RunMode
+from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures
 
-from printer.fixtures import print_fixtures_for_type
-from printer.fixture_list_type import FixtureListType
-from reader.playcricket import parse_play_cricket_data
+from printer.fixtures import print_fixtures
+from printer.fixtures_to_print import FixturesToPrint
+from reader.playcricket import parse_play_cricket_data, parse_play_cricket_missing_results
 from reader.googlecalendar import parse_google_calendar_data
+from reader.spond import parse_spond_data
+from reader.wpf import parse_wpf_data
 
-def main(source_data: ce.SourceData, fixture_list_type: FixtureListType, *args):
+def cricket_str(source_data_str: int, run_mode_str: str, fixture_list_type_str: str, *args):
+    cricket(SourceData(source_data_str), RunMode(run_mode_str), FixturesToPrint(fixture_list_type_str), *args)
 
-    list_of_fixtures = []
+def cricket(source_data: SourceData, run_mode: RunMode, fixtures_to_print: FixturesToPrint, *args):
+
+    list_of_fixtures = parse_source_data(source_data)
+
+    match run_mode:
+        case RunMode.COMPARE:
+            other_source = SourceData(*args)
+            other_fixtures = parse_source_data(other_source)
+            if is_spond(source_data, other_source):
+                list_of_fixtures = get_spond_different_fixtures(list_of_fixtures, other_fixtures)
+            else:
+                list_of_fixtures = get_different_fixtures(list_of_fixtures, other_fixtures)
+
+    print_fixtures(list_of_fixtures, fixtures_to_print, *args)
+
+def parse_source_data(source_data: SourceData):
+    parsed_fixtures = []
     match source_data:
-        case ce.SourceData.PLAY_CRICKET:
-            list_of_fixtures = parse_play_cricket_data()
-        case ce.SourceData.GOOGLE_CALENDAR:
-            list_of_fixtures = parse_google_calendar_data()
+        case SourceData.PLAY_CRICKET:
+            parsed_fixtures = parse_play_cricket_data()
+        case SourceData.GOOGLE_CALENDAR:
+            parsed_fixtures = parse_google_calendar_data()
+        case SourceData.SPOND:
+            parsed_fixtures = parse_spond_data()
+        case SourceData.WPF_BOOKINGS:
+            parsed_fixtures = parse_wpf_data()
+        case SourceData.MISSING_RESULTS:
+            parsed_fixtures = parse_play_cricket_missing_results()
+    return parsed_fixtures
 
-    if fixture_list_type == FixtureListType.COMPARE:
-        other_fixtures = parse_play_cricket_data() if source_data == ce.SourceData.GOOGLE_CALENDAR else parse_google_calendar_data()
-        list_of_fixtures = get_different_fixtures(list_of_fixtures, other_fixtures)
+def is_spond(source_data: SourceData, other_source: SourceData):
+    return source_data == SourceData.SPOND or other_source == SourceData.SPOND
 
-    print_fixtures_for_type(list_of_fixtures, fixture_list_type, *args)
-
-main(ce.SourceData.PLAY_CRICKET, FixtureListType.TEAM, CricketTeam.U9s)
+cricket(SourceData.PLAY_CRICKET, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.GOOGLE_CALENDAR)

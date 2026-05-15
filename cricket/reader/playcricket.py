@@ -1,64 +1,70 @@
 # imports
-from reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
+from reader.csv_utils import get_fixture_start_datetime, get_fixture_end_datetime
 from cricket_team import CricketTeam
-from cricket_enums import Ground, FixtureType, Location
-from reader.utils import add_fixture, get_data_path
+from fixture_enums import Location, Ground, FixtureType
+from reader.playcricket_utils import is_fixture_missing_result
+from reader.utils import get_play_cricket_path
 from fixture import Fixture
 
 from os import listdir
 from csv import reader
 
-def parse_play_cricket(list_of_fixtures):
-    #iterate over the list of fixtures file
-    fixtures = []
-    for fixture in list_of_fixtures[1:]:
+def parse_record(record):
 
-        home_team = fixture[1].replace(',', '')
-        away_team = fixture[2].replace(',', '')
+    home_team = record[1].replace(',', '')
+    away_team = record[2].replace(',', '')
 
-        match_location = fixture[6]
-        match match_location:
-            case Ground.DP.value:
-                oppo = away_team
-                location = Location.HOME
-                ground = Ground.DP
-            case Ground.WPF.value:
-                oppo = away_team
-                location = Location.HOME
-                ground = Ground.WPF
-            case _:
-                oppo = home_team
-                location = Location.AWAY
-                ground = Ground.AWAY
+    match_location = record[6]
+    match match_location:
+        case Ground.DP.value:
+            oppo = away_team
+            location = Location.HOME
+            ground = Ground.DP
+        case Ground.WPF.value:
+            oppo = away_team
+            location = Location.HOME
+            ground = Ground.WPF
+        case _:
+            oppo = home_team
+            location = Location.AWAY
+            ground = Ground.AWAY
 
-        fixture_type = FixtureType.get_value(fixture[3])
-        match fixture_type:
-            case FixtureType.LEAGUE:
-                division_string = fixture[4]
-                wgc_team = get_wgc_team_from_division(division_string)
-            case FixtureType.CUP | FixtureType.FRIENDLY:
-                if ground == Ground.AWAY:
-                    wgc_team_full_name = away_team
-                else:
-                    wgc_team_full_name = home_team
-                wgc_team = CricketTeam.get_from_fullname(wgc_team_full_name)
-            case _:
-                wgc_team = CricketTeam.UNKNOWN
+    fixture_type = FixtureType.get_value(record[3])
+    match fixture_type:
+        case FixtureType.LEAGUE:
+            division_string = record[4]
+            wgc_team = CricketTeam.get_from_division(division_string)
+        case FixtureType.CUP | FixtureType.FRIENDLY:
+            if ground == Ground.AWAY:
+                wgc_team_full_name = away_team
+            else:
+                wgc_team_full_name = home_team
+            wgc_team = CricketTeam.get_from_fullname(wgc_team_full_name)
+        case _:
+            wgc_team = CricketTeam.UNKNOWN
 
-        match_date = fixture[0]
-        start_time = fixture[5]
-        fixture_start_datetime = get_fixture_start_datetime(match_date, start_time)
-        fixture_end_time = get_fixture_end_datetime(fixture_start_datetime)
-
-        if add_fixture(wgc_team):
-            fixtures.append(Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground))
-    return fixtures
+    match_date = record[0]
+    start_time = record[5]
+    fixture_start_datetime = get_fixture_start_datetime(match_date, start_time)
+    fixture_end_time = get_fixture_end_datetime(fixture_start_datetime)
+    return Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground)
 
 def parse_play_cricket_data():
-    for filename in listdir(get_data_path()):
+    return parse_all_play_cricket_data(False)
+
+
+def parse_play_cricket_missing_results():
+    return parse_all_play_cricket_data(True)
+
+
+def parse_all_play_cricket_data(check_result: bool):
+    fixtures = []
+    for filename in listdir(get_play_cricket_path()):
         if filename.endswith('.csv'):
-            with open(get_data_path() + filename, 'r') as read_obj:
+            with open(get_play_cricket_path() + filename, 'r') as read_obj:
                 csv_reader = reader(read_obj)
-                list_of_fixtures = list(csv_reader)
-                return parse_play_cricket(list_of_fixtures)
-    return []
+                for record in list(csv_reader)[1:]:
+                    fixture = parse_record(record)
+                    if not check_result or is_fixture_missing_result(fixture, record[14]):
+                        fixtures.append(parse_record(record))
+    return fixtures

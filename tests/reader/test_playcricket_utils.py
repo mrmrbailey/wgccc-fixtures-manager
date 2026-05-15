@@ -1,32 +1,42 @@
 import pytest
 
-from reader.playcricket_utils import get_wgc_team_from_division, get_fixture_start_datetime, get_fixture_end_datetime
+from datetime import date, datetime, timezone, timedelta
+
+from fixture_enums import Location, FixtureType, Ground
+from fixture import Fixture
+from reader.playcricket_utils import add_fixture, is_fixture_missing_result
 from cricket_team import CricketTeam
 
-from datetime import datetime, timezone
+base_cricket_team = CricketTeam.U17s
+base_oppo = 'oppo'
+base_location = Location.HOME
+base_fixture_type = FixtureType.LEAGUE
+base_start_date_time = datetime(date.today().year, date.today().month, date.today().day, 18, 00, tzinfo=timezone.utc)
+base_end_date_time = base_start_date_time + timedelta(hours=3)
+base_ground = Ground.DP
 
-division_test_data = [
-    (CricketTeam.U11s.division, CricketTeam.U11s),
-    ('XXX', CricketTeam.UNKNOWN)
+is_fixture_missing_result_test_data = [
+    (Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.DP),
+     "",
+     False),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(days=-4), base_end_date_time,
+             Ground.DP),
+     "Result",
+     False),
+    (Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(days=-4),
+             base_end_date_time,
+             Ground.DP),
+     "",
+     True),
 ]
+@pytest.mark.parametrize('fixture,result,expected', is_fixture_missing_result_test_data)
+def test_is_fixture_missing_result(fixture, result, expected):
+    assert is_fixture_missing_result(fixture, result) is expected
 
-@pytest.mark.parametrize('division,team', division_test_data)
-def test_get_wgc_team_from_division(division, team):
-    assert get_wgc_team_from_division(division) is team
-
-get_fixture_start_date_timetest_data = [
-    ('01/04/2025', "18:00", datetime(2025, 4, 1, 17, 00, tzinfo=timezone.utc)),
+add_fixture_test_data = [
+    (CricketTeam.U17s, True),
+    (CricketTeam.UNKNOWN, False),
 ]
-
-@pytest.mark.parametrize('date_string,time_string,expected', get_fixture_start_date_timetest_data)
-def test_get_fixture_start_datetime(date_string, time_string, expected):
-    assert get_fixture_start_datetime(date_string, time_string) == expected
-
-get_fixture_end_date_timetest_data = [
-    (datetime(2025, 4, 1, 17, 00, tzinfo=timezone.utc),
-     datetime(2025, 4, 1, 20, 00, tzinfo=timezone.utc)),
-]
-
-@pytest.mark.parametrize('start_datetime,expected', get_fixture_end_date_timetest_data)
-def test_get_fixture_end_datetime(start_datetime, expected):
-    assert get_fixture_end_datetime(start_datetime) == expected
+@pytest.mark.parametrize('cricket_team,expected', add_fixture_test_data)
+def test_add_fixture(cricket_team, expected):
+    assert add_fixture(cricket_team) is expected

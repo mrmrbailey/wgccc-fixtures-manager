@@ -1,17 +1,22 @@
 # imports
-from cricket_team import CricketTeam
 from datetime import datetime, timezone, timedelta
 
-def get_wgc_team_from_division(division):
-    for team in CricketTeam:
-        if team.division  == division:
-            return team
+from cricket_team import CricketTeam
 
-    return CricketTeam.UNKNOWN
+days_to_wait_for_result = 3
 
-def get_fixture_start_datetime(date_string, time_string):
-    bst_date_time_string = date_string + ' ' + time_string
-    return datetime.strptime(bst_date_time_string , "%d/%m/%Y %H:%M").astimezone(timezone.utc)
+def is_fixture_missing_result(fixture, result):
 
-def get_fixture_end_datetime(fixture_start_datetime):
-    return fixture_start_datetime + timedelta(hours=3)
+    result_not_entered = result == ""
+    result_expected = fixture.fixture_start_datetime < datetime.now(timezone.utc).astimezone() + timedelta(days=-days_to_wait_for_result)
+
+    return result_not_entered and result_expected
+
+
+def add_fixture(team):
+    match team:
+        case CricketTeam.UNKNOWN:
+            add = False
+        case _:
+            add = True
+    return add

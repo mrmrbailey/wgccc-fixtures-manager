@@ -1,7 +1,7 @@
 from zoneinfo import ZoneInfo
 
 from cricket_team import CricketTeam
-from cricket_enums import Location, FixtureType
+from fixture_enums import Location, FixtureType
 
 class Fixture:
     def __init__(self, wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_datetime, ground):
@@ -40,7 +40,7 @@ class Fixture:
     def get_description(self):
         description =  self.get_matchup()
         description += ' on '
-        description += self.fixture_start_datetime.strftime('%a %d %b %Y at %H:%M')
+        description += self.get_localized_fixture_start_date_string_for_description()
         description += "~"
         description += self.fixture_type.value
         if self.fixture_type.value is FixtureType.LEAGUE.value:
@@ -68,3 +68,6 @@ class Fixture:
 
     def get_localized_fixture_end_time_string(self):
         return self.fixture_end_datetime.astimezone(ZoneInfo('Europe/London')).strftime('%H:%M')
+
+    def get_localized_fixture_start_date_string_for_description(self):
+        return self.fixture_start_datetime.astimezone(ZoneInfo('Europe/London')).strftime('%a %d %b %Y at %H:%M')
