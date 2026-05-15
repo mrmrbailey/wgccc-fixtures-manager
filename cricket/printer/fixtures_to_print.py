@@ -1,6 +1,6 @@
 from enum import Enum
 
-class FixtureListType(Enum):
+class FixturesToPrint(Enum):
     ALL = 'All'
     CURRENT_WEEK = 'Current Week'
     NEXT_WEEK = 'Next Week'

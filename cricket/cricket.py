@@ -1,4 +1,4 @@
- from cricket_enums import SourceData, RunMode
+from cricket_enums import SourceData, RunMode
 from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures
 
 from printer.fixtures import print_fixtures
@@ -44,4 +44,4 @@ def parse_source_data(source_data: SourceData):
 def is_spond(source_data: SourceData, other_source: SourceData):
     return source_data == SourceData.SPOND or other_source == SourceData.SPOND
 
-cricket(SourceData.PLAY_CRICKET, RunMode.PRINT_FIXTURES, FixturesToPrint.ALL)
+cricket(SourceData.PLAY_CRICKET, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.GOOGLE_CALENDAR)

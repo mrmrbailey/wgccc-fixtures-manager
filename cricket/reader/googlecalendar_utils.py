@@ -1,3 +1,5 @@
+from enum import StrEnum
+
 from fixture_enums import FixtureType
 from datetime import datetime, timezone, date
 
