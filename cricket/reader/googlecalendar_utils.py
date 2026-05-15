@@ -1,4 +1,4 @@
-from cricket_enums import FixtureType, Notes
+from fixture_enums import FixtureType
 from datetime import datetime, timezone, date
 
 def clean_summary(summary):
@@ -63,3 +63,18 @@ def clean_fixture_date(calendar_date):
 def is_fixture_this_year(fixture_date):
     start_date = datetime(2026, 4, 1, tzinfo=timezone.utc)
     return fixture_date > start_date
+
+class Notes(StrEnum):
+    ASTRO = 'Astro'
+    ASTRO_MAYBE = 'Astro?'
+    CANCELLED = 'Cancelled'
+    POSTPONED = 'Postponed'
+    UNKNOWN = 'Unknown'
+
+    @classmethod
+    def get_value(cls, value):
+        for k, v in cls.__members__.items():
+            if v.value == value:
+                return v
+        else:
+            return Notes.UNKNOWN

@@ -1,7 +1,7 @@
 from zoneinfo import ZoneInfo
 
 from cricket_team import CricketTeam
-from cricket_enums import Location, FixtureType
+from fixture_enums import Location, FixtureType
 
 class Fixture:
     def __init__(self, wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_datetime, ground):

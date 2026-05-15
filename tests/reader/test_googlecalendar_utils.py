@@ -1,10 +1,11 @@
-from cricket_enums import FixtureType, Notes
+from fixture_enums import FixtureType
 from datetime import datetime, timezone, date
 
 import pytest
 
-from reader.googlecalendar_utils import clean_summary, get_teams, is_postponed, get_notes, get_fixture_type_from_description, \
-    clean_fixture_date, is_fixture_this_year, get_fixture_type_from_summary
+from reader.googlecalendar_utils import clean_summary, get_teams, is_postponed, get_notes, \
+    get_fixture_type_from_description, \
+    clean_fixture_date, is_fixture_this_year, get_fixture_type_from_summary, Notes
 
 summary_test_data = [
     ('Saturday 2nd XI v Hemel Hempstead Town CC 2nd XI',

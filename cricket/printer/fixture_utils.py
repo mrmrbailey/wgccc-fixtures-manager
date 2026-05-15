@@ -1,6 +1,6 @@
 from datetime import date, timedelta, datetime, timezone
 from cricket_team import CricketTeam
-from cricket_enums import Ground, FixtureType
+from fixture_enums import Ground, FixtureType
 
 def get_fixtures_for_week(list_of_fixtures, week_number):
     fixtures_for_week = []

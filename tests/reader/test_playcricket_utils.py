@@ -2,7 +2,7 @@ import pytest
 
 from datetime import date, datetime, timezone, timedelta
 
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from fixture import Fixture
 from reader.playcricket_utils import add_fixture, is_fixture_missing_result
 from cricket_team import CricketTeam

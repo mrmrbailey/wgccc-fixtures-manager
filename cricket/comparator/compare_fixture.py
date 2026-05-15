@@ -1,7 +1,7 @@
 from zoneinfo import ZoneInfo
 from datetime import datetime, timezone, timedelta
 
-from cricket_enums import FixtureType
+from fixture_enums import FixtureType
 
 class CompareFixture:
     def __init__(self, fixture):

@@ -4,7 +4,7 @@ from datetime import datetime, timezone, timedelta
 
 from fixture import Fixture
 from comparator.compare_fixture import CompareFixture
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 from reader import csv_utils
 

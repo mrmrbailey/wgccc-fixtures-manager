@@ -1,5 +1,5 @@
 # imports
-from cricket_enums import Location, Ground, FixtureType
+from fixture_enums import Location, Ground, FixtureType
 from reader.csv_utils import get_fixture_start_datetime, get_fixture_end_datetime
 from cricket_team import CricketTeam
 from reader.utils import  get_wpf_path

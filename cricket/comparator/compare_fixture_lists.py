@@ -1,5 +1,5 @@
 from comparator.compare_fixture import CompareFixture
-from cricket_enums import FixtureType
+from fixture_enums import FixtureType
 
 def get_different_fixtures(source_list, target_list):
     junior_source_fixtures = get_junior_fixtures(source_list)

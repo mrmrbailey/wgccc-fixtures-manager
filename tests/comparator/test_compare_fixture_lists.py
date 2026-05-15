@@ -2,7 +2,7 @@ import pytest
 
 from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures, get_junior_fixtures
 from fixture import Fixture
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 from datetime import date, datetime, timezone, timedelta
 

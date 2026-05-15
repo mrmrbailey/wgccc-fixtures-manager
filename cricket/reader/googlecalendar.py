@@ -1,6 +1,6 @@
 # imports
 from fixture import Fixture
-from cricket_enums import Ground, Location, FixtureType
+from fixture_enums import Ground, Location, FixtureType
 from reader.utils import get_google_calendar_path
 from reader.googlecalendar_utils import clean_summary, get_teams, get_fixture_type_from_description, \
     get_fixture_type_from_summary, clean_fixture_date, is_fixture_this_year, is_postponed

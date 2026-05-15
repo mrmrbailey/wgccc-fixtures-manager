@@ -2,7 +2,7 @@
 from reader.spond_utils import get_teams
 from reader.csv_utils import get_fixture_start_datetime, get_fixture_end_datetime
 from cricket_team import CricketTeam
-from cricket_enums import Ground, FixtureType, Location
+from fixture_enums import Ground, FixtureType, Location
 from reader.utils import  get_spond_path
 from fixture import Fixture
 

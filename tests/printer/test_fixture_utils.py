@@ -2,7 +2,7 @@ import pytest
 
 from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
 from fixture import Fixture
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 from datetime import date, datetime, timezone, timedelta
 

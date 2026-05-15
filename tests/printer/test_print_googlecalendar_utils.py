@@ -1,6 +1,6 @@
 import pytest
 
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, Ground, FixtureType
 from cricket_team import CricketTeam
 from fixture import Fixture
 from printer.googlecalendar_utils import get_google_calendar_summary

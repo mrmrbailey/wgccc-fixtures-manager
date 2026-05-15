@@ -3,7 +3,7 @@ from datetime import datetime, timezone, timedelta
 import pytest
 
 from fixture import Fixture
-from cricket_enums import Location, FixtureType, Ground
+from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 
 base_cricket_team = CricketTeam.U17s
