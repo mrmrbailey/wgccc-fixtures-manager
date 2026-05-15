@@ -11,3 +11,6 @@ def get_play_cricket_path():
 
 def get_spond_path():
     return get_data_path() + 'spond/'
+
+def get_wpf_path():
+    return get_data_path() + 'wpf/'
