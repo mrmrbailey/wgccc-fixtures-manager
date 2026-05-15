@@ -11,37 +11,34 @@ from csv import reader
 
 default_start_time = '18:00'
 
-def parse_spond(list_of_fixtures):
-    #iterate over the list of fixtures file
-    fixtures = []
-    for fixture in list_of_fixtures[1:]:
+def parse_record(record):
 
-        matchup = fixture[0]
-        wgc_team = CricketTeam.get_from_host(fixture[3])
-        teams = get_teams(matchup)
+    matchup = record[0]
+    wgc_team = CricketTeam.get_from_host(record[3])
+    teams = get_teams(matchup)
 
-        ground = Ground.get_value(fixture[5])
-        if ground == Ground.AWAY:
-            location = Location.AWAY
-            oppo = teams[0]
-        else:
-            location = Location.HOME
-            oppo = teams[1]
+    ground = Ground.get_value(record[5])
+    if ground == Ground.AWAY:
+        location = Location.AWAY
+        oppo = teams[0]
+    else:
+        location = Location.HOME
+        oppo = teams[1]
 
-        fixture_type = FixtureType.LEAGUE
+    fixture_type = FixtureType.LEAGUE
 
-        match_date = fixture[1]
-        fixture_start_datetime = get_fixture_start_datetime(match_date, default_start_time)
-        fixture_end_time = get_fixture_end_datetime(fixture_start_datetime)
+    match_date = record[1]
+    fixture_start_datetime = get_fixture_start_datetime(match_date, default_start_time)
+    fixture_end_time = get_fixture_end_datetime(fixture_start_datetime)
 
-        fixtures.append(Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground))
-    return fixtures
+    return Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground)
 
 def parse_spond_data():
+    fixtures = []
     for filename in listdir(get_spond_path()):
         if filename.endswith('.csv'):
             with open(get_spond_path() + filename, 'r') as read_obj:
                 csv_reader = reader(read_obj)
-                list_of_fixtures = list(csv_reader)
-                return parse_spond(list_of_fixtures)
-    return []
+                for record in list(csv_reader)[1:]:
+                    fixtures.append(parse_record(record))
+    return fixtures
