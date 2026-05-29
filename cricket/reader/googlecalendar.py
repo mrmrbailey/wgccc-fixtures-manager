@@ -9,9 +9,9 @@ from cricket_team import CricketTeam
 from icalendar import Calendar
 from os import listdir
 
-fixtures = []
 
-def read_ical(filename, ground):
+def parse_ical(filename, ground):
+    fixtures = []
 
     file = open(filename, 'rb')
     cal = Calendar.from_ical(file.read())
@@ -45,9 +45,10 @@ def read_ical(filename, ground):
                               ground)
             fixtures.append(fixture)
     file.close()
+    return fixtures
 
 def parse_google_calendar_data():
-
+    fixtures = []
     for filename in listdir(get_google_calendar_path()):
         if filename.endswith('.ics'):
             if filename.startswith(Ground.DP.value):
@@ -56,6 +57,6 @@ def parse_google_calendar_data():
                 ground = Ground.WPF
             else:
                 ground = Ground.AWAY
-            read_ical(get_google_calendar_path() + filename, ground)
+            fixtures.extend(parse_ical(get_google_calendar_path() + filename, ground))
 
     return fixtures

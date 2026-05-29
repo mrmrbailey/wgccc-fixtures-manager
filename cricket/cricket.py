@@ -1,5 +1,6 @@
 from cricket_enums import SourceData, RunMode
-from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures
+from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures, \
+    get_wpf_different_fixtures
 
 from printer.fixtures import print_fixtures
 from printer.fixtures_to_print import FixturesToPrint
@@ -21,6 +22,8 @@ def cricket(source_data: SourceData, run_mode: RunMode, fixtures_to_print: Fixtu
             other_fixtures = parse_source_data(other_source)
             if is_spond(source_data, other_source):
                 list_of_fixtures = get_spond_different_fixtures(list_of_fixtures, other_fixtures)
+            elif is_wpf(source_data, other_source):
+                list_of_fixtures = get_wpf_different_fixtures(list_of_fixtures, other_fixtures)
             else:
                 list_of_fixtures = get_different_fixtures(list_of_fixtures, other_fixtures)
 
@@ -44,4 +47,21 @@ def parse_source_data(source_data: SourceData):
 def is_spond(source_data: SourceData, other_source: SourceData):
     return source_data == SourceData.SPOND or other_source == SourceData.SPOND
 
-cricket(SourceData.PLAY_CRICKET, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.GOOGLE_CALENDAR)
+def is_wpf(source_data: SourceData, other_source: SourceData):
+    return source_data == SourceData.WPF_BOOKINGS or other_source == SourceData.WPF_BOOKINGS
+
+def compare_all():
+    print("======== Comparing Play Cricket to Google Calendar ========")
+    cricket(SourceData.PLAY_CRICKET, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.GOOGLE_CALENDAR)
+    print("======== Comparing Play Cricket to Spond ========")
+    cricket(SourceData.PLAY_CRICKET, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.SPOND)
+    print("======== Comparing Google Calendar to Spond ========")
+    cricket(SourceData.GOOGLE_CALENDAR, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.SPOND)
+    print("======== Comparing Play Cricket to WPF Bookings ========")
+    cricket(SourceData.PLAY_CRICKET, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.WPF_BOOKINGS)
+    print("======== Comparing Google Calendar to WPF Bookings ========")
+    cricket(SourceData.GOOGLE_CALENDAR, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.WPF_BOOKINGS)
+    print("======== Printing Missing Results ========")
+    cricket(SourceData.MISSING_RESULTS, RunMode.PRINT_FIXTURES, FixturesToPrint.ALL)
+
+compare_all()
