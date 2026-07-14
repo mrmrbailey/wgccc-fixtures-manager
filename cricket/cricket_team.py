@@ -6,12 +6,15 @@ class CricketTeam(Enum):
     U10s = ('WGCCC U10B', 'Welwyn Garden City CC - Under 10', 'U10B Group 2', 'Jack Bailey')
     U11s = ('WGCCC U11', 'Welwyn Garden City CC - Under 11', 'U11A Group 4', 'Jay Bhatt')
     U12s = ('WGCCC U12', 'Welwyn Garden City CC - Under 12', 'U12A Group 5', 'Manish Patel')
+    U12As = ('WGCCC U12 A', 'Welwyn Garden City CC - Under 12 A', 'U12A - Knockout stages', 'Manish Patel A')
     U13s = ('WGCCC U13', 'Welwyn Garden City CC - Under 13', 'U13A Group 3' , 'Cheryl Worman')
     U14s = ('WGCCC U14', 'Welwyn Garden City CC - Under 14', 'U14A Group 1', 'Gareth Munday')
     U15s = ('WGCCC U15', 'Welwyn Garden City CC - Under 15', 'U15A Group 3', 'Robert Nicholls')
     U17s = ('WGCCC U17', 'Welwyn Garden City CC - Under 17', 'HJCL U17 Group 3', 'Mark Bailey')
-    U11summer  = ('WGCCC U11 Summer', 'Welwyn Garden City CC - Under 11 Summer', 'U11 Summer League - East Group', 'U11 Summer Host')
+    U11summer  = ('WGCCC U11 Summer', 'Welwyn Garden City CC - Under 11 Summer', 'U11 Summer League - North Group', 'U11 Summer Host')
+    U12summer = ('WGCCC U12 Summer', 'Welwyn Garden City CC - Under 12 Summer', 'U12 Summer League - South Group', 'U12 Summer Host')
     U13summer = ('WGCCC U13 Summer', 'Welwyn Garden City CC - Under 13 Summer', 'U13 Summer League - North Group', 'U13 Summer Host')
+    U14summer = ('WGCCC U14 Summer', 'Welwyn Garden City CC - Under 14 Summer', 'U14 Summer League - Central Group', 'U14 Summer Host')
     U15summer = ('WGCCC U15 Summer', 'Welwyn Garden City CC - Under 15 Summer', 'U15 Summer League - North Group', 'U15 Summer Host')
     FirstXI = ('Saturday 1st XI', 'Welwyn Garden City Cricket Club Saturday 1st XI', 'HPCL Premiership Division', 'First Team Capt')
     SecondXI = ('Saturday 2nd XI', 'Welwyn Garden City Cricket Club Saturday 2nd XI', 'HPCL Division 3 A', 'Second Team Capt')
@@ -46,6 +49,8 @@ class CricketTeam(Enum):
             if v.value == value:
                 return v
         else:
+            if value == "Totteridge Millhillians CC 1st XI":
+                return CricketTeam.FirstXI
             print(f"Missing Cricket Team: {value}")
             return CricketTeam.UNKNOWN
 

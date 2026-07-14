@@ -33,9 +33,9 @@ def get_pitch_length_string(cricket_team):
             return PitchLength.Y15.value
         case CricketTeam.U10s | CricketTeam.U11s | CricketTeam.U11summer:
             return PitchLength.Y17.value
-        case CricketTeam.U12s | CricketTeam.U13s | CricketTeam.U13summer:
+        case CricketTeam.U12s | CricketTeam.U13s | CricketTeam.U12summer | CricketTeam.U13summer:
             return PitchLength.Y19.value
-        case CricketTeam.U14s | CricketTeam.U15s | CricketTeam.U17s | CricketTeam.U15summer:
+        case CricketTeam.U14s | CricketTeam.U15s | CricketTeam.U17s | CricketTeam.U14summer | CricketTeam.U15summer:
             return PitchLength.Y22.value
         case _:
             return PitchLength.UNKNOWN.value
