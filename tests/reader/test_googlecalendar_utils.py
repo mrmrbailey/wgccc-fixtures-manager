@@ -87,15 +87,12 @@ def test_get_fixture_type_from_summary(summary, expected):
     assert get_fixture_type_from_summary(summary) == expected
 
 
+_year = datetime.now(tz=timezone.utc).year
 date_test_data = [
-    (datetime(2026, 4, 2, tzinfo=timezone.utc),
-     True),
-    (datetime(2026, 3, 1, tzinfo=timezone.utc),
-     False),
-    (date(2026, 4, 2),
-     True),
-    (date(2026, 3, 1),
-     False)
+    (datetime(_year, 4, 2, tzinfo=timezone.utc), True),
+    (datetime(_year, 3, 1, tzinfo=timezone.utc), False),
+    (date(_year, 4, 2), True),
+    (date(_year, 3, 1), False)
 ]
 
 @pytest.mark.parametrize('calendar_date,expected', date_test_data)
