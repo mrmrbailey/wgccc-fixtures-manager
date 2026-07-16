@@ -52,3 +52,24 @@ get_junior_fixtures_test_data = [
 @pytest.mark.parametrize('source_list, expected_list', get_junior_fixtures_test_data)
 def test_get_junior_fixtures(source_list, expected_list):
     assert get_junior_fixtures(source_list) == expected_list
+
+get_wpf_fixtures_test_data = [
+    ([base_fixture, wpf_fixture, next_weeks_fixture], [wpf_fixture]),
+    ([base_fixture, next_weeks_fixture], []),
+    ([], []),
+]
+@pytest.mark.parametrize('source_list, expected_list', get_wpf_fixtures_test_data)
+def test_get_wpf_fixtures(source_list, expected_list):
+    assert get_wpf_fixtures(source_list) == expected_list
+
+get_wpf_different_fixtures_test_data = [
+    ([wpf_fixture], [wpf_fixture], []),
+    ([wpf_fixture], [], [wpf_fixture]),
+    ([], [wpf_fixture], [wpf_fixture]),
+    ([base_fixture, wpf_fixture], [wpf_fixture], []),
+    ([base_fixture], [wpf_fixture], [wpf_fixture]),
+]
+@pytest.mark.parametrize('source_list, target_list, differences', get_wpf_different_fixtures_test_data)
+def test_get_wpf_different_fixtures(source_list, target_list, differences):
+    assert get_wpf_different_fixtures(source_list, target_list) == differences
+
