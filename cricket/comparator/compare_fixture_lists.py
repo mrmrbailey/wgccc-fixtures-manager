@@ -1,5 +1,6 @@
 from comparator.compare_fixture import CompareFixture
-from fixture_enums import FixtureType, Ground
+from fixture_enums import Ground
+from printer.fixture_utils import get_junior_fixtures
 
 def get_different_fixtures(source_list, target_list):
     junior_source_fixtures = get_junior_fixtures(source_list)
@@ -24,13 +25,6 @@ def get_spond_comparator(list_of_fixtures):
 
 def get_differences(source_list, target_list):
     return [f for f in source_list if f not in target_list]
-
-def get_junior_fixtures(fixture_list):
-    junior_fixtures = []
-    for fixture in fixture_list:
-        if fixture.fixture_type != FixtureType.SENIOR:
-            junior_fixtures.append(fixture)
-    return junior_fixtures
 
 def get_wpf_fixtures(fixture_list):
     wpf_fixtures = []
