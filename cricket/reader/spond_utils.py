@@ -1,6 +1,6 @@
 import re
 
-availability_regex = re.compile('.*\(H\).*\(A\)')
+availability_regex = re.compile(r'.*\(H\).*\(A\)')
 
 def get_teams(matchup):
 
