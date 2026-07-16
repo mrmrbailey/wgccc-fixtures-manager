@@ -59,7 +59,7 @@ def get_fixtures_for_team(list_of_fixtures, *args):
 def get_junior_fixtures(list_of_fixtures):
     junior_fixtures = []
     for fixture in list_of_fixtures:
-        if fixture.fixture_type is not FixtureType.SENIOR:
+        if fixture.fixture_type != FixtureType.SENIOR:
             junior_fixtures.append(fixture)
     return junior_fixtures
 

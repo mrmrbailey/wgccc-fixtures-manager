@@ -43,7 +43,7 @@ class Fixture:
         description += self.get_localized_fixture_start_date_string_for_description()
         description += "~"
         description += self.fixture_type.value
-        if self.fixture_type.value is FixtureType.LEAGUE.value:
+        if self.fixture_type == FixtureType.LEAGUE:
             description += "~"
             description += self.wgc_team.division
         return description
