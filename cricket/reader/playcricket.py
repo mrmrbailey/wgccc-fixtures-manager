@@ -66,5 +66,5 @@ def parse_all_play_cricket_data(check_result: bool):
                 for record in list(csv_reader)[1:]:
                     fixture = parse_record(record)
                     if not check_result or is_fixture_missing_result(fixture, record[14]):
-                        fixtures.append(parse_record(record))
+                        fixtures.append(record)
     return fixtures
