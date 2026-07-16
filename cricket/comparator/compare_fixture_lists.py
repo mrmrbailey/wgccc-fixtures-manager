@@ -23,14 +23,7 @@ def get_spond_comparator(list_of_fixtures):
     return comparator_fixtures
 
 def get_differences(source_list, target_list):
-    differences = []
-    for fixture in source_list:
-        try:
-            if fixture == target_list[target_list.index(fixture)]:
-                pass
-        except ValueError:
-            differences.append(fixture)
-    return differences
+    return [f for f in source_list if f not in target_list]
 
 def get_junior_fixtures(fixture_list):
     junior_fixtures = []
