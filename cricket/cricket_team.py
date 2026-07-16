@@ -43,6 +43,8 @@ class CricketTeam(Enum):
     def __eq__(self, other):
         return self.value == other.value
 
+    __hash__ = object.__hash__
+
     @classmethod
     def get_value(cls, value):
         for k, v in cls.__members__.items():
