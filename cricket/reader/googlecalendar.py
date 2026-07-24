@@ -1,6 +1,7 @@
 # imports
 from typing import List
 
+from result import Result
 from fixture import Fixture
 from fixture_enums import Ground, Location, FixtureType
 from reader.utils import get_google_calendar_path
@@ -30,12 +31,13 @@ def parse_record(ground: Ground, event: Component) -> Fixture:
         location = Location.HOME
 
     return Fixture(wgc_team,
-                      oppo,
-                      location,
-                      fixture_type,
-                      fixture_start_date,
-                      fixture_end_date,
-                      ground)
+                   oppo,
+                   location,
+                   fixture_type,
+                   fixture_start_date,
+                   fixture_end_date,
+                   ground,
+                   Result())
 
 def parse_google_calendar_data() -> List[Fixture]:
     fixtures = []

@@ -1,7 +1,9 @@
 from printer.fixtures_to_print import FixturesToPrint
 from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, \
-    get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home,get_fixtures_for_home_next_week, get_fixtures_for_team, \
-    get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
+    get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, \
+    get_fixtures_for_team, \
+    get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import, \
+    get_fixtures_with_missing_results
 from printer.googlecalendar_utils import print_fixtures_for_google_calendar_csv_import
 
 def print_fixtures(list_of_fixtures, fixtures_to_print: FixturesToPrint, *args):
@@ -29,6 +31,8 @@ def print_fixtures(list_of_fixtures, fixtures_to_print: FixturesToPrint, *args):
             fixtures_to_be_printed = get_fixtures_for_same_day(list_of_fixtures)
         case FixturesToPrint.CLASH:
             fixtures_to_be_printed = get_fixtures_for_clash(list_of_fixtures)
+        case FixturesToPrint.MISSING_RESULTS:
+            fixtures_to_be_printed = get_fixtures_with_missing_results(list_of_fixtures)
         case FixturesToPrint.GOOGLE_CALENDAR_IMPORT_CSV:
             fixtures_to_be_printed = get_fixtures_for_google_calendar_csv_import(list_of_fixtures, *args)
         case _: # FixtureListType.ALL

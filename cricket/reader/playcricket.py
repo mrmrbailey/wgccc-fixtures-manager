@@ -2,12 +2,14 @@
 from reader.csv_utils import get_fixture_start_datetime, get_fixture_end_datetime
 from cricket_team import CricketTeam
 from fixture_enums import Location, Ground, FixtureType
-from reader.playcricket_utils import is_fixture_missing_result
 from reader.utils import get_play_cricket_path
 from fixture import Fixture
 
 from os import listdir
 from csv import reader
+
+from result import Result
+
 
 def parse_record(record):
 
@@ -47,24 +49,20 @@ def parse_record(record):
     start_time = record[5]
     fixture_start_datetime = get_fixture_start_datetime(match_date, start_time)
     fixture_end_time = get_fixture_end_datetime(fixture_start_datetime)
-    return Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground)
+
+    results_headline = record[14]
+    home_points = int(record[18]) if record[18] else 0
+    away_points = int(record[19]) if record[19] else 0
+    result = Result(results_headline, home_points, away_points)
+
+    return Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground, result)
 
 def parse_play_cricket_data():
-    return parse_all_play_cricket_data(False)
-
-
-def parse_play_cricket_missing_results():
-    return parse_all_play_cricket_data(True)
-
-
-def parse_all_play_cricket_data(check_result: bool):
     fixtures = []
     for filename in listdir(get_play_cricket_path()):
         if filename.endswith('.csv'):
             with open(get_play_cricket_path() + filename, 'r') as read_obj:
                 csv_reader = reader(read_obj)
                 for record in list(csv_reader)[1:]:
-                    fixture = parse_record(record)
-                    if not check_result or is_fixture_missing_result(fixture, record[14]):
-                        fixtures.append(fixture)
+                    fixtures.append(parse_record(record))
     return fixtures

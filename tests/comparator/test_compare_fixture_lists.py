@@ -6,6 +6,8 @@ from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
 from datetime import date, datetime, timezone, timedelta
 
+from result import Result
+
 today = date.today()
 
 base_cricket_team = CricketTeam.U17s
@@ -15,10 +17,11 @@ base_fixture_type = FixtureType.LEAGUE
 base_start_date_time = datetime(today.year, today.month, today.day, 18, 00, tzinfo=timezone.utc)
 base_end_date_time = base_start_date_time + timedelta(hours=3)
 base_ground = Ground.DP
-base_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground)
-wpf_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.WPF)
-next_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1), base_end_date_time, base_ground)
-next_months_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=4), base_end_date_time, base_ground)
+base_result = Result()
+base_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground, base_result)
+wpf_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.WPF, base_result)
+next_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1), base_end_date_time, base_ground, base_result)
+next_months_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=4), base_end_date_time, base_ground, base_result)
 
 get_different_fixtures_test_data = [
     ([base_fixture, wpf_fixture, next_weeks_fixture, next_months_fixture],
@@ -46,7 +49,7 @@ def test_get_spond_different_fixtures(source_list, target_list, differences):
 get_junior_fixtures_test_data = [
     ([base_fixture, wpf_fixture, next_weeks_fixture, next_months_fixture],
      [base_fixture, wpf_fixture, next_weeks_fixture, next_months_fixture]),
-    ([base_fixture, Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time, base_ground)],
+    ([base_fixture, Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time, base_ground, base_result)],
      [base_fixture]),
 ]
 @pytest.mark.parametrize('source_list, expected_list', get_junior_fixtures_test_data)

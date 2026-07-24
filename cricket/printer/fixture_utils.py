@@ -1,4 +1,6 @@
 from datetime import date, timedelta, datetime, timezone
+
+import result_utils
 from cricket_team import CricketTeam
 from fixture_enums import Ground, FixtureType
 
@@ -89,6 +91,13 @@ def get_fixtures_for_clash(list_of_fixtures):
                 fixtures_for_clash.append(previous_fixture)
             fixtures_for_clash.append(fixture)
     return fixtures_for_clash
+
+def get_fixtures_with_missing_results(list_of_fixtures):
+    fixtures_with_missing_results = []
+    for fixture in get_junior_fixtures(list_of_fixtures):
+        if result_utils.should_fixture_have_result(fixture) and not fixture.has_result():
+            fixtures_with_missing_results.append(fixture)
+    return fixtures_with_missing_results
 
 def get_fixtures_for_google_calendar_csv_import(list_of_fixtures, *args):
     junior_fixtures = get_junior_fixtures(list_of_fixtures)
