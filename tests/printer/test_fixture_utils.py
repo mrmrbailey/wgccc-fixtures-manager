@@ -1,9 +1,10 @@
 import pytest
 
-from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_for_google_calendar_csv_import
+from printer.fixture_utils import get_this_weeks_fixtures, get_next_weeks_fixtures, get_future_fixtures, get_fixtures_for_type, get_fixtures_for_ground, get_fixtures_for_home, get_fixtures_for_home_next_week, get_fixtures_for_team, get_junior_fixtures, get_fixtures_for_same_day, get_fixtures_for_clash, get_fixtures_with_missing_results, get_fixtures_for_google_calendar_csv_import
 from fixture import Fixture
 from fixture_enums import Location, FixtureType, Ground
 from cricket_team import CricketTeam
+from result import Result
 from datetime import date, datetime, timezone, timedelta
 
 today = date.today()
@@ -15,13 +16,15 @@ base_fixture_type = FixtureType.LEAGUE
 base_start_date_time = datetime(today.year, today.month, today.day, 18, 00, tzinfo=timezone.utc)
 base_end_date_time = base_start_date_time + timedelta(hours=3)
 base_ground = Ground.DP
+base_result = Result()
 
-base_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground)
-wpf_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.WPF)
-away_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.AWAY)
-last_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1), base_end_date_time, base_ground)
-next_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1), base_end_date_time, base_ground)
-next_months_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=4), base_end_date_time, base_ground)
+base_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground, base_result)
+wpf_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.WPF, base_result)
+away_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, Ground.AWAY, base_result)
+last_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1), base_end_date_time, base_ground, base_result)
+last_weeks_fixture_with_result = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=-1), base_end_date_time, base_ground, Result("A Result", 30, 18))
+next_weeks_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=1), base_end_date_time, base_ground, base_result)
+next_months_fixture = Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=4), base_end_date_time, base_ground, base_result)
 
 get_this_weeks_fixtures_test_data = [
     ([base_fixture, next_weeks_fixture, last_weeks_fixture],
@@ -38,12 +41,12 @@ def test_get_this_weeks_fixtures(all_fixtures, this_weeks_fixtures):
 get_next_weeks_fixtures_test_data = [
     ([base_fixture, next_weeks_fixture, last_weeks_fixture,
     Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=2),
-            base_end_date_time, base_ground)],
+            base_end_date_time, base_ground, base_result)],
     [base_fixture, next_weeks_fixture]),
     ([base_fixture, next_weeks_fixture, last_weeks_fixture,
       base_fixture,
       Fixture(base_cricket_team, base_oppo, base_location, base_fixture_type, base_start_date_time + timedelta(weeks=2),
-              base_end_date_time, base_ground)],
+              base_end_date_time, base_ground, base_result)],
      [base_fixture, base_fixture, next_weeks_fixture]),
     ([last_weeks_fixture],[]),
     ([],[])
@@ -68,16 +71,16 @@ def test_get_future_weeks_fixtures(all_fixtures, future_fixtures):
 get_fixtures_for_type_test_data = [
     ([base_fixture,
      Fixture(base_cricket_team, base_oppo, base_location, FixtureType.CUP, base_start_date_time, base_end_date_time,
-             base_ground),],
+             base_ground, base_result),],
      [base_fixture]),
     ([base_fixture, base_fixture,
       Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-              base_ground),
+              base_ground, base_result),
      Fixture(base_cricket_team, base_oppo, base_location, FixtureType.FRIENDLY, base_start_date_time, base_end_date_time,
-             base_ground)],
+             base_ground, base_result)],
      [base_fixture, base_fixture]),
     ([Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-              base_ground)],[]),
+              base_ground, base_result)],[]),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, fixtures_for_type', get_fixtures_for_type_test_data)
@@ -122,9 +125,9 @@ def test_get_fixtures_for_home_next_week(all_fixtures, fixtures_for_home_next_we
 
 get_fixtures_for_team_test_data = [
     ([base_fixture,
-     Fixture(CricketTeam.U11s, base_oppo, base_location, base_ground, base_start_date_time, base_end_date_time, base_ground)],
+     Fixture(CricketTeam.U11s, base_oppo, base_location, base_ground, base_start_date_time, base_end_date_time, base_ground, base_result)],
      [base_fixture]),
-    ([Fixture(CricketTeam.U11s, base_oppo, base_location, base_ground, base_start_date_time, base_end_date_time, base_ground)],
+    ([Fixture(CricketTeam.U11s, base_oppo, base_location, base_ground, base_start_date_time, base_end_date_time, base_ground, base_result)],
      []),
     ([],[])
 ]
@@ -135,14 +138,14 @@ def test_get_fixtures_for_team(all_fixtures, fixtures_for_team):
 get_junior_fixtures_test_data = [
     ([base_fixture,
      Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-             base_ground)],
+             base_ground, base_result)],
      [base_fixture]),
     ([base_fixture, base_fixture,
       Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-              base_ground)],
+              base_ground, base_result)],
      [base_fixture, base_fixture]),
     ([Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-                  base_ground)],[]),
+                  base_ground, base_result)],[]),
     ([],[])
 ]
 @pytest.mark.parametrize('all_fixtures, junior_fixtures', get_junior_fixtures_test_data)
@@ -173,14 +176,25 @@ get_fixtures_for_clash_test_data = [
 def test_get_fixtures_for_clash(all_fixtures, clashing_fixtures):
     assert get_fixtures_for_clash(all_fixtures) == clashing_fixtures
 
+get_fixtures_with_missing_results_data = [
+    ([base_fixture, next_weeks_fixture],
+    []),
+    ([base_fixture, last_weeks_fixture, last_weeks_fixture_with_result],
+     [last_weeks_fixture]),
+    ([],[])
+]
+@pytest.mark.parametrize('all_fixtures, fixtures_with_missing_results', get_fixtures_with_missing_results_data)
+def test_get_fixtures_with_missing_results(all_fixtures, fixtures_with_missing_results):
+    assert get_fixtures_with_missing_results(all_fixtures) == fixtures_with_missing_results
+
 get_fixtures_for_google_calendar_csv_import_test_data = [
     ([base_fixture,away_fixture,
      Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-             Ground.AWAY)],
+             Ground.AWAY, base_result)],
      [base_fixture]),
     ([base_fixture, base_fixture, away_fixture,
       Fixture(base_cricket_team, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-              Ground.AWAY)],
+              Ground.AWAY, base_result)],
      [base_fixture, base_fixture]),
     ([wpf_fixture],[]),
     ([],[])

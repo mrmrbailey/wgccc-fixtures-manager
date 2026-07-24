@@ -1,10 +1,9 @@
 from cricket_enums import SourceData, RunMode
-from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures, \
-    get_wpf_different_fixtures
+from comparator.compare_fixture_lists import get_different_fixtures, get_spond_different_fixtures, get_wpf_different_fixtures
 
 from printer.fixtures import print_fixtures
 from printer.fixtures_to_print import FixturesToPrint
-from reader.playcricket import parse_play_cricket_data, parse_play_cricket_missing_results
+from reader.playcricket import parse_play_cricket_data
 from reader.googlecalendar import parse_google_calendar_data
 from reader.spond import parse_spond_data
 from reader.wpf import parse_wpf_data
@@ -40,8 +39,6 @@ def parse_source_data(source_data: SourceData):
             parsed_fixtures = parse_spond_data()
         case SourceData.WPF_BOOKINGS:
             parsed_fixtures = parse_wpf_data()
-        case SourceData.MISSING_RESULTS:
-            parsed_fixtures = parse_play_cricket_missing_results()
     return parsed_fixtures
 
 def is_spond(source_data: SourceData, other_source: SourceData):
@@ -62,6 +59,6 @@ def compare_all():
     print("======== Comparing Google Calendar to WPF Bookings ========")
     cricket(SourceData.GOOGLE_CALENDAR, RunMode.COMPARE, FixturesToPrint.ALL, SourceData.WPF_BOOKINGS)
     print("======== Printing Missing Results ========")
-    cricket(SourceData.MISSING_RESULTS, RunMode.PRINT_FIXTURES, FixturesToPrint.ALL)
+    cricket(SourceData.PLAY_CRICKET, RunMode.PRINT_FIXTURES, FixturesToPrint.MISSING_RESULTS)
 
 compare_all()

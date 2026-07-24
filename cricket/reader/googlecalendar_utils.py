@@ -63,7 +63,8 @@ def clean_fixture_date(calendar_date):
     return calendar_date
 
 def is_fixture_this_year(fixture_date):
-    start_date = datetime(2026, 4, 1, tzinfo=timezone.utc)
+    current_year = datetime.now(tz=timezone.utc).year
+    start_date = datetime(current_year, 4, 1, tzinfo=timezone.utc)
     return fixture_date > start_date
 
 class Notes(StrEnum):

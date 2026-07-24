@@ -1,7 +1,6 @@
 import pytest
 
 from reader.csv_utils import get_fixture_start_datetime, get_fixture_end_datetime
-from cricket_team import CricketTeam
 
 from datetime import datetime, timezone
 

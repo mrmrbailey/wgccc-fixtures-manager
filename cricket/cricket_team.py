@@ -43,38 +43,36 @@ class CricketTeam(Enum):
     def __eq__(self, other):
         return self.value == other.value
 
+    __hash__ = object.__hash__
+
     @classmethod
     def get_value(cls, value):
         for k, v in cls.__members__.items():
             if v.value == value:
                 return v
-        else:
-            if value == "Totteridge Millhillians CC 1st XI":
-                return CricketTeam.FirstXI
-            print(f"Missing Cricket Team: {value}")
-            return CricketTeam.UNKNOWN
+        if value == "Totteridge Millhillians CC 1st XI":
+            return CricketTeam.FirstXI
+        print(f"Missing Cricket Team: {value}")
+        return CricketTeam.UNKNOWN
 
     @classmethod
     def get_from_fullname(cls, fullname):
         for k, v in cls.__members__.items():
             if v.team_fullname == fullname:
                 return v
-        else:
-            return CricketTeam.UNKNOWN
+        return CricketTeam.UNKNOWN
 
     @classmethod
     def get_from_division(cls, division):
         for k, v in cls.__members__.items():
             if v.division == division:
                 return v
-        else:
-            return CricketTeam.UNKNOWN
+        return CricketTeam.UNKNOWN
 
     @classmethod
     def get_from_host(cls, host):
         for k, v in cls.__members__.items():
             if v.host == host:
                 return v
-        else:
-            return CricketTeam.UNKNOWN
+        return CricketTeam.UNKNOWN
 

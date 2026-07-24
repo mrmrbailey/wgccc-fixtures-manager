@@ -3,7 +3,8 @@ from cricket_team import CricketTeam
 
 cricket_team_get_value_test_data = [
     ('WGCCC U9', CricketTeam.U9s),
-    ('XXX', CricketTeam.UNKNOWN)
+    ('XXX', CricketTeam.UNKNOWN),
+    ('Totteridge Millhillians CC 1st XI', CricketTeam.FirstXI),
 ]
 @pytest.mark.parametrize('cricket_team_value,cricket_team', cricket_team_get_value_test_data)
 def test_get_cricket_team_get_value(cricket_team_value, cricket_team):
@@ -22,16 +23,15 @@ division_test_data = [
     (CricketTeam.U11s.division, CricketTeam.U11s),
     ('XXX', CricketTeam.UNKNOWN)
 ]
-
 @pytest.mark.parametrize('division,team', division_test_data)
 def test_get_wgc_team_from_division(division, team):
     assert CricketTeam.get_from_division(division) == team
 
-division_test_data = [
-    (CricketTeam.U11s.division, CricketTeam.U11s),
-    ('XXX', CricketTeam.UNKNOWN)
+host_test_data = [
+    (CricketTeam.U17s.host, CricketTeam.U17s),
+    ('XXX', CricketTeam.UNKNOWN),
 ]
 
-@pytest.mark.parametrize('division,team', division_test_data)
-def test_get_wgc_team_from_division(division, team):
-    assert CricketTeam.get_from_division(division) == team
+@pytest.mark.parametrize('host,team', host_test_data)
+def test_get_wgc_team_from_host(host, team):
+    assert CricketTeam.get_from_host(host) == team

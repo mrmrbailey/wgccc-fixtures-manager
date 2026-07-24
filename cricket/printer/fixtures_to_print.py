@@ -13,4 +13,5 @@ class FixturesToPrint(Enum):
     JUNIOR = 'Junior'
     SAME_DAY = 'Same Day'
     CLASH = 'Clash'
+    MISSING_RESULTS = 'Missing Results'
     GOOGLE_CALENDAR_IMPORT_CSV = 'Google Calendar Import CSV'

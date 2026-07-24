@@ -9,6 +9,8 @@ from fixture import Fixture
 from os import listdir
 from csv import reader
 
+from result import Result
+
 default_start_time = '18:00'
 
 def parse_record(record):
@@ -31,7 +33,7 @@ def parse_record(record):
     fixture_start_datetime = get_fixture_start_datetime(match_date, default_start_time)
     fixture_end_time = get_fixture_end_datetime(fixture_start_datetime)
 
-    return Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground)
+    return Fixture(wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_time, ground, Result())
 
 def parse_spond_data():
     fixtures = []

@@ -4,6 +4,7 @@ from fixture_enums import Location, Ground, FixtureType
 from cricket_team import CricketTeam
 from fixture import Fixture
 from printer.googlecalendar_utils import get_google_calendar_summary
+from result import Result
 
 from datetime import datetime, timezone, timedelta
 
@@ -13,43 +14,43 @@ base_fixture_type = FixtureType.LEAGUE
 base_start_date_time = datetime(2025, 5, 9, 18, 00, tzinfo=timezone.utc)
 base_end_date_time = base_start_date_time + timedelta(hours=3)
 base_ground = Ground.DP
-
+base_result = Result()
 
 get_google_calendar_summary_test_data = [
-    (Fixture(CricketTeam.GIRLS, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground),
+    (Fixture(CricketTeam.GIRLS, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time, base_ground, base_result),
      'WGCCC Girls U9 v oppo (15 yards)'),
     (Fixture(CricketTeam.GIRLS, base_oppo, Location.AWAY, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'oppo v WGCCC Girls U9 (15 yards)'),
     (Fixture(CricketTeam.U9s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U9 v oppo (15 yards)'),
     (Fixture(CricketTeam.U10s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U10B v oppo (17 yards)'),
     (Fixture(CricketTeam.U11s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U11 v oppo (17 yards)'),
     (Fixture(CricketTeam.U12s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U12 v oppo (19 yards)'),
     (Fixture(CricketTeam.U13s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U13 v oppo (19 yards)'),
     (Fixture(CricketTeam.U14s, base_oppo, Location.HOME, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U14 v oppo (22 yards)'),
     (Fixture(CricketTeam.U15s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U15 v oppo (22 yards)'),
     (Fixture(CricketTeam.U17s, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U17 v oppo (22 yards)'),
     (Fixture(CricketTeam.UNKNOWN, base_oppo, base_location, base_fixture_type, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'Unknown v oppo (? yards)'),
     (Fixture(CricketTeam.U17s, base_oppo, base_location, FixtureType.SENIOR, base_start_date_time, base_end_date_time,
-             base_ground),
+             base_ground, base_result),
      'WGCCC U17 v oppo'),
 ]
 @pytest.mark.parametrize('fixture,google_calendar_summary', get_google_calendar_summary_test_data)

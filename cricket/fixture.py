@@ -4,7 +4,7 @@ from cricket_team import CricketTeam
 from fixture_enums import Location, FixtureType
 
 class Fixture:
-    def __init__(self, wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_datetime, ground):
+    def __init__(self, wgc_team, oppo, location, fixture_type, fixture_start_datetime, fixture_end_datetime, ground, result):
         self.wgc_team = wgc_team
         self.oppo = oppo
         self.location = location
@@ -12,6 +12,7 @@ class Fixture:
         self.fixture_start_datetime = fixture_start_datetime
         self.fixture_end_datetime = fixture_end_datetime
         self.ground = ground
+        self.result = result
 
     def __eq__(self, other):
         return (self.wgc_team == other.wgc_team
@@ -31,6 +32,9 @@ class Fixture:
     def __lt__(self, other):
         return self.fixture_start_datetime < other.fixture_start_datetime
 
+    def has_result(self):
+        return self.result.headline != ""
+
     def get_matchup(self):
         return self.get_matchup_string(self.wgc_team.team_fullname)
 
@@ -43,7 +47,7 @@ class Fixture:
         description += self.get_localized_fixture_start_date_string_for_description()
         description += "~"
         description += self.fixture_type.value
-        if self.fixture_type.value is FixtureType.LEAGUE.value:
+        if self.fixture_type == FixtureType.LEAGUE:
             description += "~"
             description += self.wgc_team.division
         return description

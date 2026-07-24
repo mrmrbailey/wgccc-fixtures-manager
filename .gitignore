@@ -8,6 +8,9 @@ data/spond/*.csv
 data/past/**
 data/wpf/*.csv
 
+#claude local.settings
+.claude/settings.local.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
